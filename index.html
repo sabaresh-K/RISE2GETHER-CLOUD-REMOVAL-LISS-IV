@@ -29,12 +29,11 @@
           <li data-page="home" class="active"><a href="#/home">Home</a></li>
           <li data-page="about"><a href="#/about">About</a></li>
           <li data-page="features"><a href="#/features">Features</a></li>
-          <li data-page="demo"><a href="#/demo">Model Workspace</a></li>
           <li data-page="contact"><a href="#/contact">Contact</a></li>
         </ul>
       </nav>
       <div class="header-cta">
-        <a href="#/demo" class="btn btn-secondary btn-sm">Launch Workspace</a>
+        <a href="#/about" class="btn btn-secondary btn-sm">Explore Solution</a>
       </div>
     </div>
   </header>
@@ -64,11 +63,11 @@
             obscured ground details with georeferenced spatial and spectral fidelity.
           </p>
           <div class="hero-actions">
-            <a href="#/demo" class="btn btn-primary">
-              <i class="fa-solid fa-play"></i> Try Model Workspace
+            <a href="#/about" class="btn btn-primary">
+              <i class="fa-solid fa-compass"></i> Explore the Solution
             </a>
-            <a href="#/about" class="btn btn-secondary">
-              Explore the Solution
+            <a href="#/features" class="btn btn-secondary">
+              Key Capabilities
             </a>
           </div>
         </div>
@@ -277,84 +276,7 @@
       </section>
     </div>
 
-    <!-- ================= PAGE 4: EXACT WORKING MODEL WORKSPACE (REPLACES DEMO PAGE) ================= -->
-    <div id="demo" class="page-section">
-      <section class="section container">
-        <div class="section-title-wrap" style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <span class="section-badge">PyTorch AI Workspace</span>
-            <h2 class="section-title">ISRO LISS-IV Model Workspace</h2>
-          </div>
-          <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #10B981; padding: 0.4rem 1rem; border-radius: 4px; font-weight: 700; font-size: 0.85rem;">
-            SYS STATUS: ONLINE (RICE1 Trained Checkpoint Loaded)
-          </div>
-        </div>
-
-        <!-- RUN MODEL Action Button Placed DIRECTLY Above Monitors -->
-        <div style="margin: 1.5rem 0;">
-          <button class="btn btn-primary" id="btn-run-pytorch-model" onclick="executeModelPass()" style="width: 100%; padding: 0.9rem; font-size: 1.05rem;">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> RUN MODEL
-          </button>
-        </div>
-
-        <!-- 3-Stream Video Monitors Grid -->
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
-          
-          <!-- Stream 01: Optical Ingested -->
-          <div class="glass-card" style="padding: 1.2rem;">
-            <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary-cyan); text-transform: uppercase; margin-bottom: 0.8rem;">
-              STREAM 01: OPTICAL INGESTED
-            </div>
-            <img src="outputs/liss4/cloud_preview.png" id="img-stream-01" alt="Stream 01" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color);" onerror="this.src='outputs/liss_rgb.png'">
-          </div>
-
-          <!-- Stream 02: Neural Reconstruction -->
-          <div class="glass-card" style="padding: 1.2rem;">
-            <div style="font-size: 0.85rem; font-weight: 700; color: #10b981; text-transform: uppercase; margin-bottom: 0.8rem;">
-              STREAM 02: NEURAL RECONSTRUCTION
-            </div>
-            <img src="outputs/liss_rgb.png" id="img-stream-02" alt="Stream 02" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color);">
-          </div>
-
-          <!-- Stream 03: Spatial Deviation Map -->
-          <div class="glass-card" style="padding: 1.2rem;">
-            <div style="font-size: 0.85rem; font-weight: 700; color: #f59e0b; text-transform: uppercase; margin-bottom: 0.8rem;">
-              STREAM 03: SPATIAL DEVIATION MAP
-            </div>
-            <img src="outputs/visuals/epoch_100_triad.png" id="img-stream-03" alt="Stream 03" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-color);" onerror="this.src='outputs/liss_rgb.png'">
-          </div>
-
-        </div>
-
-        <!-- Real-Time Telemetry & Scientific Evaluation Section -->
-        <div class="glass-card" style="margin-top: 1rem;">
-          <h3 style="color: var(--primary-cyan); font-size: 1.1rem; margin: 0 0 1.2rem 0; text-transform: uppercase; letter-spacing: 1px;">
-            📊 REAL-TIME TELEMETRY & SCIENTIFIC EVALUATION
-          </h3>
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;">
-            <div class="telemetry-box">
-              <div class="telemetry-val" id="val-psnr">30.24 dB</div>
-              <div class="telemetry-lbl">PSNR (Peak Signal)</div>
-            </div>
-            <div class="telemetry-box">
-              <div class="telemetry-val" id="val-ssim">0.884</div>
-              <div class="telemetry-lbl">SSIM Index</div>
-            </div>
-            <div class="telemetry-box">
-              <div class="telemetry-val" id="val-rmse">0.032</div>
-              <div class="telemetry-lbl">RMSE Error</div>
-            </div>
-            <div class="telemetry-box">
-              <div class="telemetry-val" id="val-sam">4.52°</div>
-              <div class="telemetry-lbl">SAM Spectral Angle</div>
-            </div>
-          </div>
-        </div>
-
-      </section>
-    </div>
-
-    <!-- ================= PAGE 5: CONTACT ================= -->
+    <!-- ================= PAGE 4: CONTACT ================= -->
     <div id="contact" class="page-section">
       <section class="section container">
         <div class="section-title-wrap">

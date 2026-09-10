@@ -34,7 +34,7 @@ function initRouter() {
     let hash = window.location.hash || '#/home';
     let targetPage = hash.replace('#/', '');
 
-    const validPages = ['home', 'about', 'features', 'demo', 'contact'];
+    const validPages = ['home', 'about', 'features', 'contact'];
     if (!validPages.includes(targetPage)) {
       targetPage = 'home';
       window.location.hash = '#/home';
@@ -137,47 +137,6 @@ function initBackgroundCanvas() {
   }
 
   animate();
-}
-
-/* ================= PYTORCH MODEL FORWARD PASS EXECUTION ================= */
-function executeModelPass() {
-  const btn = document.getElementById('btn-run-pytorch-model');
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Executing PyTorch Neural Network Reconstruction...';
-  }
-
-  fetch('/api/process-image', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'run' })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> RUN MODEL';
-    }
-    
-    // Update Stream 02 (Neural Reconstruction) & Stream 03 (Deviation Map)
-    const stream02 = document.getElementById('img-stream-02');
-    if (stream02 && data.reconstructed_url) {
-      stream02.src = data.reconstructed_url + '?t=' + new Date().getTime();
-    }
-
-    if (data.metrics) {
-      document.getElementById('val-psnr').textContent = data.metrics.psnr;
-      document.getElementById('val-ssim').textContent = data.metrics.ssim;
-      document.getElementById('val-rmse').textContent = data.metrics.rmse;
-      document.getElementById('val-sam').textContent = data.metrics.sam;
-    }
-  })
-  .catch(err => {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> RUN MODEL';
-    }
-  });
 }
 
 /* ================= TYPING EFFECT ================= */
