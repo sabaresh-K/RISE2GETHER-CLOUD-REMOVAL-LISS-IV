@@ -210,9 +210,82 @@ stream_type = st.sidebar.radio(
 st.sidebar.markdown("---")
 uploaded_file = st.sidebar.file_uploader("Upload LISS-IV Asset (.tif, .png, .jpg up to 5 GB):", type=["tif", "png", "jpg", "jpeg"])
 
+import tempfile
+import cv2
+import tifffile
+
+def load_satellite_image(uploaded_file):
+    """
+    Robust Satellite Image Ingestion Engine.
+    Handles:
+    - Standard PNG / JPG / JPEG / TIFF
+    - Large 1.7GB+ BigTIFF files
+    - Multi-band GIS GeoTIFFs (LISS-IV 4-band / 3-band)
+    """
+    ext = os.path.splitext(uploaded_file.name)[1].lower() or ".tif"
+    with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
+        tmp.write(uploaded_file.getbuffer())
+        tmp_path = tmp.name
+
+    img = None
+    # Method 1: Standard PIL
+    try:
+        pil_img = Image.open(tmp_path)
+        pil_img.load()
+        img = pil_img.convert("RGB")
+    except Exception:
+        pass
+
+    # Method 2: tifffile (Handles BigTIFF & Multi-band LISS-IV GeoTIFFs)
+    if img is None:
+        try:
+            data = tifffile.imread(tmp_path)
+            if data.ndim == 3 and data.shape[0] in [1, 3, 4, 8, 12]:
+                data = np.transpose(data, (1, 2, 0))
+            
+            if data.ndim == 3:
+                rgb_data = data[:, :, :3] if data.shape[2] >= 3 else np.repeat(data[:, :, :1], 3, axis=2)
+            else:
+                rgb_data = np.stack([data]*3, axis=-1)
+                
+            d_min, d_max = float(rgb_data.min()), float(rgb_data.max())
+            if d_max > d_min:
+                norm_data = ((rgb_data.astype(float) - d_min) / (d_max - d_min) * 255.0).astype(np.uint8)
+            else:
+                norm_data = np.zeros_like(rgb_data, dtype=np.uint8)
+                
+            img = Image.fromarray(norm_data)
+        except Exception:
+            pass
+
+    # Method 3: OpenCV fallback
+    if img is None:
+        try:
+            cv_img = cv2.imread(tmp_path, cv2.IMREAD_COLOR)
+            if cv_img is not None:
+                cv_img = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
+                img = Image.fromarray(cv_img)
+        except Exception:
+            pass
+
+    try:
+        os.remove(tmp_path)
+    except Exception:
+        pass
+
+    if img is None:
+        raise ValueError(f"Could not parse satellite image format for {uploaded_file.name}")
+
+    return img.resize((512, 512))
+
 # 8. Ingested Stream Logic
 if uploaded_file:
-    input_img = Image.open(uploaded_file).convert("RGB").resize((512, 512))
+    try:
+        input_img = load_satellite_image(uploaded_file)
+    except Exception as e:
+        st.error(f"⚠️ Error parsing satellite asset '{uploaded_file.name}': {e}")
+        grid = np.zeros((512, 512, 3), dtype=np.uint8)
+        input_img = Image.fromarray(grid)
 else:
     # Synthetic checkerboard matrix display fallback
     grid = np.zeros((512, 512, 3), dtype=np.uint8)
