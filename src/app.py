@@ -79,10 +79,10 @@ def compute_metrics(in_np, out_np):
     sam = np.mean(np.abs(in_np.astype(float) - out_np.astype(float))) / 255.0 * 10.0
     return f"{psnr:.2f} dB", f"{ssim:.4f}", f"{rmse:.4f}", f"{sam:.2f}°"
 
-# 5. Top Navigation Radio Selection
+# 5. CSS Stylesheet (High Contrast Inputs & Pitch Deck Styling)
 st.markdown('''
 <style>
-    /* Global Deep Space Background & Glassmorphism */
+    /* Global Deep Space Background */
     .stApp {
         background: radial-gradient(circle at 50% 20%, #061329 0%, #020813 100%) !important;
         color: #F8FAFC !important;
@@ -136,10 +136,6 @@ st.markdown('''
     }
 
     /* Navigation Radio Bar Styling */
-    div[data-testid="stHorizontalBlock"] > div {
-        align-items: center;
-    }
-    
     .stRadio > div {
         background: rgba(10, 25, 47, 0.8) !important;
         border: 1px solid rgba(0, 212, 255, 0.25) !important;
@@ -155,14 +151,13 @@ st.markdown('''
         font-weight: 700 !important;
         font-size: 1.05rem !important;
         cursor: pointer !important;
-        transition: all 0.3s ease;
     }
 
     .stRadio label:hover {
         color: #00D4FF !important;
     }
 
-    /* Pitch Glass Cards & Animations */
+    /* Pitch Glass Cards */
     .pitch-card {
         background: rgba(10, 25, 47, 0.75);
         border: 1px solid rgba(0, 212, 255, 0.2);
@@ -170,13 +165,43 @@ st.markdown('''
         padding: 1.8rem;
         margin-bottom: 1.5rem;
         backdrop-filter: blur(12px);
-        transition: all 0.3s ease;
     }
 
     .pitch-card:hover {
         border-color: rgba(0, 212, 255, 0.5);
         box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
-        transform: translateY(-2px);
+    }
+
+    /* High-Contrast Input Boxes & Text Areas for Contact Form */
+    .stTextInput input, .stTextArea textarea, .stSelectbox div[data-baseweb="select"] {
+        background-color: #0D1B2A !important;
+        color: #FFFFFF !important;
+        border: 1px solid rgba(0, 212, 255, 0.4) !important;
+        border-radius: 8px !important;
+        font-size: 1rem !important;
+        font-family: 'Inter', sans-serif !important;
+        padding: 0.75rem 1rem !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .stTextInput input:focus, .stTextArea textarea:focus {
+        border-color: #00D4FF !important;
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.5) !important;
+        outline: none !important;
+        background-color: #0F2338 !important;
+    }
+
+    .stTextInput label, .stTextArea label, .stSelectbox label {
+        color: #00D4FF !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 0.5px !important;
+        margin-bottom: 0.4rem !important;
+    }
+
+    .stTextInput input::placeholder, .stTextArea textarea::placeholder {
+        color: #64748B !important;
+        opacity: 1 !important;
     }
 
     /* Telemetry Metric Display Boxes */
@@ -187,7 +212,6 @@ st.markdown('''
         border-radius: 10px;
         padding: 1.2rem;
         text-align: center;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
     .metric-card-val {
@@ -217,7 +241,6 @@ st.markdown('''
         padding: 0.8rem 1.4rem !important;
         font-size: 1rem !important;
         box-shadow: 0 4px 20px rgba(0, 212, 255, 0.35) !important;
-        transition: all 0.3s ease !important;
     }
 
     .stButton>button:hover {
@@ -230,7 +253,7 @@ st.markdown('''
 </style>
 ''', unsafe_allow_html=True)
 
-# 6. Header Banner (ISRO Satellite Mission Control)
+# 6. Header Banner
 st.markdown(f'''
 <div class="pitch-header">
     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -243,7 +266,7 @@ st.markdown(f'''
 </div>
 ''', unsafe_allow_html=True)
 
-# 7. Navigation Tabs Selection
+# 7. Navigation Radio Tabs
 selected_page = st.radio(
     "Navigation Menu",
     ["Home", "About", "Features", "Model", "Contact"],
@@ -379,7 +402,6 @@ if selected_page == "Model":
         st.session_state.pop('metrics', None)
         st.session_state['last_img_bytes'] = current_img_bytes
 else:
-    # Hide sidebar CSS on non-Model pages!
     st.markdown('''
     <style>
         [data-testid="stSidebar"] {
@@ -389,7 +411,7 @@ else:
     ''', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
-# PAGE 1: HOME (INVESTOR PITCH HERO)
+# PAGE 1: HOME
 # --------------------------------------------------------------------------
 if selected_page == "Home":
     st.markdown('''
@@ -453,7 +475,7 @@ if selected_page == "Home":
         st.markdown('<div class="pitch-card"><h4 style="color:#00D4FF;">🌳 Forestry & Urban Sprawl</h4><p style="color:#94A3B8;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
-# PAGE 2: ABOUT (SCIENTIFIC BENCHMARKS & ROADMAP)
+# PAGE 2: ABOUT
 # --------------------------------------------------------------------------
 elif selected_page == "About":
     st.markdown('''
@@ -497,7 +519,7 @@ elif selected_page == "About":
     ''', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
-# PAGE 3: FEATURES (COMPETITIVE ADVANTAGE MATRIX)
+# PAGE 3: FEATURES
 # --------------------------------------------------------------------------
 elif selected_page == "Features":
     st.markdown("### System Features & Competitive Capabilities")
@@ -547,10 +569,9 @@ elif selected_page == "Features":
     ''', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
-# PAGE 4: MODEL WORKSPACE (SIDEBAR EXCLUSIVE HERE!)
+# PAGE 4: MODEL WORKSPACE
 # --------------------------------------------------------------------------
 elif selected_page == "Model":
-    # Primary RUN MODEL Action Button
     if st.button("RUN MODEL", use_container_width=True):
         with st.spinner("Executing PyTorch Neural Network Reconstruction..."):
             rec_img, dev_map, met_vals, lat_val = run_model_inference(input_img)
@@ -563,7 +584,6 @@ elif selected_page == "Model":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Tri-Stream Video Monitors
     col1, col2, col3 = st.columns(3)
 
     with col1:
@@ -584,7 +604,6 @@ elif selected_page == "Model":
         else:
             st.info("Awaiting Execution Signal...")
 
-    # Real-Time Telemetry Metrics
     st.markdown("---")
     st.markdown("### REAL-TIME TELEMETRY & SCIENTIFIC EVALUATION")
 
@@ -605,37 +624,69 @@ elif selected_page == "Model":
         st.markdown(f'<div class="metric-card-box"><div class="metric-card-val">{sam}</div><div class="metric-card-lbl">SAM Spectral Angle</div></div>', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
-# PAGE 5: CONTACT & CREDITS
+# PAGE 5: CONTACT PAGE (HIGH CONTRAST & ENHANCED FORM)
 # --------------------------------------------------------------------------
 elif selected_page == "Contact":
-    st.markdown("### Team Rise2Gether Contact & Leadership")
+    st.markdown("### Team Rise2Gether Leadership & Contact")
+    
     t1, t2, t3 = st.columns(3)
     with t1:
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #00D4FF;"><h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Sabaresh K</h3><p style="color:#94A3B8; font-size:0.9rem; margin-bottom:0.8rem;">AI & Deep Learning Lead</p><a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none;">📧 sabaresh.k2025aids@sece.ac.in</a></div>', unsafe_allow_html=True)
+        st.markdown('''
+        <div class="pitch-card" style="border-left:4px solid #00D4FF;">
+            <h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Sabaresh K</h3>
+            <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0.8rem;">AI & Deep Learning Lead</p>
+            <a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600;">
+                📧 sabaresh.k2025aids@sece.ac.in
+            </a>
+        </div>
+        ''', unsafe_allow_html=True)
     with t2:
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #00D4FF;"><h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Saadhana S</h3><p style="color:#94A3B8; font-size:0.9rem; margin-bottom:0.8rem;">GIS & GeoTIFF Specialist</p><a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none;">📧 saadhana.s2025aids@sece.ac.in</a></div>', unsafe_allow_html=True)
+        st.markdown('''
+        <div class="pitch-card" style="border-left:4px solid #00D4FF;">
+            <h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Saadhana S</h3>
+            <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0.8rem;">GIS & GeoTIFF Specialist</p>
+            <a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600;">
+                📧 saadhana.s2025aids@sece.ac.in
+            </a>
+        </div>
+        ''', unsafe_allow_html=True)
     with t3:
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #00D4FF;"><h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Pranika R</h3><p style="color:#94A3B8; font-size:0.9rem; margin-bottom:0.8rem;">UI/UX & Telemetry Specialist</p><a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none;">📧 pranika.r2025aids@sece.ac.in</a></div>', unsafe_allow_html=True)
+        st.markdown('''
+        <div class="pitch-card" style="border-left:4px solid #00D4FF;">
+            <h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Pranika R</h3>
+            <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0.8rem;">UI/UX & Telemetry Specialist</p>
+            <a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600;">
+                📧 pranika.r2025aids@sece.ac.in
+            </a>
+        </div>
+        ''', unsafe_allow_html=True)
 
     form_col, loc_col = st.columns([1.5, 1])
     with form_col:
-        with st.form("contact_form_st"):
-            st.markdown("#### Send Inquiry to Team Rise2Gether")
-            c_name = st.text_input("Your Name:")
-            c_email = st.text_input("Your Email Address:")
-            c_msg = st.text_area("Message / Pitch Inquiry:")
-            c_sub = st.form_submit_button("SEND INQUIRY")
+        st.markdown('<div class="pitch-card">', unsafe_allow_html=True)
+        st.markdown("<h4 style='color:#00D4FF; margin-top:0;'>Transmit Inquiry / Pitch Feedback</h4>", unsafe_allow_html=True)
+        with st.form("contact_form_st_enhanced"):
+            c_name = st.text_input("Your Name:", placeholder="Enter your full name...")
+            c_email = st.text_input("Your Email Address:", placeholder="name@domain.com...")
+            c_subject = st.selectbox("Inquiry Category:", ["Hackathon Pitch & Funding Inquiry", "Technical Collaboration", "LISS-IV Dataset Query", "General Contact"])
+            c_msg = st.text_area("Message Details:", placeholder="Type your detailed message here...", height=150)
+            c_sub = st.form_submit_button("🚀 TRANSMIT INQUIRY")
             if c_sub:
-                st.success("Thank you! Your message has been transmitted directly to Team Rise2Gether.")
+                if c_name and c_email and c_msg:
+                    st.success("✅ Thank you! Your message has been logged and transmitted directly to Team Rise2Gether.")
+                else:
+                    st.warning("Please fill in your Name, Email, and Message before submitting.")
+        st.markdown('</div>', unsafe_allow_html=True)
 
     with loc_col:
         st.markdown('''
         <div class="pitch-card">
             <h4 style="color:#00D4FF; margin-top:0;">📍 Our Institution</h4>
-            <h3 style="color:#FFFFFF; margin:0.5rem 0;">Sri Eshwar College of Engineering and Technology</h3>
+            <h3 style="color:#FFFFFF; margin:0.5rem 0 0.2rem 0; font-size:1.3rem;">Sri Eshwar College of Engineering and Technology</h3>
             <p style="color:#94A3B8; font-size:0.95rem;">Coimbatore, Tamil Nadu, India</p>
-            <hr style="border-color:rgba(0,212,255,0.2);">
-            <p style="font-size:0.85rem; color:#94A3B8;">Developed for Bharatiya Antariksh Hackathon 2026 (ISRO)</p>
+            <hr style="border-color:rgba(0,212,255,0.2); margin:1rem 0;">
+            <p style="font-size:0.9rem; color:#CBD5E1;"><strong>Coordinates:</strong> 10.871° N, 77.019° E</p>
+            <p style="font-size:0.9rem; color:#CBD5E1;"><strong>Event:</strong> Bharatiya Antariksh Hackathon 2026 (ISRO)</p>
         </div>
         ''', unsafe_allow_html=True)
 
