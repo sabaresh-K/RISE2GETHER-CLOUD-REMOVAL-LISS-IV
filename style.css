@@ -6,17 +6,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 :root {
-  --primary-cyan: #00d4ff;
-  --primary-blue: #0066ff;
-  --primary-teal: #06b6d4;
+  --primary-cyan: #10b981;
+  --primary-blue: #059669;
+  --primary-teal: #34d399;
   --primary-green: #10b981;
   --primary-orange: #f97316;
   --primary-purple: #8b5cf6;
-  --bg-dark: #020813;
-  --bg-card: rgba(10, 25, 47, 0.75);
-  --bg-card-hover: rgba(15, 35, 65, 0.85);
-  --border-color: rgba(0, 212, 255, 0.18);
-  --border-hover: rgba(0, 212, 255, 0.45);
+  --bg-dark: #0b0f19;
+  --bg-card: rgba(15, 23, 42, 0.75);
+  --bg-card-hover: rgba(15, 23, 42, 0.9);
+  --border-color: rgba(16, 185, 129, 0.25);
+  --border-hover: rgba(16, 185, 129, 0.6);
   --text-primary: #f8fafc;
   --text-muted: #94a3b8;
   --font-heading: 'Outfit', -apple-system, sans-serif;
