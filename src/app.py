@@ -11,7 +11,7 @@ Image.MAX_IMAGE_PIXELS = None
 
 # 1. Page Configuration
 st.set_page_config(
-    page_title="CloudClear-LISS — ISRO Satellite Cloud Removal AI",
+    page_title="CloudClear-LISS — AI Satellite Imagery Reconstruction",
     page_icon="🛰️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -26,7 +26,7 @@ if PROJECT_ROOT not in sys.path:
 # Set max upload size to 5 GB
 st.config.set_option("server.maxUploadSize", 5120)
 
-# 3. Model Engine Loader (Prioritize src.models.CloudRemovalGenerator)
+# 3. Model Engine Loader
 @st.cache_resource
 def load_model_core():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -79,9 +79,28 @@ def compute_metrics(in_np, out_np):
     sam = np.mean(np.abs(in_np.astype(float) - out_np.astype(float))) / 255.0 * 10.0
     return f"{psnr:.2f} dB", f"{ssim:.4f}", f"{rmse:.4f}", f"{sam:.2f}°"
 
-# 5. CSS Stylesheet (High Contrast Inputs & Pitch Deck Styling)
+# 5. Space Theme CSS Animations & High Contrast UI
 st.markdown('''
 <style>
+    /* Keyframe Animations */
+    @keyframes floatSpace {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    @keyframes pulseCyan {
+        0% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+        50% { box-shadow: 0 0 25px rgba(0, 212, 255, 0.5); }
+        100% { box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+    }
+
+    @keyframes textGlow {
+        0% { text-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+        50% { text-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
+        100% { text-shadow: 0 0 10px rgba(0, 212, 255, 0.3); }
+    }
+
     /* Global Deep Space Background */
     .stApp {
         background: radial-gradient(circle at 50% 20%, #061329 0%, #020813 100%) !important;
@@ -95,7 +114,7 @@ st.markdown('''
         max-width: 1300px !important;
     }
 
-    /* Pitch Deck Top Header Banner */
+    /* Top Header Banner */
     .pitch-header {
         background: rgba(10, 25, 47, 0.85);
         border: 1px solid rgba(0, 212, 255, 0.3);
@@ -105,6 +124,7 @@ st.markdown('''
         margin-bottom: 1.5rem;
         box-shadow: 0 10px 30px rgba(0, 212, 255, 0.15);
         backdrop-filter: blur(12px);
+        animation: pulseCyan 4s infinite alternate;
     }
     
     .pitch-title {
@@ -115,6 +135,7 @@ st.markdown('''
         -webkit-text-fill-color: transparent;
         letter-spacing: 1px;
         margin: 0;
+        animation: textGlow 3s infinite alternate;
     }
 
     .pitch-sub {
@@ -157,7 +178,7 @@ st.markdown('''
         color: #00D4FF !important;
     }
 
-    /* Pitch Glass Cards */
+    /* Floating Space Cards */
     .pitch-card {
         background: rgba(10, 25, 47, 0.75);
         border: 1px solid rgba(0, 212, 255, 0.2);
@@ -165,22 +186,24 @@ st.markdown('''
         padding: 1.8rem;
         margin-bottom: 1.5rem;
         backdrop-filter: blur(12px);
+        transition: all 0.3s ease;
     }
 
     .pitch-card:hover {
-        border-color: rgba(0, 212, 255, 0.5);
-        box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        border-color: rgba(0, 212, 255, 0.6);
+        box-shadow: 0 10px 30px rgba(0, 212, 255, 0.25);
+        transform: translateY(-3px);
     }
 
-    /* High-Contrast Input Boxes & Text Areas for Contact Form */
-    .stTextInput input, .stTextArea textarea, .stSelectbox div[data-baseweb="select"] {
+    /* High-Contrast Input Boxes for Contact Form */
+    .stTextInput input, .stTextArea textarea {
         background-color: #0D1B2A !important;
         color: #FFFFFF !important;
         border: 1px solid rgba(0, 212, 255, 0.4) !important;
         border-radius: 8px !important;
         font-size: 1rem !important;
         font-family: 'Inter', sans-serif !important;
-        padding: 0.75rem 1rem !important;
+        padding: 0.8rem 1rem !important;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
     }
 
@@ -191,7 +214,7 @@ st.markdown('''
         background-color: #0F2338 !important;
     }
 
-    .stTextInput label, .stTextArea label, .stSelectbox label {
+    .stTextInput label, .stTextArea label {
         color: #00D4FF !important;
         font-weight: 700 !important;
         font-size: 0.95rem !important;
@@ -212,6 +235,11 @@ st.markdown('''
         border-radius: 10px;
         padding: 1.2rem;
         text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .metric-card-box:hover {
+        transform: scale(1.03);
     }
 
     .metric-card-val {
@@ -229,18 +257,19 @@ st.markdown('''
         margin-top: 0.3rem;
     }
 
-    /* Primary Action Buttons */
+    /* Styled Action Button */
     .stButton>button {
         background: linear-gradient(90deg, #0066FF 0%, #00D4FF 100%) !important;
         color: #FFFFFF !important;
         font-weight: 800 !important;
         border: none !important;
-        border-radius: 6px !important;
+        border-radius: 8px !important;
         letter-spacing: 1px !important;
         text-transform: uppercase !important;
-        padding: 0.8rem 1.4rem !important;
+        padding: 0.85rem 1.6rem !important;
         font-size: 1rem !important;
         box-shadow: 0 4px 20px rgba(0, 212, 255, 0.35) !important;
+        transition: all 0.3s ease !important;
     }
 
     .stButton>button:hover {
@@ -259,7 +288,7 @@ st.markdown(f'''
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
             <div class="pitch-title">CloudClear-LISS</div>
-            <div class="pitch-sub">AI-Powered Satellite Imagery Cloud Reconstruction | <strong>Bharatiya Antariksh Hackathon 2026 (ISRO)</strong></div>
+            <div class="pitch-sub">AI-Powered Satellite Imagery Cloud Reconstruction Platform</div>
         </div>
         <div class="status-badge-online">SYS STATUS: {MODEL_STATUS}</div>
     </div>
@@ -416,14 +445,11 @@ else:
 if selected_page == "Home":
     st.markdown('''
     <div class="pitch-card" style="text-align:center; padding:3rem 2rem;">
-        <div style="background:rgba(0,212,255,0.1); border:1px solid #00D4FF; color:#00D4FF; padding:0.4rem 1.2rem; border-radius:30px; font-weight:700; font-size:0.85rem; display:inline-block; margin-bottom:1.5rem;">
-            Bharatiya Antariksh Hackathon 2026 — ISRO Challenge Solution
-        </div>
         <h1 style="color:#00D4FF; font-size:3rem; font-weight:900; margin:0 0 1.2rem 0; line-height:1.2;">
             Revealing the Earth Beneath the Clouds
         </h1>
         <p style="font-size:1.25rem; color:#E2E8F0; max-width:850px; margin:0 auto 2rem auto; line-height:1.6;">
-            AI-Powered Cloud Removal and Ground Surface Reconstruction for ISRO's <strong>LISS-IV</strong> Satellite Imagery. 
+            AI-Powered Cloud Removal and Ground Surface Reconstruction for <strong>LISS-IV</strong> Satellite Imagery. 
             Fusing Sentinel-1 C-band SAR radar backscatter with multi-band optical sensors to restore obscured terrain details with 5.8m spatial precision.
         </p>
     </div>
@@ -436,7 +462,7 @@ if selected_page == "Home":
         <div class="pitch-card">
             <h4 style="color:#00D4FF;">LISS-IV 5.8m Resolution Obscuration</h4>
             <p style="font-size:1.05rem; color:#E2E8F0; line-height:1.6;">
-                ISRO's <strong>LISS-IV</strong> sensor aboard Resourcesat captures ultra-high-resolution optical imagery at <strong>5.8 meters</strong>. 
+                The <strong>LISS-IV</strong> sensor aboard Resourcesat captures ultra-high-resolution optical imagery at <strong>5.8 meters</strong>. 
                 However, persistent tropical cloud cover obscures up to <strong>60% of optical data</strong>, causing critical intelligence gaps in agriculture, disaster response, and forestry.
             </p>
             <p style="font-size:1.05rem; color:#94A3B8; line-height:1.6;">
@@ -475,14 +501,14 @@ if selected_page == "Home":
         st.markdown('<div class="pitch-card"><h4 style="color:#00D4FF;">🌳 Forestry & Urban Sprawl</h4><p style="color:#94A3B8;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
-# PAGE 2: ABOUT
+# PAGE 2: ABOUT (CLEAN BENCHMARKS ONLY - ROADMAP REMOVED)
 # --------------------------------------------------------------------------
 elif selected_page == "About":
     st.markdown('''
     <div class="pitch-card">
         <h2 style="color:#00D4FF; margin-top:0;">About CloudClear-LISS Science & Benchmarks</h2>
         <p style="font-size:1.1rem; color:#E2E8F0; line-height:1.6;">
-            The <strong>Linear Imaging Self-Scanning Sensor (LISS-IV)</strong> operating onboard ISRO's Resourcesat satellites provides 
+            The <strong>Linear Imaging Self-Scanning Sensor (LISS-IV)</strong> operating onboard Resourcesat satellites provides 
             high-resolution multispectral imagery with a spatial resolution of 5.8 meters. 
             Cloud removal is an essential preprocessing step for land cover classification, disaster management, and agricultural monitoring.
         </p>
@@ -504,20 +530,6 @@ elif selected_page == "About":
     with m6:
         st.markdown('<div class="metric-card-box"><div class="metric-card-val">2.84s</div><div class="metric-card-lbl">Speed</div></div>', unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.markdown("### Development Milestones & Roadmap")
-    st.markdown('''
-    <div class="pitch-card">
-        <ul style="line-height:2.2; color:#E2E8F0; font-size:1.05rem;">
-            <li><strong>Phase 1 (Week 1-3):</strong> Data Collection & Benchmark Quality Assessment (LISS-IV & Sentinel-1 SAR) — <span style="color:#10B981;">✓ Completed</span></li>
-            <li><strong>Phase 2 (Week 4-5):</strong> Geo-alignment, Radiometric Calibration & Cloud Mask Generation</li>
-            <li><strong>Phase 3 (Week 6-10):</strong> SAR-Guided CycleGAN Architecture Optimization & Loss Minimization</li>
-            <li><strong>Phase 4 (Week 11-12):</strong> End-to-End GeoTIFF Processing Pipeline & CRS Metadata Transfer</li>
-            <li><strong>Phase 5 (Week 13-16):</strong> Final Performance Benchmarking & Containerized Docker Cloud Deployment</li>
-        </ul>
-    </div>
-    ''', unsafe_allow_html=True)
-
 # --------------------------------------------------------------------------
 # PAGE 3: FEATURES
 # --------------------------------------------------------------------------
@@ -525,7 +537,7 @@ elif selected_page == "Features":
     st.markdown("### System Features & Competitive Capabilities")
     f1, f2 = st.columns(2)
     with f1:
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #00D4FF;"><h4 style="color:#00D4FF;">🛰️ LISS-IV 5.8m Resolution Preservation</h4><p style="color:#94A3B8;">Specifically engineered for ISRO\'s LISS-IV 5.8m pixel spacing without downscaling.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="border-left:4px solid #00D4FF;"><h4 style="color:#00D4FF;">🛰️ LISS-IV 5.8m Resolution Preservation</h4><p style="color:#94A3B8;">Specifically engineered for LISS-IV 5.8m pixel spacing without downscaling.</p></div>', unsafe_allow_html=True)
         st.markdown('<div class="pitch-card" style="border-left:4px solid #10B981;"><h4 style="color:#10B981;">🔄 Multi-Sensor Fusion Engine</h4><p style="color:#94A3B8;">Fuses optical reflection with Sentinel-1 C-band active radar backscatter.</p></div>', unsafe_allow_html=True)
     with f2:
         st.markdown('<div class="pitch-card" style="border-left:4px solid #F59E0B;"><h4 style="color:#F59E0B;">🔁 CycleGAN Generative Core</h4><p style="color:#94A3B8;">Dual generators ensure realistic, spectrally accurate ground texture synthesis.</p></div>', unsafe_allow_html=True)
@@ -624,7 +636,7 @@ elif selected_page == "Model":
         st.markdown(f'<div class="metric-card-box"><div class="metric-card-val">{sam}</div><div class="metric-card-lbl">SAM Spectral Angle</div></div>', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
-# PAGE 5: CONTACT PAGE (HIGH CONTRAST & ENHANCED FORM)
+# PAGE 5: CONTACT PAGE (CLEAN TEAM NAMES ONLY, NO ROLES, NO DROPDOWN, HIGH-TECH BUTTON)
 # --------------------------------------------------------------------------
 elif selected_page == "Contact":
     st.markdown("### Team Rise2Gether Leadership & Contact")
@@ -632,30 +644,27 @@ elif selected_page == "Contact":
     t1, t2, t3 = st.columns(3)
     with t1:
         st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #00D4FF;">
-            <h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Sabaresh K</h3>
-            <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0.8rem;">AI & Deep Learning Lead</p>
-            <a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600;">
+        <div class="pitch-card" style="border-left:4px solid #00D4FF; text-align:center;">
+            <h2 style="color:#00D4FF; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Sabaresh K</h2>
+            <a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 📧 sabaresh.k2025aids@sece.ac.in
             </a>
         </div>
         ''', unsafe_allow_html=True)
     with t2:
         st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #00D4FF;">
-            <h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Saadhana S</h3>
-            <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0.8rem;">GIS & GeoTIFF Specialist</p>
-            <a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600;">
+        <div class="pitch-card" style="border-left:4px solid #00D4FF; text-align:center;">
+            <h2 style="color:#00D4FF; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Saadhana S</h2>
+            <a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 📧 saadhana.s2025aids@sece.ac.in
             </a>
         </div>
         ''', unsafe_allow_html=True)
     with t3:
         st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #00D4FF;">
-            <h3 style="color:#00D4FF; margin:0 0 0.3rem 0;">Pranika R</h3>
-            <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0.8rem;">UI/UX & Telemetry Specialist</p>
-            <a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600;">
+        <div class="pitch-card" style="border-left:4px solid #00D4FF; text-align:center;">
+            <h2 style="color:#00D4FF; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Pranika R</h2>
+            <a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#00D4FF; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 📧 pranika.r2025aids@sece.ac.in
             </a>
         </div>
@@ -664,12 +673,11 @@ elif selected_page == "Contact":
     form_col, loc_col = st.columns([1.5, 1])
     with form_col:
         st.markdown('<div class="pitch-card">', unsafe_allow_html=True)
-        st.markdown("<h4 style='color:#00D4FF; margin-top:0;'>Transmit Inquiry / Pitch Feedback</h4>", unsafe_allow_html=True)
-        with st.form("contact_form_st_enhanced"):
+        st.markdown("<h4 style='color:#00D4FF; margin-top:0;'>Transmit Message to Team Rise2Gether</h4>", unsafe_allow_html=True)
+        with st.form("contact_form_st_clean"):
             c_name = st.text_input("Your Name:", placeholder="Enter your full name...")
             c_email = st.text_input("Your Email Address:", placeholder="name@domain.com...")
-            c_subject = st.selectbox("Inquiry Category:", ["Hackathon Pitch & Funding Inquiry", "Technical Collaboration", "LISS-IV Dataset Query", "General Contact"])
-            c_msg = st.text_area("Message Details:", placeholder="Type your detailed message here...", height=150)
+            c_msg = st.text_area("Message Details:", placeholder="Type your message here...", height=160)
             c_sub = st.form_submit_button("🚀 TRANSMIT INQUIRY")
             if c_sub:
                 if c_name and c_email and c_msg:
@@ -686,10 +694,9 @@ elif selected_page == "Contact":
             <p style="color:#94A3B8; font-size:0.95rem;">Coimbatore, Tamil Nadu, India</p>
             <hr style="border-color:rgba(0,212,255,0.2); margin:1rem 0;">
             <p style="font-size:0.9rem; color:#CBD5E1;"><strong>Coordinates:</strong> 10.871° N, 77.019° E</p>
-            <p style="font-size:0.9rem; color:#CBD5E1;"><strong>Event:</strong> Bharatiya Antariksh Hackathon 2026 (ISRO)</p>
         </div>
         ''', unsafe_allow_html=True)
 
 # Shared Global Footer
 st.markdown("---")
-st.caption("© 2026 CloudClear-LISS. Built by Team Rise2Gether. Bharatiya Antariksh Hackathon 2026 — ISRO")
+st.caption("© 2026 CloudClear-LISS. Built by Team Rise2Gether. All rights reserved.")
