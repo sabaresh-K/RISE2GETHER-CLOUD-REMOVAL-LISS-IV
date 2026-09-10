@@ -714,7 +714,7 @@ elif selected_page == "Model":
         st.session_state['last_img_bytes'] = current_img_bytes
 
     st.markdown("<div style='margin-top:1rem;'></div>", unsafe_allow_html=True)
-    if st.button("⚡ EXECUTE NEURAL RECONSTRUCTION ENGINE", use_container_width=True):
+    if st.button("🚀 RUN MODEL", use_container_width=True):
         with st.spinner("Executing PyTorch Neural Network Reconstruction..."):
             rec_img, dev_map, met_vals, lat_val = run_model_inference(input_img)
             st.session_state['reconstructed_img'] = rec_img
