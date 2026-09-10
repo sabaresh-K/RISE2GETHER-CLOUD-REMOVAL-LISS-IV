@@ -6,7 +6,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   initRouter();
   initBackgroundCanvas();
-  initBeforeAfterSliders();
   initContactForm();
   initHeaderScroll();
   initTypingEffect();
@@ -140,105 +139,14 @@ function initBackgroundCanvas() {
   animate();
 }
 
-/* ================= COMPARISON BEFORE/AFTER SLIDER ================= */
-function initBeforeAfterSliders() {
-  const container = document.getElementById('wb-comparison-slider');
-  const afterImg = document.getElementById('wb-slider-img-after');
-  const divider = document.getElementById('wb-slider-divider');
-
-  if (!container || !afterImg || !divider) return;
-
-  let isDragging = false;
-
-  function move(clientX) {
-    const rect = container.getBoundingClientRect();
-    const x = clientX - rect.left;
-    let percentage = (x / rect.width) * 100;
-
-    if (percentage < 0) percentage = 0;
-    if (percentage > 100) percentage = 100;
-
-    afterImg.style.clipPath = `inset(0 0 0 ${percentage}%)`;
-    divider.style.left = `${percentage}%`;
-  }
-
-  divider.addEventListener('mousedown', () => { isDragging = true; });
-  window.addEventListener('mouseup', () => { isDragging = false; });
-  window.addEventListener('mousemove', (e) => {
-    if (isDragging) move(e.clientX);
-  });
-
-  divider.addEventListener('touchstart', () => { isDragging = true; });
-  window.addEventListener('touchend', () => { isDragging = false; });
-  window.addEventListener('touchmove', (e) => {
-    if (isDragging) move(e.touches[0].clientX);
-  });
-}
-
-/* ================= PRESETS & MODEL EXECUTION ================= */
-const presets = {
-  punjab: {
-    before: 'outputs/liss4/cloud_preview.png',
-    after: 'outputs/liss_rgb.png',
-    psnr: '30.24 dB', ssim: '0.884', rmse: '0.032', sam: '4.52°'
-  },
-  kerala: {
-    before: 'outputs/liss_rgb.png',
-    after: 'outputs/liss_rgb.png',
-    psnr: '28.95 dB', ssim: '0.862', rmse: '0.041', sam: '5.12°'
-  },
-  northeast: {
-    before: 'outputs/liss4/cloud_preview.png',
-    after: 'outputs/liss_rgb.png',
-    psnr: '29.42 dB', ssim: '0.871', rmse: '0.038', sam: '4.85°'
-  }
-};
-
-function setPreset(key) {
-  const data = presets[key];
-  if (!data) return;
-
-  document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
-  const activeBtn = document.getElementById(`btn-preset-${key}`);
-  if (activeBtn) activeBtn.classList.add('active');
-
-  const beforeImg = document.getElementById('img-wb-before');
-  const afterImg = document.getElementById('img-wb-after');
-  if (beforeImg) beforeImg.src = data.before;
-  if (afterImg) afterImg.src = data.after;
-
-  document.getElementById('val-psnr').textContent = data.psnr;
-  document.getElementById('val-ssim').textContent = data.ssim;
-  document.getElementById('val-rmse').textContent = data.rmse;
-  document.getElementById('val-sam').textContent = data.sam;
-}
-
-function handleFileUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const displayEl = document.getElementById('uploaded-file-name');
-  if (displayEl) {
-    displayEl.textContent = `Uploaded: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-    displayEl.style.display = 'block';
-  }
-
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const beforeImg = document.getElementById('img-wb-before');
-    if (beforeImg) beforeImg.src = event.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
+/* ================= PYTORCH MODEL FORWARD PASS EXECUTION ================= */
 function executeModelPass() {
   const btn = document.getElementById('btn-run-pytorch-model');
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Executing PyTorch Model...';
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Executing PyTorch Neural Network Reconstruction...';
   }
 
-  // Call backend API /api/process-image
   fetch('/api/process-image', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -248,25 +156,27 @@ function executeModelPass() {
   .then(data => {
     if (btn) {
       btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Process Raster Tile';
+      btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> RUN MODEL';
     }
-    if (data.reconstructed_url) {
-      document.getElementById('img-wb-after').src = data.reconstructed_url + '?t=' + new Date().getTime();
+    
+    // Update Stream 02 (Neural Reconstruction) & Stream 03 (Deviation Map)
+    const stream02 = document.getElementById('img-stream-02');
+    if (stream02 && data.reconstructed_url) {
+      stream02.src = data.reconstructed_url + '?t=' + new Date().getTime();
     }
+
     if (data.metrics) {
       document.getElementById('val-psnr').textContent = data.metrics.psnr;
       document.getElementById('val-ssim').textContent = data.metrics.ssim;
       document.getElementById('val-rmse').textContent = data.metrics.rmse;
       document.getElementById('val-sam').textContent = data.metrics.sam;
     }
-    alert('PyTorch Model Forward Pass Complete! Cloud Removal Applied.');
   })
   .catch(err => {
     if (btn) {
       btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Process Raster Tile';
+      btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> RUN MODEL';
     }
-    alert('Reconstruction complete!');
   });
 }
 
