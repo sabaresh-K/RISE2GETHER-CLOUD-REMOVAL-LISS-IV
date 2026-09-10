@@ -6,6 +6,9 @@ import torch
 from PIL import Image
 import numpy as np
 
+# Disable PIL decompression bomb pixel limit for heavy satellite GeoTIFF files
+Image.MAX_IMAGE_PIXELS = None
+
 # 1. Page Configuration
 st.set_page_config(
     page_title="RISE2GETHER | ISRO Mission Control Console",
