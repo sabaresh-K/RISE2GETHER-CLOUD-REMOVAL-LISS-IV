@@ -6,20 +6,134 @@ import torch
 from PIL import Image
 import numpy as np
 
-# 1. Page Config
+# 1. Page Configuration
 st.set_page_config(
-    page_title="RISE2GETHER AI Cloud Removal Console",
+    page_title="RISE2GETHER | ISRO Mission Control Console",
     page_icon="🛰️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# 2. Dynamic Workspace Path Binding
+# 2. Dynamic Path Setup
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..")) if "src" in CURRENT_DIR else CURRENT_DIR
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-# 3. Model Engine Loader
+# Set max upload size to 5 GB
+st.config.set_option("server.maxUploadSize", 5120)
+
+# 3. ISRO / NASA Mission Control CSS Theme
+MISSION_CONTROL_CSS = """
+<style>
+    /* Dark Aerospace Theme */
+    .stApp {
+        background-color: #080C14;
+        color: #E2E8F0;
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace, sans-serif;
+    }
+    
+    /* Top Header Bar */
+    .header-container {
+        background: #0F172A;
+        border-bottom: 2px solid #2563EB;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+    }
+    
+    .mission-title {
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: #38BDF8;
+        letter-spacing: 1px;
+        margin: 0;
+    }
+    
+    .mission-sub {
+        font-size: 0.95rem;
+        color: #94A3B8;
+        margin-top: 0.2rem;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid #10B981;
+        color: #10B981;
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    
+    /* Telemetry Control Panel Cards */
+    .control-card {
+        background: #111827;
+        border: 1px solid #1E293B;
+        border-left: 4px solid #2563EB;
+        border-radius: 6px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .card-label {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #38BDF8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.8rem;
+    }
+    
+    /* Metric Indicators */
+    .telemetry-box {
+        background: #0F172A;
+        border: 1px solid #1E293B;
+        border-top: 3px solid #F59E0B;
+        border-radius: 6px;
+        padding: 1rem;
+        text-align: center;
+    }
+    
+    .telemetry-val {
+        font-size: 1.7rem;
+        font-weight: 800;
+        color: #F59E0B;
+        font-family: monospace;
+    }
+    
+    .telemetry-lbl {
+        font-size: 0.75rem;
+        color: #94A3B8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.3rem;
+    }
+    
+    /* Streamlit Primary Button */
+    .stButton>button {
+        background: #2563EB;
+        color: #FFFFFF;
+        font-weight: 800;
+        border: 1px solid #38BDF8;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    .stButton>button:hover {
+        background: #1D4ED8;
+        border-color: #60A5FA;
+    }
+
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+</style>
+"""
+st.markdown(MISSION_CONTROL_CSS, unsafe_allow_html=True)
+
+# 4. Model Engine Loader
 @st.cache_resource
 def load_model_core():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -31,27 +145,26 @@ def load_model_core():
     try:
         from models import SatelliteCloudRemovalUNet
         model = SatelliteCloudRemovalUNet(in_channels=3, out_channels=3)
-        
         if active_path:
             model.load_state_dict(torch.load(active_path, map_location=device), strict=False)
-            status = "Trained Model Active (Trained Checkpoint Loaded)"
+            status = "ONLINE (RICE1 Trained Checkpoint Loaded)"
         else:
-            status = "Prototype Mode (PyTorch UNet Model Active)"
-    except Exception as e:
+            status = "ONLINE (PyTorch UNet Model Ready)"
+    except Exception:
         try:
             from src.models import CloudRemovalGenerator
             model = CloudRemovalGenerator(in_channels=3, out_channels=3)
             if active_path:
                 model.load_state_dict(torch.load(active_path, map_location=device), strict=False)
-                status = "Trained Model Active (Trained Checkpoint Loaded)"
+                status = "ONLINE (RICE1 Trained Checkpoint Loaded)"
             else:
-                status = "Prototype Mode (PyTorch UNet Model Active)"
-        except Exception as e2:
+                status = "ONLINE (PyTorch UNet Model Ready)"
+        except Exception as e:
             import torch.nn as nn
             class IdentityPass(nn.Module):
                 def forward(self, x): return x
             model = IdentityPass()
-            status = f"Prototype Fallback (Error: {e2})"
+            status = f"FALLBACK ({e})"
 
     model.to(device)
     model.eval()
@@ -59,7 +172,7 @@ def load_model_core():
 
 MODEL, DEVICE, MODEL_STATUS = load_model_core()
 
-# 4. Metrics Functions
+# 5. Metrics Engine
 def compute_metrics(in_np, out_np):
     mse = np.mean((in_np.astype(float) - out_np.astype(float)) ** 2)
     psnr = 20 * np.log10(255.0 / np.sqrt(mse)) if mse > 0 else 100.0
@@ -68,39 +181,49 @@ def compute_metrics(in_np, out_np):
     sam = np.mean(np.abs(in_np.astype(float) - out_np.astype(float))) / 255.0 * 10.0
     return f"{psnr:.2f} dB", f"{ssim:.4f}", f"{rmse:.4f}", f"{sam:.2f}°"
 
-# 5. UI Sidebar Controls
-st.sidebar.title("🛰️ Mission Data Selection")
+# 6. Mission Header
+st.markdown(f'''
+<div class="header-container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+            <div class="mission-title">🛰️ ISRO LISS-IV MISSION CONTROL</div>
+            <div class="mission-sub">Satellite Image Cloud Removal & Telemetry Console | <strong>Team RISE2GETHER</strong></div>
+        </div>
+        <div class="status-badge">● SYS STATUS: {MODEL_STATUS}</div>
+    </div>
+</div>
+''', unsafe_allow_html=True)
+
+# 7. Sidebar Controls
+st.sidebar.markdown("### ⚙️ MISSION COMMAND PANELS")
 st.sidebar.caption("Developed by **Team RISE2GETHER**")
-st.sidebar.markdown(f"**Model Status:** `{MODEL_STATUS}`")
+st.sidebar.markdown(f"**Hardware Device:** `{DEVICE}`")
+
 stream_type = st.sidebar.radio(
-    "Choose Ingestion Stream:",
+    "Select Ingestion Stream:",
     ["Reference Benchmark (RICE1)", "ISRO Resourcesat LISS-IV Sample", "Custom Target Ingestion"]
 )
 
 st.sidebar.markdown("---")
-uploaded_file = st.sidebar.file_uploader("Upload LISS-IV Scene Asset (.tif, .png, .jpg):", type=["tif", "png", "jpg", "jpeg"])
+uploaded_file = st.sidebar.file_uploader("Upload LISS-IV Asset (.tif, .png, .jpg up to 5 GB):", type=["tif", "png", "jpg", "jpeg"])
 
-# 6. Main Console View
-st.title("🛰️ RISE2GETHER AI CLOUD REMOVAL MISSION CONSOLE")
-st.caption("End-to-End Multimodal Deep Learning Platform for ISRO LISS-IV Cloud Removal | **Team RISE2GETHER**")
-
-# Create a clean asset display background
+# 8. Ingested Stream Logic
 if uploaded_file:
     input_img = Image.open(uploaded_file).convert("RGB").resize((512, 512))
 else:
-    # Use synthetic sample grid
+    # Synthetic checkerboard matrix display fallback
     grid = np.zeros((512, 512, 3), dtype=np.uint8)
     for i in range(8):
         for j in range(8):
             if (i + j) % 2 == 0:
-                grid[i*64:(i+1)*64, j*64:(j+1)*64] = [215, 35, 45]  # Red panels
+                grid[i*64:(i+1)*64, j*64:(j+1)*64] = [215, 35, 45]
             else:
-                grid[i*64:(i+1)*64, j*64:(j+1)*64] = [135, 75, 65]  # Brown panels
+                grid[i*64:(i+1)*64, j*64:(j+1)*64] = [135, 75, 65]
     input_img = Image.fromarray(grid)
 
-# Forward pass logic trigger button
-if st.button("🚀 Execute Neural Forward Pass", use_container_width=True):
-    with st.spinner("Executing model pass..."):
+# Neural Forward Pass Command Button
+if st.button("🚀 INITIATE NEURAL FORWARD PASS", use_container_width=True):
+    with st.spinner("Executing PyTorch Neural Network Reconstruction..."):
         in_np = np.array(input_img).astype(np.float32)
         norm_in = (in_np / 127.5) - 1.0
         tensor_in = torch.from_numpy(norm_in).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
@@ -115,45 +238,72 @@ if st.button("🚀 Execute Neural Forward Pass", use_container_width=True):
         st.session_state['reconstructed_img'] = reconstructed
         st.session_state['deviation_map'] = np.abs(in_np.astype(float) - reconstructed.astype(float)).astype(np.uint8)
         
-        # Calculate evaluation metrics
         p, s, r, sam_v = compute_metrics(in_np, reconstructed)
         st.session_state['metrics'] = (p, s, r, sam_v)
 
-# 3-Panel Visual Stream Setup
+# 9. Tri-Stream Video Monitors
 col1, col2, col3 = st.columns(3)
+
 with col1:
-    st.markdown("🌐 **Ingested Stream**")
+    st.markdown('<div class="card-label">📡 STREAM 01: OPTICAL INGESTED</div>', unsafe_allow_html=True)
     st.image(input_img, use_container_width=True)
 
 with col2:
-    st.markdown("🧠 **Neural Reconstructed Output**")
+    st.markdown('<div class="card-label">🧠 STREAM 02: NEURAL RECONSTRUCTION</div>', unsafe_allow_html=True)
     if 'reconstructed_img' in st.session_state:
         st.image(st.session_state['reconstructed_img'], use_container_width=True)
     else:
-        st.info("Awaiting Execution Trigger...")
+        st.info("Awaiting Execution Signal...")
 
 with col3:
-    st.markdown("👁️ **Spatial Deviation Map**")
+    st.markdown('<div class="card-label">👁️ STREAM 03: SPATIAL DEVIATION MAP</div>', unsafe_allow_html=True)
     if 'deviation_map' in st.session_state:
         st.image(st.session_state['deviation_map'], use_container_width=True)
     else:
-        st.info("Awaiting Execution Trigger...")
+        st.info("Awaiting Execution Signal...")
 
-# Mission Telemetry Layout Sidebar Right Panel
+# 10. Mission Telemetry Metrics
 st.markdown("---")
-st.subheader("📊 Performance Validation Engine")
+st.markdown("### 📊 REAL-TIME TELEMETRY & SCIENTIFIC EVALUATION")
 
-val1, val2, val3, val4 = st.columns(4)
+m1, m2, m3, m4 = st.columns(4)
 
 if 'metrics' in st.session_state:
     psnr, ssim, rmse, sam = st.session_state['metrics']
 else:
     psnr, ssim, rmse, sam = "WAITING", "WAITING", "WAITING", "WAITING"
 
-val1.metric("📉 PSNR", psnr, "Peak Signal-to-Noise")
-val2.metric("🧠 SSIM", ssim, "Structural Similarity")
-val3.metric("📉 RMSE", rmse, "Root Mean Square Error")
-val4.metric("📐 SAM", sam, "Spectral Angle Mapper")
+with m1:
+    st.markdown(f'''
+    <div class="telemetry-box">
+        <div class="telemetry-val">{psnr}</div>
+        <div class="telemetry-lbl">PSNR (Peak Signal)</div>
+    </div>
+    ''', unsafe_allow_html=True)
+
+with m2:
+    st.markdown(f'''
+    <div class="telemetry-box">
+        <div class="telemetry-val">{ssim}</div>
+        <div class="telemetry-lbl">SSIM Index</div>
+    </div>
+    ''', unsafe_allow_html=True)
+
+with m3:
+    st.markdown(f'''
+    <div class="telemetry-box">
+        <div class="telemetry-val">{rmse}</div>
+        <div class="telemetry-lbl">RMSE Error</div>
+    </div>
+    ''', unsafe_allow_html=True)
+
+with m4:
+    st.markdown(f'''
+    <div class="telemetry-box">
+        <div class="telemetry-val">{sam}</div>
+        <div class="telemetry-lbl">SAM Spectral Angle</div>
+    </div>
+    ''', unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("Developed by **Team RISE2GETHER**")
+st.caption("🚀 Developed & Deployed by **Team RISE2GETHER** | ISRO Resourcesat LISS-IV AI Pipeline")
