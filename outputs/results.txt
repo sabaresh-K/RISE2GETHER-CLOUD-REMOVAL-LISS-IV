@@ -1,0 +1,9 @@
+LISS-IV Cloud Removal Evaluation
+========================================
+
+Dataset Size : 422
+
+Average PSNR : 37.2524
+Average SSIM : 0.9461
+Average RMSE : 4.0317
+Average SAM  : 1.3101
