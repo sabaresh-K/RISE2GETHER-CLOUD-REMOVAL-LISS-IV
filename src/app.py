@@ -11,8 +11,7 @@ Image.MAX_IMAGE_PIXELS = None
 
 # 1. Page Configuration
 st.set_page_config(
-    page_title="RISE2GETHER | ISRO Mission Control Console",
-    page_icon="🛰️",
+    page_title="ISRO Mission Control Console",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -51,12 +50,6 @@ MISSION_CONTROL_CSS = """
         color: #38BDF8;
         letter-spacing: 1px;
         margin: 0;
-    }
-    
-    .mission-sub {
-        font-size: 0.95rem;
-        color: #94A3B8;
-        margin-top: 0.2rem;
     }
     
     .status-badge {
@@ -189,17 +182,15 @@ st.markdown(f'''
 <div class="header-container">
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
-            <div class="mission-title">🛰️ ISRO LISS-IV MISSION CONTROL</div>
-            <div class="mission-sub">Satellite Image Cloud Removal & Telemetry Console | <strong>Team RISE2GETHER</strong></div>
+            <div class="mission-title">ISRO LISS-IV MISSION CONTROL</div>
         </div>
-        <div class="status-badge">● SYS STATUS: {MODEL_STATUS}</div>
+        <div class="status-badge">SYS STATUS: {MODEL_STATUS}</div>
     </div>
 </div>
 ''', unsafe_allow_html=True)
 
 # 7. Sidebar Controls
-st.sidebar.markdown("### ⚙️ MISSION COMMAND PANELS")
-st.sidebar.caption("Developed by **Team RISE2GETHER**")
+st.sidebar.markdown("### MISSION COMMAND PANELS")
 st.sidebar.markdown(f"**Hardware Device:** `{DEVICE}`")
 
 stream_type = st.sidebar.radio(
@@ -283,7 +274,7 @@ if uploaded_file:
     try:
         input_img = load_satellite_image(uploaded_file)
     except Exception as e:
-        st.error(f"⚠️ Error parsing satellite asset '{uploaded_file.name}': {e}")
+        st.error(f"Error parsing satellite asset '{uploaded_file.name}': {e}")
         grid = np.zeros((512, 512, 3), dtype=np.uint8)
         input_img = Image.fromarray(grid)
 else:
@@ -297,8 +288,30 @@ else:
                 grid[i*64:(i+1)*64, j*64:(j+1)*64] = [135, 75, 65]
     input_img = Image.fromarray(grid)
 
-# Neural Forward Pass Command Button
-if st.button("🚀 INITIATE NEURAL FORWARD PASS", use_container_width=True):
+# 9. Tri-Stream Video Monitors (Image Displays)
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown('<div class="card-label">STREAM 01: OPTICAL INGESTED</div>', unsafe_allow_html=True)
+    st.image(input_img, use_container_width=True)
+
+with col2:
+    st.markdown('<div class="card-label">STREAM 02: NEURAL RECONSTRUCTION</div>', unsafe_allow_html=True)
+    if 'reconstructed_img' in st.session_state:
+        st.image(st.session_state['reconstructed_img'], use_container_width=True)
+    else:
+        st.info("Awaiting Execution Signal...")
+
+with col3:
+    st.markdown('<div class="card-label">STREAM 03: SPATIAL DEVIATION MAP</div>', unsafe_allow_html=True)
+    if 'deviation_map' in st.session_state:
+        st.image(st.session_state['deviation_map'], use_container_width=True)
+    else:
+        st.info("Awaiting Execution Signal...")
+
+# RUN MODEL Command Button placed BELOW the image displays
+st.markdown("<br>", unsafe_allow_html=True)
+if st.button("RUN MODEL", use_container_width=True):
     with st.spinner("Executing PyTorch Neural Network Reconstruction..."):
         in_np = np.array(input_img).astype(np.float32)
         norm_in = (in_np / 127.5) - 1.0
@@ -316,31 +329,11 @@ if st.button("🚀 INITIATE NEURAL FORWARD PASS", use_container_width=True):
         
         p, s, r, sam_v = compute_metrics(in_np, reconstructed)
         st.session_state['metrics'] = (p, s, r, sam_v)
-
-# 9. Tri-Stream Video Monitors
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown('<div class="card-label">📡 STREAM 01: OPTICAL INGESTED</div>', unsafe_allow_html=True)
-    st.image(input_img, use_container_width=True)
-
-with col2:
-    st.markdown('<div class="card-label">🧠 STREAM 02: NEURAL RECONSTRUCTION</div>', unsafe_allow_html=True)
-    if 'reconstructed_img' in st.session_state:
-        st.image(st.session_state['reconstructed_img'], use_container_width=True)
-    else:
-        st.info("Awaiting Execution Signal...")
-
-with col3:
-    st.markdown('<div class="card-label">👁️ STREAM 03: SPATIAL DEVIATION MAP</div>', unsafe_allow_html=True)
-    if 'deviation_map' in st.session_state:
-        st.image(st.session_state['deviation_map'], use_container_width=True)
-    else:
-        st.info("Awaiting Execution Signal...")
+        st.rerun()
 
 # 10. Mission Telemetry Metrics
 st.markdown("---")
-st.markdown("### 📊 REAL-TIME TELEMETRY & SCIENTIFIC EVALUATION")
+st.markdown("### REAL-TIME TELEMETRY & SCIENTIFIC EVALUATION")
 
 m1, m2, m3, m4 = st.columns(4)
 
@@ -382,4 +375,4 @@ with m4:
     ''', unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("🚀 Developed & Deployed by **Team RISE2GETHER** | ISRO Resourcesat LISS-IV AI Pipeline")
+st.caption("Developed by Team RISE2GETHER")
