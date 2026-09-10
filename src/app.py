@@ -26,154 +26,17 @@ if PROJECT_ROOT not in sys.path:
 # Set max upload size to 5 GB
 st.config.set_option("server.maxUploadSize", 5120)
 
-# 3. CloudClear-LISS Futuristic CSS Theme (from style.css & index.html)
-CLOUDCLEAR_CSS = """
-<style>
-    :root {
-        --primary-cyan: #00d4ff;
-        --primary-blue: #0066ff;
-        --primary-orange: #f97316;
-        --bg-dark: #020813;
-        --bg-card: rgba(10, 25, 47, 0.75);
-        --border-color: rgba(0, 212, 255, 0.18);
-        --text-main: #e2e8f0;
-        --text-muted: #94a3b8;
-    }
+# Read style.css and app.js contents
+css_path = os.path.join(PROJECT_ROOT, "style.css")
+html_path = os.path.join(PROJECT_ROOT, "index.html")
+js_path = os.path.join(PROJECT_ROOT, "app.js")
 
-    .stApp {
-        background-color: #020813;
-        color: #e2e8f0;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
+custom_css = ""
+if os.path.exists(css_path):
+    with open(css_path, "r", encoding="utf-8") as f:
+        custom_css = f.read()
 
-    /* Top Sticky Header */
-    .site-header-banner {
-        background: rgba(10, 25, 47, 0.85);
-        border: 1px solid var(--border-color);
-        border-bottom: 2px solid var(--primary-cyan);
-        padding: 1.2rem 1.8rem;
-        margin-bottom: 1.5rem;
-        border-radius: 12px;
-        backdrop-filter: blur(12px);
-    }
-    
-    .header-logo-text {
-        font-size: 1.8rem;
-        font-weight: 900;
-        background: linear-gradient(90deg, #00d4ff 0%, #0066ff 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: 1px;
-    }
-    
-    .hackathon-badge {
-        display: inline-block;
-        background: rgba(0, 212, 255, 0.1);
-        border: 1px solid var(--primary-cyan);
-        color: var(--primary-cyan);
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-    }
-
-    /* Navigation Tabs */
-    div[data-baseweb="tab-list"] {
-        background-color: rgba(10, 25, 47, 0.8);
-        border-bottom: 2px solid rgba(0, 212, 255, 0.2);
-        padding: 0.5rem 1rem;
-        gap: 1.5rem;
-        border-radius: 10px;
-        margin-bottom: 1.8rem;
-    }
-    
-    button[data-baseweb="tab"] {
-        background-color: transparent !important;
-        color: var(--text-muted) !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        border: none !important;
-        border-bottom: 3px solid transparent !important;
-        padding: 0.6rem 1.4rem !important;
-        transition: all 0.25s ease-in-out;
-    }
-    
-    button[data-baseweb="tab"]:hover {
-        color: #ffffff !important;
-    }
-    
-    button[aria-selected="true"] {
-        color: var(--primary-cyan) !important;
-        border-bottom: 3px solid var(--primary-cyan) !important;
-    }
-
-    /* Cards & Containers */
-    .glass-card {
-        background: rgba(10, 25, 47, 0.75);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        padding: 1.8rem;
-        margin-bottom: 1.5rem;
-        backdrop-filter: blur(10px);
-    }
-
-    .card-label {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: var(--primary-cyan);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 0.8rem;
-    }
-
-    /* Metric Indicator Boxes */
-    .telemetry-box {
-        background: rgba(10, 25, 47, 0.9);
-        border: 1px solid var(--border-color);
-        border-top: 3px solid var(--primary-cyan);
-        border-radius: 8px;
-        padding: 1.2rem;
-        text-align: center;
-    }
-
-    .telemetry-val {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #f59e0b;
-        font-family: monospace;
-    }
-
-    .telemetry-lbl {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: 0.3rem;
-    }
-
-    /* Streamlit Primary Button */
-    .stButton>button {
-        background: linear-gradient(90deg, #0066ff 0%, #00d4ff 100%);
-        color: #ffffff;
-        font-weight: 800;
-        border: none;
-        border-radius: 6px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        padding: 0.75rem 1.2rem;
-        font-size: 0.95rem;
-        box-shadow: 0 4px 15px rgba(0, 212, 255, 0.25);
-    }
-    .stButton>button:hover {
-        background: linear-gradient(90deg, #0052cc 0%, #00b8e6 100%);
-    }
-
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-</style>
-"""
-st.markdown(CLOUDCLEAR_CSS, unsafe_allow_html=True)
+st.markdown(f"<style>{custom_css}</style>", unsafe_allow_html=True)
 
 # 4. Model Engine Loader (Prioritize src.models.CloudRemovalGenerator)
 @st.cache_resource

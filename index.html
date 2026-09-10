@@ -21,7 +21,7 @@
   <header id="site-header">
     <div class="nav-container">
       <a href="#/home" class="logo-link">
-        <span class="logo-icon">🛰️</span>
+        <img src="outputs/liss4/cloud_preview.png" alt="CloudClear-LISS Logo" class="logo-img" onerror="this.src='outputs/liss_rgb.png'">
         <span class="logo-text">CloudClear-LISS</span>
       </a>
       <nav>
@@ -29,11 +29,12 @@
           <li data-page="home" class="active"><a href="#/home">Home</a></li>
           <li data-page="about"><a href="#/about">About</a></li>
           <li data-page="features"><a href="#/features">Features</a></li>
+          <li data-page="demo"><a href="#/demo">Demo</a></li>
           <li data-page="contact"><a href="#/contact">Contact</a></li>
         </ul>
       </nav>
       <div class="header-cta">
-        <a href="#/about" class="btn btn-secondary btn-sm">Explore Solution</a>
+        <a href="#/demo" class="btn btn-secondary btn-sm">Launch Workbench</a>
       </div>
     </div>
   </header>
@@ -63,11 +64,11 @@
             obscured ground details with georeferenced spatial and spectral fidelity.
           </p>
           <div class="hero-actions">
-            <a href="#/about" class="btn btn-primary">
-              <i class="fa-solid fa-compass"></i> Explore the Solution
+            <a href="#/demo" class="btn btn-primary">
+              <i class="fa-solid fa-play"></i> Try Interactive Demo
             </a>
-            <a href="#/features" class="btn btn-secondary">
-              Key Capabilities
+            <a href="#/about" class="btn btn-secondary">
+              Explore the Solution
             </a>
           </div>
         </div>
@@ -92,7 +93,7 @@
               However, persistent cloud cover frequently obscures critical scenes, rendering up to 60% of optical data unusable in tropical regions. This leaves massive temporal gaps in GIS analysis.
             </p>
             <p>
-              Existing restoration techniques either use simple spatial interpolation which blurs textures, or rely on temporal optical averages which fail during rapid changes. We need a model that reconstructs details physically, not statistically.
+              Existing restoration techniques either use simple spatial interpolation which blurs textures, or rely on temporal optical averages which fail during rapid changes (e.g., floods). We need a model that reconstructs details physically, not statistically.
             </p>
           </div>
           <div class="challenge-visual">
@@ -117,80 +118,57 @@
         <div class="section-title-wrap">
           <span class="section-badge">Technical Pipeline</span>
           <h2 class="section-title">System Architecture</h2>
+          <p class="section-subtitle">
+            The end-to-end multi-sensor fusion and deep reconstruction pipeline.
+          </p>
         </div>
 
         <div class="architecture-flow">
-          <div class="arch-column arch-input-layer">
-            <div class="arch-layer-header">
-              <span class="layer-num">01</span>
-              <h3>Data Acquisition</h3>
-            </div>
-            <div class="arch-card-wrapper">
-              <div class="arch-card blue-glow">
-                <span class="arch-card-icon"><i class="fa-solid fa-satellite"></i></span>
-                <h4>LISS-IV Input</h4>
-                <p>5.8m spatial resolution optical bands (G, R, NIR)</p>
-              </div>
-              <div class="arch-card blue-glow">
-                <span class="arch-card-icon"><i class="fa-solid fa-satellite-dish"></i></span>
-                <h4>Sentinel-1 SAR Input</h4>
-                <p>C-band microwave radar (VV/VH dual-pol) data</p>
-              </div>
-            </div>
+          <div class="arch-card blue-glow">
+            <span class="arch-card-icon"><i class="fa-solid fa-satellite"></i></span>
+            <h4>01. Data Acquisition</h4>
+            <p>5.8m LISS-IV optical bands (G, R, NIR) + Sentinel-1 SAR data</p>
           </div>
-
-          <div class="arch-column arch-preprocessing-layer">
-            <div class="arch-layer-header">
-              <span class="layer-num">02</span>
-              <h3>Preprocessing</h3>
-            </div>
-            <div class="arch-card-wrapper">
-              <div class="arch-card orange-glow">
-                <span class="arch-card-icon"><i class="fa-solid fa-gears"></i></span>
-                <h4>Preprocessing Unit</h4>
-                <ul class="arch-bullet-list">
-                  <li>Geo-alignment & co-registration</li>
-                  <li>Radiometric normalization</li>
-                  <li>Cloud & shadow mask generation</li>
-                </ul>
-              </div>
-            </div>
+          <div class="arch-card orange-glow">
+            <span class="arch-card-icon"><i class="fa-solid fa-gears"></i></span>
+            <h4>02. Preprocessing</h4>
+            <p>Geo-alignment, radiometric calibration & cloud/shadow mask extraction</p>
           </div>
-
-          <div class="arch-column arch-ai-layer">
-            <div class="arch-layer-header">
-              <span class="layer-num">03</span>
-              <h3>AI Processing</h3>
-            </div>
-            <div class="arch-card-wrapper">
-              <div class="arch-card orange-glow central-unit">
-                <span class="arch-card-icon"><i class="fa-solid fa-network-wired"></i></span>
-                <h4>AI Processing Unit</h4>
-                <ul class="arch-bullet-list">
-                  <li>Cloud detection module</li>
-                  <li>SAR-guided CycleGAN model</li>
-                  <li>Feature fusion & refinement</li>
-                </ul>
-              </div>
-            </div>
+          <div class="arch-card orange-glow">
+            <span class="arch-card-icon"><i class="fa-solid fa-network-wired"></i></span>
+            <h4>03. AI Processing</h4>
+            <p>SAR-guided CycleGAN model infuses radar structural features</p>
           </div>
+          <div class="arch-card green-glow">
+            <span class="arch-card-icon"><i class="fa-solid fa-file-arrow-down"></i></span>
+            <h4>04. Output Layer</h4>
+            <p>GeoTIFF generation with full CRS metadata & telemetry evaluation</p>
+          </div>
+        </div>
+      </section>
 
-          <div class="arch-column arch-output-layer">
-            <div class="arch-layer-header">
-              <span class="layer-num">04</span>
-              <h3>Output Layer</h3>
-            </div>
-            <div class="arch-card-wrapper">
-              <div class="arch-card green-glow">
-                <span class="arch-card-icon"><i class="fa-solid fa-file-arrow-down"></i></span>
-                <h4>Output Unit</h4>
-                <ul class="arch-bullet-list">
-                  <li>Cloud-free GeoTIFF generation</li>
-                  <li>Quality metrics calculation</li>
-                  <li>GIS-ready product layers</li>
-                </ul>
-              </div>
-            </div>
+      <!-- Downstream Impact Applications -->
+      <section id="impact" class="section container">
+        <div class="section-title-wrap">
+          <span class="section-badge">Impact</span>
+          <h2 class="section-title">Downstream Domain Applications</h2>
+        </div>
+
+        <div class="impact-grid">
+          <div class="glass-card impact-card">
+            <span class="impact-icon">🌾</span>
+            <h3>Agriculture</h3>
+            <p>Track crop health index (NDVI) and yield modeling throughout cloudy monsoon seasons.</p>
+          </div>
+          <div class="glass-card impact-card">
+            <span class="impact-icon">🌊</span>
+            <h3>Flood Mapping</h3>
+            <p>Identify flooded zones and compute water boundaries under heavy rainstorms.</p>
+          </div>
+          <div class="glass-card impact-card">
+            <span class="impact-icon">🌳</span>
+            <h3>Forestry & Urban</h3>
+            <p>Analyze canopy density and track urban sprawl boundaries without waiting for clear seasons.</p>
           </div>
         </div>
       </section>
@@ -202,8 +180,8 @@
           <h2 class="section-title">Software Requirements Specification</h2>
         </div>
 
-        <div class="srs-container glass-card">
-          <div class="srs-sidebar">
+        <div class="srs-container glass-card" style="display: flex; gap: 2rem; padding: 2rem;">
+          <div class="srs-sidebar" style="flex: 1; display: flex; flex-direction: column; gap: 0.6rem;">
             <div class="srs-tab active" data-srs="intro"><span>1. Introduction & Objectives</span></div>
             <div class="srs-tab" data-srs="scope"><span>2. Scope & Systems</span></div>
             <div class="srs-tab" data-srs="functional"><span>3. Functional Requirements</span></div>
@@ -211,30 +189,7 @@
             <div class="srs-tab" data-srs="system"><span>5. System Requirements</span></div>
             <div class="srs-tab" data-srs="diagrams"><span>6. Use Cases & Database</span></div>
           </div>
-          <div class="srs-display" id="srs-content-container"></div>
-        </div>
-      </section>
-
-      <!-- Our Team Section -->
-      <section id="team-summary" class="section container">
-        <div class="section-title-wrap">
-          <span class="section-badge">Meet the Team</span>
-          <h2 class="section-title">Our Team</h2>
-        </div>
-        <div class="team-container">
-          <div class="team-grid">
-            <div class="glass-card team-card minimal-team-card">
-              <h3 class="team-name">SABARESH K</h3>
-              <p class="team-college-lbl">Sri Eshwar College of Engineering and Technology</p>
-            </div>
-            <div class="glass-card team-card minimal-team-card">
-              <h3 class="team-name">SAADHANA S</h3>
-              <p class="team-college-lbl">Sri Eshwar College of Engineering and Technology</p>
-            </div>
-            <div class="glass-card team-card minimal-team-card">
-              <h3 class="team-name">PRANIKA R</h3>
-              <p class="team-college-lbl">Sri Eshwar College of Engineering and Technology</p>
-            </div>
+          <div class="srs-display" id="srs-content-container" style="flex: 2.5;">
           </div>
         </div>
       </section>
@@ -247,14 +202,31 @@
           <span class="section-badge">Deep Dive</span>
           <h2 class="section-title">About CloudClear-LISS</h2>
         </div>
-        <div class="about-flex-grid">
-          <div class="glass-card about-detail-card problem-card">
-            <h3 class="subsection-title cyan-accent">The Challenge: Clouds Obscuring Earth's Surface</h3>
-            <p style="color: var(--text-muted);">LISS-IV provides ultra-high resolution (5.8m) optical imagery. Persistent clouds obscure up to 60% of tropical scenes.</p>
+
+        <div class="metrics-dashboard">
+          <div class="metric-progress-card green-metric" data-metric="psnr" data-val="30.2" data-max="40" data-unit=" dB">
+            <div class="circle-svg-container"><div class="circle-text-val" id="text-psnr">30.2 dB</div></div>
+            <h4>PSNR</h4><p>Peak Signal-to-Noise Ratio</p>
           </div>
-          <div class="glass-card about-detail-card solution-card">
-            <h3 class="subsection-title teal-accent">Our Innovation: AI-Powered Cloud Reconstruction</h3>
-            <p style="color: var(--text-muted);">Fuses Sentinel-1 microwave radar backscatter with PyTorch UNet generative networks to restore clear ground details.</p>
+          <div class="metric-progress-card green-metric" data-metric="ssim" data-val="88" data-max="100">
+            <div class="circle-svg-container"><div class="circle-text-val" id="text-ssim">0.884</div></div>
+            <h4>SSIM</h4><p>Structural Similarity Index</p>
+          </div>
+          <div class="metric-progress-card orange-metric" data-metric="sam" data-val="4.5" data-max="10" data-unit="°">
+            <div class="circle-svg-container"><div class="circle-text-val" id="text-sam">4.52°</div></div>
+            <h4>SAM</h4><p>Spectral Angle Mapper</p>
+          </div>
+          <div class="metric-progress-card orange-metric" data-metric="rmse" data-val="3.2" data-max="10">
+            <div class="circle-svg-container"><div class="circle-text-val" id="text-rmse">0.032</div></div>
+            <h4>RMSE</h4><p>Root Mean Square Error</p>
+          </div>
+          <div class="metric-progress-card green-metric" data-metric="accuracy" data-val="94.6" data-max="100" data-unit="%">
+            <div class="circle-svg-container"><div class="circle-text-val" id="text-accuracy">94.6%</div></div>
+            <h4>Mask Accuracy</h4><p>Cloud Detection Accuracy</p>
+          </div>
+          <div class="metric-progress-card blue-metric" data-metric="time" data-val="3.2" data-max="10" data-unit="s">
+            <div class="circle-svg-container"><div class="circle-text-val" id="text-time">3.2s</div></div>
+            <h4>Speed</h4><p>Inference Speed</p>
           </div>
         </div>
       </section>
@@ -267,16 +239,82 @@
           <span class="section-badge">Capabilities</span>
           <h2 class="section-title">Key Features & Comparison</h2>
         </div>
-        <div class="feature-cards-grid">
-          <div class="feature-card-rect grad-cyan-blue"><h3>LISS-IV 5.8m Optimized</h3></div>
-          <div class="feature-card-rect grad-teal-green"><h3>Multi-Sensor Fusion</h3></div>
-          <div class="feature-card-rect grad-purple-pink"><h3>AI Cloud Detection (94%+ Acc)</h3></div>
-          <div class="feature-card-rect grad-orange-red"><h3>GPU Accelerated Inference</h3></div>
+
+        <div class="features-grid">
+          <div class="glass-card feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-compress"></i></div>
+            <h3>LISS-IV Resolution</h3>
+            <p>Maintains native 5.8m pixel spacing without introducing synthetic artifacts.</p>
+          </div>
+          <div class="glass-card feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <h3>Multi-Sensor Fusion</h3>
+            <p>Blends optical reflection with C-band radar backscatter for structural fidelity.</p>
+          </div>
+          <div class="glass-card feature-card">
+            <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+            <h3>CycleGAN Architecture</h3>
+            <p>Unpaired image-to-image translation guarantees structural consistency.</p>
+          </div>
         </div>
       </section>
     </div>
 
-    <!-- ================= PAGE 4: CONTACT ================= -->
+    <!-- ================= PAGE 4: FULL DEMO WORKBENCH ================= -->
+    <div id="demo" class="page-section">
+      <section class="section container">
+        <div class="section-title-wrap">
+          <span class="section-badge">Inference Workbench</span>
+          <h2 class="section-title">CloudClear-LISS Workbench</h2>
+        </div>
+
+        <div class="workbench-container" style="display: grid; grid-template-columns: 350px 1fr; gap: 2rem;">
+          <div class="glass-card workbench-sidebar" style="display: flex; flex-direction: column; gap: 1.2rem;">
+            <div class="preset-selector">
+              <span class="preset-title" style="color: var(--primary-cyan); font-weight: 600;">Region Presets</span>
+              <div class="preset-buttons" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                <button class="preset-btn active" data-preset="punjab">Punjab Agri Region</button>
+                <button class="preset-btn" data-preset="kerala">Kerala Coastal Region</button>
+                <button class="preset-btn" data-preset="northeast">Northeast Forest Region</button>
+              </div>
+            </div>
+
+            <div class="upload-selector">
+              <span class="preset-title" style="color: var(--primary-orange); font-weight: 600;">Upload LISS-IV Raster</span>
+              <input type="file" id="liss4Upload" accept=".tiff,.tif,.png,.jpeg,.jpg" style="margin-top: 0.5rem; width: 100%; color: var(--text-muted);" />
+            </div>
+
+            <button class="btn btn-primary" id="btn-workbench-run" style="width: 100%; margin-top: 1rem;">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Process Raster Tile
+            </button>
+          </div>
+          
+          <div class="glass-card workbench-main">
+            <div class="comparison-slider" id="wb-comparison-slider" style="aspect-ratio: 1 / 1; max-width: 500px; margin: auto;">
+              <div class="slider-img img-before">
+                <img src="outputs/liss4/cloud_preview.png" id="img-wb-before" alt="Input" onerror="this.src='outputs/liss_rgb.png'">
+                <span class="badge-label badge-before">Cloudy LISS-IV (Input)</span>
+              </div>
+              <div class="slider-img img-after" id="wb-slider-img-after">
+                <img src="outputs/liss_rgb.png" id="img-wb-after" alt="Output">
+                <span class="badge-label badge-after">Cloud-Free LISS-IV (Output)</span>
+              </div>
+              <div class="slider-divider" id="wb-slider-divider">
+                <div class="slider-handle" id="wb-slider-handle"><i class="fa-solid fa-left-right"></i></div>
+              </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: center;">
+              <button class="btn btn-secondary" id="btn-download-geotiff">
+                <i class="fa-solid fa-download"></i> Download GeoTIFF
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= PAGE 5: CONTACT ================= -->
     <div id="contact" class="page-section">
       <section class="section container">
         <div class="section-title-wrap">
@@ -284,42 +322,21 @@
           <h2 class="section-title">Contact Us</h2>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
-          <div class="glass-card">
-            <h3 style="color: var(--primary-cyan); margin: 0 0 0.3rem 0;">Sabaresh K</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">sabaresh.k2025aids@sece.ac.in</p>
+        <div class="email-grid">
+          <div class="email-card">
+            <div class="email-icon">📧</div>
+            <div class="member-name">Sabaresh K</div>
+            <a href="mailto:sabaresh.k2025aids@sece.ac.in" class="email-link">sabaresh.k2025aids@sece.ac.in</a>
           </div>
-          <div class="glass-card">
-            <h3 style="color: var(--primary-cyan); margin: 0 0 0.3rem 0;">Saadhana S</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">saadhana.s2025aids@sece.ac.in</p>
+          <div class="email-card">
+            <div class="email-icon">📧</div>
+            <div class="member-name">Saadhana S</div>
+            <a href="mailto:saadhana.s2025aids@sece.ac.in" class="email-link">saadhana.s2025aids@sece.ac.in</a>
           </div>
-          <div class="glass-card">
-            <h3 style="color: var(--primary-cyan); margin: 0 0 0.3rem 0;">Pranika R</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">pranika.r2025aids@sece.ac.in</p>
-          </div>
-        </div>
-
-        <div class="glass-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-          <div>
-            <h3 style="color: var(--primary-cyan); margin-top: 0;">Send Message</h3>
-            <form id="contact-form">
-              <div style="margin-bottom: 1rem;">
-                <input type="text" id="form-name" placeholder="Your Name" required style="width: 100%; padding: 0.7rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; border-radius: 6px;">
-              </div>
-              <div style="margin-bottom: 1rem;">
-                <input type="email" id="form-email" placeholder="Your Email" required style="width: 100%; padding: 0.7rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; border-radius: 6px;">
-              </div>
-              <div style="margin-bottom: 1rem;">
-                <textarea id="form-msg" placeholder="Your Message" required style="width: 100%; height: 100px; padding: 0.7rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); color: #fff; border-radius: 6px;"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Send Inquiry</button>
-            </form>
-          </div>
-
-          <div style="border-left: 1px solid var(--border-color); padding-left: 2rem;">
-            <h3 style="color: var(--primary-cyan); margin-top: 0;">📍 Our Institution</h3>
-            <h4 style="color: #fff;">Sri Eshwar College of Engineering and Technology</h4>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Coimbatore, Tamil Nadu, India</p>
+          <div class="email-card">
+            <div class="email-icon">📧</div>
+            <div class="member-name">Pranika R</div>
+            <a href="mailto:pranika.r2025aids@sece.ac.in" class="email-link">pranika.r2025aids@sece.ac.in</a>
           </div>
         </div>
       </section>
@@ -327,11 +344,10 @@
 
   </main>
 
-  <!-- Shared Footer -->
   <footer>
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center; padding: 2rem 0; border-top: 1px solid var(--border-color); margin-top: 4rem;">
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Developed by Team RISE2GETHER</p>
-      <span style="font-size: 0.85rem; color: var(--primary-cyan); font-weight: 700;">Bharatiya Antariksh Hackathon 2026 — ISRO</span>
+    <div class="container footer-bottom">
+      <p>© 2026 CloudClear-LISS. Built by Team Rise2Gether. All rights reserved.</p>
+      <span>Bharatiya Antariksh Hackathon 2026 — ISRO</span>
     </div>
   </footer>
 

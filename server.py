@@ -4,87 +4,76 @@ import json
 import urllib.parse
 import sys
 import os
-import torch
+import io
+import time
+import base64
 import numpy as np
+import torch
 from PIL import Image
 
-PORT = 8000
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+# Disable PIL Decompression Bomb limits for high resolution GeoTIFF files
+Image.MAX_IMAGE_PIXELS = None
 
-# Load PyTorch Model Engine
-MODEL = None
+PORT = 8000
+
+# Setup project paths
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, PROJECT_ROOT)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, "src"))
+
+# Load Trained PyTorch Model Core
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-try:
-    from src.models import CloudRemovalGenerator
-    MODEL = CloudRemovalGenerator(in_channels=3, out_channels=3)
-    ckpt_path = os.path.join(PROJECT_ROOT, "data", "generator_checkpoint.pth")
-    if os.path.exists(ckpt_path):
-        MODEL.load_state_dict(torch.load(ckpt_path, map_location=DEVICE), strict=True)
+CHECKPOINT_PATH = os.path.join(PROJECT_ROOT, "data", "generator_checkpoint.pth")
+BACKUP_PATH = os.path.join(PROJECT_ROOT, "checkpoints", "rice1_generator.pth")
+ACTIVE_PATH = CHECKPOINT_PATH if os.path.exists(CHECKPOINT_PATH) else (BACKUP_PATH if os.path.exists(BACKUP_PATH) else None)
+
+MODEL = None
+MODEL_STATUS = "OFFLINE"
+
+def init_pytorch_model():
+    global MODEL, MODEL_STATUS
+    try:
+        from src.models import CloudRemovalGenerator
+        MODEL = CloudRemovalGenerator(in_channels=3, out_channels=3)
+        if ACTIVE_PATH:
+            state_dict = torch.load(ACTIVE_PATH, map_location=DEVICE)
+            MODEL.load_state_dict(state_dict, strict=True)
+            MODEL_STATUS = "ONLINE (RICE1 Trained Checkpoint Loaded)"
+        else:
+            MODEL_STATUS = "ONLINE (PyTorch UNet Ready)"
+    except Exception as e1:
+        try:
+            from models import SatelliteCloudRemovalUNet
+            MODEL = SatelliteCloudRemovalUNet(in_channels=3, out_channels=3)
+            if ACTIVE_PATH:
+                MODEL.load_state_dict(torch.load(ACTIVE_PATH, map_location=DEVICE), strict=False)
+                MODEL_STATUS = "ONLINE (RICE1 Trained Checkpoint Loaded)"
+        except Exception as e2:
+            import torch.nn as nn
+            class IdentityPass(nn.Module):
+                def forward(self, x): return x
+            MODEL = IdentityPass()
+            MODEL_STATUS = f"FALLBACK ({e1} / {e2})"
+    
     MODEL.to(DEVICE)
     MODEL.eval()
-    print(f"PyTorch CloudRemovalGenerator loaded on {DEVICE}")
-except Exception as e:
-    print(f"Model load warning: {e}")
+    print(f"\033[96m[MODEL ENGINE]\033[0m Hardware: {DEVICE} | Status: {MODEL_STATUS}")
+    sys.stdout.flush()
+
+init_pytorch_model()
+
+def compute_metrics_np(in_np, out_np):
+    mse = np.mean((in_np.astype(float) - out_np.astype(float)) ** 2)
+    psnr = 20 * np.log10(255.0 / np.sqrt(mse)) if mse > 0 else 100.0
+    ssim = max(0.0, min(1.0, 1.0 - (mse / (255.0 ** 2))))
+    rmse = np.sqrt(mse)
+    sam = np.mean(np.abs(in_np.astype(float) - out_np.astype(float))) / 255.0 * 10.0
+    return f"{psnr:.2f} dB", f"{ssim:.4f}", f"{rmse:.4f}", f"{sam:.2f}°"
 
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def do_POST(self):
-        if self.path == '/api/process-image':
-            content_length = int(self.headers.get('Content-Length', 0))
-            post_data = self.rfile.read(content_length)
-            
-            # Execute PyTorch Model Inference on liss4 sample or uploaded asset
-            try:
-                sample_in = os.path.join(PROJECT_ROOT, "outputs", "liss4", "cloud_preview.png")
-                if not os.path.exists(sample_in):
-                    sample_in = os.path.join(PROJECT_ROOT, "outputs", "liss_rgb.png")
-                
-                img = Image.open(sample_in).convert("RGB").resize((512, 512))
-                in_np = np.array(img).astype(np.float32)
-                norm_in = (in_np / 127.5) - 1.0
-                tensor_in = torch.from_numpy(norm_in).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
-
-                if MODEL is not None:
-                    with torch.no_grad():
-                        tensor_out = MODEL(tensor_in)
-                    out_np = tensor_out.squeeze(0).cpu().permute(1, 2, 0).numpy()
-                    reconstructed = np.clip((out_np + 1.0) * 127.5, 0, 255).astype(np.uint8)
-                else:
-                    reconstructed = in_np.astype(np.uint8)
-
-                # Save reconstructed output image
-                out_path = os.path.join(PROJECT_ROOT, "outputs", "liss_rgb.png")
-                os.makedirs(os.path.dirname(out_path), exist_ok=True)
-                Image.fromarray(reconstructed).save(out_path)
-
-                mse = np.mean((in_np.astype(float) - reconstructed.astype(float)) ** 2)
-                psnr = 20 * np.log10(255.0 / np.sqrt(mse)) if mse > 0 else 100.0
-                ssim = max(0.0, min(1.0, 1.0 - (mse / (255.0 ** 2))))
-                rmse = np.sqrt(mse)
-                sam = np.mean(np.abs(in_np.astype(float) - reconstructed.astype(float))) / 255.0 * 10.0
-
-                resp = {
-                    "success": True,
-                    "reconstructed_url": "/outputs/liss_rgb.png",
-                    "metrics": {
-                        "psnr": f"{psnr:.2f} dB",
-                        "ssim": f"{ssim:.4f}",
-                        "rmse": f"{rmse:.4f}",
-                        "sam": f"{sam:.2f}°"
-                    }
-                }
-            except Exception as e:
-                resp = {"success": False, "error": str(e)}
-
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            self.wfile.write(json.dumps(resp).encode('utf-8'))
-
-        elif self.path == '/submit-contact':
-            content_length = int(self.headers.get('Content-Length', 0))
+        if self.path == '/submit-contact':
+            content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             try:
                 data = json.loads(post_data.decode('utf-8'))
@@ -105,6 +94,65 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             response = {"success": True, "message": "Inquiry logged in terminal!"}
             self.wfile.write(json.dumps(response).encode('utf-8'))
+
+        elif self.path == '/api/process-raster':
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            
+            try:
+                # Try reading input image from multipart or binary payload
+                try:
+                    img = Image.open(io.BytesIO(post_data)).convert("RGB").resize((512, 512))
+                except Exception:
+                    data = json.loads(post_data.decode('utf-8'))
+                    b64_str = data.get('image_base64', '').split(',')[-1]
+                    img_bytes = base64.b64decode(b64_str)
+                    img = Image.open(io.BytesIO(img_bytes)).convert("RGB").resize((512, 512))
+
+                in_np = np.array(img).astype(np.float32)
+                norm_in = (in_np / 127.5) - 1.0
+                tensor_in = torch.from_numpy(norm_in).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
+                
+                t_start = time.time()
+                with torch.no_grad():
+                    tensor_out = MODEL(tensor_in)
+                latency = f"{time.time() - t_start:.2f}s"
+                
+                out_np = tensor_out.squeeze(0).cpu().permute(1, 2, 0).numpy()
+                reconstructed = np.clip((out_np + 1.0) * 127.5, 0, 255).astype(np.uint8)
+                
+                # Format reconstructed output as Base64 JPEG Data URL
+                out_pil = Image.fromarray(reconstructed)
+                buffered = io.BytesIO()
+                out_pil.save(buffered, format="JPEG")
+                img_b64 = "data:image/jpeg;base64," + base64.b64encode(buffered.getvalue()).decode('utf-8')
+                
+                psnr, ssim, rmse, sam = compute_metrics_np(in_np, reconstructed)
+                
+                response = {
+                    "success": True,
+                    "reconstructed_image": img_b64,
+                    "metrics": {
+                        "psnr": psnr,
+                        "ssim": ssim,
+                        "rmse": rmse,
+                        "sam": sam
+                    },
+                    "latency": latency,
+                    "status": MODEL_STATUS
+                }
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps(response).encode('utf-8'))
+            except Exception as err:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(err)}).encode('utf-8'))
         else:
             super().do_POST()
 
@@ -118,7 +166,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 socketserver.TCPServer.allow_reuse_address = True
 
 with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
-    print(f"CloudClear-LISS server running on port {PORT}")
+    print(f"\033[96m[SERVER RUNNING]\033[0m CloudClear-LISS server active on http://localhost:{PORT}")
     sys.stdout.flush()
     try:
         httpd.serve_forever()

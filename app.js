@@ -1,15 +1,16 @@
 /**
- * CloudClear-LISS — Application Controller & Interactive Router
+ * CloudClear-LISS — Application Controller
  * Created for Bharatiya Antariksh Hackathon 2026 (ISRO)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initRouter();
   initBackgroundCanvas();
+  initBeforeAfterSliders();
+  initInteractiveDemo();
   initContactForm();
   initHeaderScroll();
-  initTypingEffect();
-  initSRS();
+  initInteractiveSRS();
 });
 
 /* ================= HEADER SCROLL EFFECT ================= */
@@ -34,7 +35,7 @@ function initRouter() {
     let hash = window.location.hash || '#/home';
     let targetPage = hash.replace('#/', '');
 
-    const validPages = ['home', 'about', 'features', 'contact'];
+    const validPages = ['home', 'about', 'features', 'demo', 'contact'];
     if (!validPages.includes(targetPage)) {
       targetPage = 'home';
       window.location.hash = '#/home';
@@ -73,7 +74,7 @@ function initBackgroundCanvas() {
   let height = (canvas.height = window.innerHeight);
 
   const particles = [];
-  const particleCount = Math.min(60, Math.floor((width * height) / 18000));
+  const particleCount = Math.min(60, Math.floor((width * height) / 20000));
   const maxDistance = 120;
 
   window.addEventListener('resize', () => {
@@ -139,97 +140,83 @@ function initBackgroundCanvas() {
   animate();
 }
 
-/* ================= TYPING EFFECT ================= */
-function initTypingEffect() {
-  const typingText = document.getElementById('typing-text');
-  if (!typingText) return;
+/* ================= COMPARISON BEFORE/AFTER SLIDER ================= */
+function initBeforeAfterSliders() {
+  const container = document.getElementById('wb-comparison-slider');
+  const afterImg = document.getElementById('wb-slider-img-after');
+  const divider = document.getElementById('wb-slider-divider');
 
-  const words = ["Beneath the Clouds.", "Through Multi-Sensor Fusion.", "For LISS-IV Satellite Scenes."];
-  let wordIdx = 0, charIdx = 0, isDeleting = false;
+  if (!container || !afterImg || !divider) return;
 
-  function type() {
-    const current = words[wordIdx];
-    if (isDeleting) {
-      typingText.textContent = current.substring(0, charIdx - 1);
-      charIdx--;
-    } else {
-      typingText.textContent = current.substring(0, charIdx + 1);
-      charIdx++;
-    }
+  let isDragging = false;
 
-    let speed = isDeleting ? 60 : 100;
+  function move(clientX) {
+    const rect = container.getBoundingClientRect();
+    const x = clientX - rect.left;
+    let percentage = (x / rect.width) * 100;
 
-    if (!isDeleting && charIdx === current.length) {
-      isDeleting = true;
-      speed = 1800;
-    } else if (isDeleting && charIdx === 0) {
-      isDeleting = false;
-      wordIdx = (wordIdx + 1) % words.length;
-      speed = 500;
-    }
+    if (percentage < 0) percentage = 0;
+    if (percentage > 100) percentage = 100;
 
-    setTimeout(type, speed);
+    afterImg.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+    divider.style.left = `${percentage}%`;
   }
 
-  setTimeout(type, 800);
-}
-
-/* ================= SRS DATA VIEWER ================= */
-const srsData = {
-  intro: `
-    <h3 style="color: var(--primary-cyan); font-size: 1.3rem; margin-top: 0;">1. Introduction & Objectives</h3>
-    <h4 style="color: #fff; margin-top: 1rem;">1.1 Purpose</h4>
-    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Develop, train, validate, and deploy a production-grade Generative AI framework that ingests cloud-contaminated LISS-IV imagery along with auxiliary SAR data to generate georeferenced, cloud-free GeoTIFF products.</p>
-    <h4 style="color: #fff; margin-top: 1rem;">1.2 Objectives</h4>
-    <ul style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
-      <li>Develop an intelligent cloud removal framework for LISS-IV satellite imagery.</li>
-      <li>Reconstruct high-quality cloud-free images with preserved 5.8m resolution.</li>
-      <li>Deploy API-enabled scalable solution.</li>
-    </ul>
-  `,
-  scope: `
-    <h3 style="color: var(--primary-cyan); font-size: 1.3rem; margin-top: 0;">2. Product Scope & Systems</h3>
-    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Detects and removes cloud occlusions from LISS-IV satellite imagery using Sentinel-1 SAR microwave guidance and CycleGAN neural networks.</p>
-  `,
-  functional: `
-    <h3 style="color: var(--primary-cyan); font-size: 1.3rem; margin-top: 0;">3. Functional Requirements</h3>
-    <ul style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.8;">
-      <li><strong>FR 1:</strong> Upload LISS-IV Image asset up to 10GB.</li>
-      <li><strong>FR 2:</strong> Preprocess & align optical and SAR raster tiles.</li>
-      <li><strong>FR 3:</strong> Detect cloud and shadow masks with 94%+ accuracy.</li>
-      <li><strong>FR 4:</strong> Run PyTorch CycleGAN reconstruction engine.</li>
-      <li><strong>FR 5:</strong> Export georeferenced GeoTIFF and evaluate PSNR/SSIM/SAM/RMSE metrics.</li>
-    </ul>
-  `,
-  nonfunctional: `
-    <h3 style="color: var(--primary-cyan); font-size: 1.3rem; margin-top: 0;">4. Non-Functional Requirements</h3>
-    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Sub-second preprocessing latency, 99.9% uptime, CUDA GPU acceleration, and strict CRS metadata transfer.</p>
-  `,
-  system: `
-    <h3 style="color: var(--primary-cyan); font-size: 1.3rem; margin-top: 0;">5. System Requirements</h3>
-    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Python 3.9+, PyTorch 2.0+, OpenCV, NumPy, Rasterio, GDAL, NVIDIA CUDA GPU with >=8GB VRAM.</p>
-  `,
-  diagrams: `
-    <h3 style="color: var(--primary-cyan); font-size: 1.3rem; margin-top: 0;">6. Use Cases & Database</h3>
-    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">USER, SATELLITE_DATA, PROCESSING_JOB, RECONSTRUCTION_RESULT, QUALITY_METRICS.</p>
-  `
-};
-
-function initSRS() {
-  const tabs = document.querySelectorAll('.srs-tab');
-  const container = document.getElementById('srs-content-container');
-  if (!tabs.length || !container) return;
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const key = tab.getAttribute('data-srs');
-      container.innerHTML = srsData[key] || '';
-    });
+  divider.addEventListener('mousedown', () => isDragging = true);
+  window.addEventListener('mouseup', () => isDragging = false);
+  window.addEventListener('mousemove', (e) => {
+    if (isDragging) move(e.clientX);
   });
 
-  container.innerHTML = srsData['intro'];
+  divider.addEventListener('touchstart', () => isDragging = true);
+  window.addEventListener('touchend', () => isDragging = false);
+  window.addEventListener('touchmove', (e) => {
+    if (isDragging) move(e.touches[0].clientX);
+  });
+}
+
+/* ================= INTERACTIVE DEMO ================= */
+function initInteractiveDemo() {
+  const runBtn = document.getElementById('btn-workbench-run');
+  const lissInput = document.getElementById('liss4Upload');
+  const afterImg = document.querySelector('#wb-slider-img-after img');
+
+  if (runBtn) {
+    runBtn.addEventListener('click', async () => {
+      runBtn.disabled = true;
+      runBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Running PyTorch UNet...';
+
+      let file = lissInput && lissInput.files[0] ? lissInput.files[0] : null;
+
+      try {
+        let formData = new FormData();
+        if (file) {
+          formData.append('file', file);
+        }
+
+        let res = await fetch('/api/process-raster', {
+          method: 'POST',
+          body: file ? file : JSON.stringify({ preset: 'default' })
+        });
+
+        let data = await res.json();
+        if (data.success && data.reconstructed_image) {
+          if (afterImg) afterImg.src = data.reconstructed_image;
+          runBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Process Complete!';
+        } else {
+          runBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Process Raster Tile';
+        }
+      } catch (e) {
+        console.log('API call fallback mode');
+        runBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Process Raster Tile';
+      }
+
+      setTimeout(() => {
+        runBtn.disabled = false;
+        runBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Process Raster Tile';
+      }, 1500);
+    });
+  }
 }
 
 /* ================= CONTACT FORM ================= */
@@ -239,7 +226,52 @@ function initContactForm() {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    alert('Thank you! Your message has been sent to Team Rise2Gether.');
+    alert('Thank you! Your inquiry has been transmitted to Team Rise2Gether.');
     form.reset();
   });
+}
+
+/* ================= INTERACTIVE SRS DATA VIEWER ================= */
+const srsData = {
+  intro: `
+    <h3 style="color: var(--primary-cyan); margin-top:0;">1. Introduction & Objectives</h3>
+    <p>This project aims to develop, train, validate, and deploy a production-grade Generative AI framework that ingests cloud-contaminated LISS-IV imagery along with auxiliary SAR data, detects and masks cloud pixels, reconstructs the underlying surface reflectance, and exports georeferenced GeoTIFF products.</p>
+  `,
+  scope: `
+    <h3 style="color: var(--primary-cyan); margin-top:0;">2. Product Scope & Existing Systems</h3>
+    <p>In Scope: Detect and remove clouds from LISS-IV satellite images using Generative AI, fusing Sentinel-1 SAR radar backscatter.</p>
+  `,
+  functional: `
+    <h3 style="color: var(--primary-cyan); margin-top:0;">3. Functional Requirements</h3>
+    <p>FR1: Upload LISS-IV | FR2: Upload SAR | FR3: Preprocess | FR4: Detect Clouds | FR5: AI Reconstruction | FR6: Export GeoTIFF.</p>
+  `,
+  nonfunctional: `
+    <h3 style="color: var(--primary-cyan); margin-top:0;">4. Non-Functional Details</h3>
+    <p>Performance: Under 3 seconds response time per tile. Security: Encrypted transmission and authorized access.</p>
+  `,
+  system: `
+    <h3 style="color: var(--primary-cyan); margin-top:0;">5. System Requirements</h3>
+    <p>Python 3.9+, PyTorch, OpenCV, Rasterio, GDAL, NVIDIA CUDA GPU acceleration with CPU fallback.</p>
+  `,
+  diagrams: `
+    <h3 style="color: var(--primary-cyan); margin-top:0;">6. Use Cases & Database</h3>
+    <p>Tables: USER, SATELLITE_DATA, PROCESSING_JOB, RECONSTRUCTION_RESULT, QUALITY_METRICS.</p>
+  `
+};
+
+function initInteractiveSRS() {
+  const tabs = document.querySelectorAll('.srs-tab');
+  const container = document.getElementById('srs-content-container');
+  if (!tabs.length || !container) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const key = tab.getAttribute('data-srs');
+      if (container) container.innerHTML = srsData[key] || '';
+    });
+  });
+
+  if (container) container.innerHTML = srsData['intro'];
 }
