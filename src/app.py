@@ -488,7 +488,7 @@ def run_model_inference(img):
     tensor_in = torch.from_numpy(norm_in).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
     
     t_start = time.time()
-    with torch.no_grad():
+    with torch.inference_mode():
         tensor_out = MODEL(tensor_in)
     latency = f"{time.time() - t_start:.2f} sec"
     
@@ -499,14 +499,15 @@ def run_model_inference(img):
     
     return reconstructed, deviation_map, metrics, latency
 
-# 9. Band Stacking & Image Conversion Engine
+# 9. Band Stacking & Image Conversion Engine (Blazing Fast Performance)
 def normalize_to_8bit(band_array):
-    """Percentile-based stretch (2% - 98%) to eliminate atmospheric haze."""
-    p2, p98 = np.percentile(band_array, (2, 98))
-    if p98 == p2:
+    """Blazing fast percentile-based stretch (2% - 98%) to eliminate atmospheric haze."""
+    sample = band_array[::4, ::4] if band_array.size > 10000 else band_array
+    p2, p98 = np.percentile(sample, (2, 98))
+    if p98 <= p2:
         p98 = p2 + 1.0
-    clipped = np.clip(band_array, p2, p98)
-    norm = ((clipped - p2) / (p98 - p2 + 1e-8) * 255.0).astype(np.uint8)
+    scale = 255.0 / (p98 - p2 + 1e-8)
+    norm = np.clip((band_array - p2) * scale, 0, 255).astype(np.uint8)
     return norm
 
 def read_single_raster_band(file_obj, sample_color_channel=1):
@@ -578,7 +579,7 @@ def read_single_raster_band(file_obj, sample_color_channel=1):
     return band_data, meta
 
 def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
-    """Stacks B4 (NIR), B3 (Red), B2 (Green) and returns GeoTIFF bytes."""
+    """Stacks B4 (NIR), B3 (Red), B2 (Green) and returns GeoTIFF bytes fast."""
     b4_norm = normalize_to_8bit(b4)
     b3_norm = normalize_to_8bit(b3)
     b2_norm = normalize_to_8bit(b2)
@@ -594,6 +595,7 @@ def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
             'width': meta['width'],
             'height': meta['height'],
             'count': 3,
+            'compress': 'lzw',
             'crs': meta.get('crs', 'EPSG:32644'),
             'transform': meta.get('transform', rasterio.transform.from_origin(0, 0, 5.8, 5.8))
         }
@@ -607,7 +609,7 @@ def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
     try:
         rgb_dstack = np.dstack([b4_norm, b3_norm, b2_norm])
         buf = io.BytesIO()
-        tifffile.imwrite(buf, rgb_dstack)
+        tifffile.imwrite(buf, rgb_dstack, compression='zlib')
         return buf.getvalue()
     except Exception:
         pass
@@ -990,7 +992,6 @@ elif selected_page == "Image Conversion":
     # C. Action Button
     if st.button("⚡ STACK & CONVERT BANDS", use_container_width=True):
         with st.spinner("Processing: Reading Rasters... ➔ Radiometric Normalization... ➔ Building 3-Band GeoTIFF..."):
-            time.sleep(0.5)
             b2_data, meta2 = read_single_raster_band(up_b2, sample_color_channel=1)
             b3_data, meta3 = read_single_raster_band(up_b3, sample_color_channel=0)
             b4_data, meta4 = read_single_raster_band(up_b4, sample_color_channel=2)
