@@ -83,11 +83,6 @@ def compute_metrics(in_np, out_np):
 # 5. Space Theme CSS Animations & High Contrast UI (Concept 4 - Dark Titanium & Emerald Theme)
 st.markdown('''
 <style>
-    /* Custom Space Crosshair Cursor */
-    html, body, button, input, select, textarea, a, label, .stApp, [role="button"] {
-        cursor: crosshair !important;
-    }
-
     /* Keyframe Animations */
     @keyframes floatSpace {
         0% { transform: translateY(0px); }
