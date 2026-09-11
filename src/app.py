@@ -13,7 +13,7 @@ Image.MAX_IMAGE_PIXELS = None
 # 1. Page Configuration
 st.set_page_config(
     page_title="CloudClear-LISS — AI Satellite Imagery Reconstruction",
-    page_icon="🛰️",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -507,14 +507,13 @@ st.markdown('''
 ''', unsafe_allow_html=True)
 
 # 6. Header Banner
-st.markdown(f'''
+st.markdown('''
 <div class="pitch-header">
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
             <div class="pitch-title">CloudClear-LISS</div>
             <div class="pitch-sub">AI-Powered Satellite Imagery Cloud Reconstruction Platform</div>
         </div>
-        <div class="status-badge-online">SYS STATUS: {MODEL_STATUS}</div>
     </div>
 </div>
 ''', unsafe_allow_html=True)
@@ -790,7 +789,7 @@ if selected_page == "Home":
         st.markdown('''
         <div class="pitch-card" style="text-align:center;">
             <div style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.6rem 1.2rem; border-radius:8px; font-weight:800; display:inline-block; margin-bottom:1rem;">
-                ⚠ 64% Persistent Cloud Obscuration
+                64% Persistent Cloud Obscuration
             </div>
             <p style="font-size:0.95rem; color:#94A3B8;">LISS-IV Band 3 (Red) Spectral Coverage Loss</p>
         </div>
@@ -810,11 +809,11 @@ if selected_page == "Home":
     st.markdown("### Downstream High-Value Impact")
     d1, d2, d3 = st.columns(3)
     with d1:
-        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">🌾 Precision Agriculture</h4><p style="color:#94A3B8;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">Precision Agriculture</h4><p style="color:#94A3B8;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
     with d2:
-        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">🌊 Emergency Flood Response</h4><p style="color:#94A3B8;">Active radar penetrates storm clouds to delineate standing water boundaries in real time.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">Emergency Flood Response</h4><p style="color:#94A3B8;">Active radar penetrates storm clouds to delineate standing water boundaries in real time.</p></div>', unsafe_allow_html=True)
     with d3:
-        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">🌳 Forestry & Urban Sprawl</h4><p style="color:#94A3B8;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">Forestry & Urban Sprawl</h4><p style="color:#94A3B8;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
 # PAGE 2: ABOUT (CLEAN BENCHMARKS ONLY - ROADMAP REMOVED)
@@ -853,11 +852,11 @@ elif selected_page == "Features":
     st.markdown("### System Features & Competitive Capabilities")
     f1, f2 = st.columns(2)
     with f1:
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #10B981;"><h4 style="color:#10B981;">🛰️ LISS-IV 5.8m Resolution Preservation</h4><p style="color:#94A3B8;">Specifically engineered for LISS-IV 5.8m pixel spacing without downscaling.</p></div>', unsafe_allow_html=True)
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #10B981;"><h4 style="color:#10B981;">🔄 Multi-Sensor Fusion Engine</h4><p style="color:#94A3B8;">Fuses optical reflection with Sentinel-1 C-band active radar backscatter.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="border-left:4px solid #10B981;"><h4 style="color:#10B981;">LISS-IV 5.8m Resolution Preservation</h4><p style="color:#94A3B8;">Specifically engineered for LISS-IV 5.8m pixel spacing without downscaling.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="border-left:4px solid #10B981;"><h4 style="color:#10B981;">Multi-Sensor Fusion Engine</h4><p style="color:#94A3B8;">Fuses optical reflection with Sentinel-1 C-band active radar backscatter.</p></div>', unsafe_allow_html=True)
     with f2:
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #F59E0B;"><h4 style="color:#F59E0B;">🔁 CycleGAN Generative Core</h4><p style="color:#94A3B8;">Dual generators ensure realistic, spectrally accurate ground texture synthesis.</p></div>', unsafe_allow_html=True)
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #8B5CF6;"><h4 style="color:#8B5CF6;">📍 Full Georeferenced GeoTIFF Export</h4><p style="color:#94A3B8;">Exports GIS-ready GeoTIFF rasters with intact CRS metadata.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="border-left:4px solid #F59E0B;"><h4 style="color:#F59E0B;">CycleGAN Generative Core</h4><p style="color:#94A3B8;">Dual generators ensure realistic, spectrally accurate ground texture synthesis.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="border-left:4px solid #8B5CF6;"><h4 style="color:#8B5CF6;">Full Georeferenced GeoTIFF Export</h4><p style="color:#94A3B8;">Exports GIS-ready GeoTIFF rasters with intact CRS metadata.</p></div>', unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown("### Performance Comparison Matrix")
@@ -875,21 +874,21 @@ elif selected_page == "Features":
             <tbody>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
                     <td style="padding:0.8rem; font-weight:600;">Heavy Cloud (>80%)</td>
-                    <td style="padding:0.8rem; color:#EF4444;">✗ Fails (extreme blur)</td>
-                    <td style="padding:0.8rem; color:#EF4444;">✗ Fails (lacks structure)</td>
-                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">✓ Reconstructs via Radar</td>
+                    <td style="padding:0.8rem; color:#EF4444;">Fails (extreme blur)</td>
+                    <td style="padding:0.8rem; color:#EF4444;">Fails (lacks structure)</td>
+                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">Reconstructs via Radar</td>
                 </tr>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
                     <td style="padding:0.8rem; font-weight:600;">5.8m Resolution Preservation</td>
-                    <td style="padding:0.8rem; color:#EF4444;">✗ Blurs textures (>20m)</td>
-                    <td style="padding:0.8rem; color:#10B981;">✓ Retains resolution</td>
-                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">✓ Retains Native 5.8m</td>
+                    <td style="padding:0.8rem; color:#EF4444;">Blurs textures (>20m)</td>
+                    <td style="padding:0.8rem; color:#10B981;">Retains resolution</td>
+                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">Retains Native 5.8m</td>
                 </tr>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
                     <td style="padding:0.8rem; font-weight:600;">GeoTIFF CRS Transfer</td>
-                    <td style="padding:0.8rem; color:#10B981;">✓ Retained</td>
-                    <td style="padding:0.8rem; color:#EF4444;">✗ Exports JPEG/PNG</td>
-                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">✓ Full GeoTIFF Metadata</td>
+                    <td style="padding:0.8rem; color:#10B981;">Retained</td>
+                    <td style="padding:0.8rem; color:#EF4444;">Exports JPEG/PNG</td>
+                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">Full GeoTIFF Metadata</td>
                 </tr>
             </tbody>
         </table>
@@ -908,11 +907,11 @@ elif selected_page == "Model":
     <div class="pitch-card" style="margin-bottom:1.5rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
             <div>
-                <h3 style="color:#10B981; margin:0; font-size:1.4rem; font-weight:800;">📡 SATELLITE ASSET INGESTION & DATA STREAM CONTROL</h3>
+                <h3 style="color:#10B981; margin:0; font-size:1.4rem; font-weight:800;">SATELLITE ASSET INGESTION & DATA STREAM CONTROL</h3>
                 <p style="color:#94A3B8; font-size:0.9rem; margin:0.2rem 0 0 0;">Select sample satellite data or upload a custom LISS-IV GeoTIFF/image asset.</p>
             </div>
             <div style="display:flex; gap:0.8rem; align-items:center;">
-                <span class="status-badge-online">● STATUS: ACTIVE</span>
+                <span class="status-badge-online">STATUS: ACTIVE</span>
                 <span style="background:rgba(15,23,42,0.9); border:1px solid rgba(16,185,129,0.3); color:#E2E8F0; padding:0.4rem 0.9rem; border-radius:20px; font-size:0.85rem; font-weight:600;">
                     Device: {DEVICE}
                 </span>
@@ -925,7 +924,7 @@ elif selected_page == "Model":
     with col_ing1:
         stream_type = st.radio(
             "Select Ingestion Stream:",
-            ["ISRO Resourcesat LISS-IV Sample", "Reference Benchmark (RICE1)", "Custom Target Ingestion"]
+            ["ISRO Resourcesat LISS-IV Sample"]
         )
     with col_ing2:
         uploaded_file = st.file_uploader("Upload Custom LISS-IV Asset (.tif, .png, .jpg up to 5 GB):", type=["tif", "png", "jpg", "jpeg"])
@@ -943,9 +942,6 @@ elif selected_page == "Model":
             p1 = os.path.join(PROJECT_ROOT, "outputs", "liss4", "cloud_preview.png")
             p2 = os.path.join(PROJECT_ROOT, "outputs", "liss_rgb.png")
             sample_path = p1 if os.path.exists(p1) else (p2 if os.path.exists(p2) else None)
-        elif stream_type == "Reference Benchmark (RICE1)":
-            p1 = os.path.join(PROJECT_ROOT, "outputs", "liss_rgb.png")
-            sample_path = p1 if os.path.exists(p1) else None
 
         if sample_path and os.path.exists(sample_path):
             try:
@@ -971,7 +967,7 @@ elif selected_page == "Model":
         st.session_state['last_img_bytes'] = current_img_bytes
 
     st.markdown("<div style='margin-top:1rem;'></div>", unsafe_allow_html=True)
-    if st.button("🚀 RUN MODEL", use_container_width=True):
+    if st.button("RUN MODEL", use_container_width=True):
         with st.spinner("Executing PyTorch Neural Network Reconstruction..."):
             rec_img, dev_map, met_vals, lat_val = run_model_inference(input_img)
             st.session_state['reconstructed_img'] = rec_img
@@ -989,7 +985,7 @@ elif selected_page == "Model":
     with c_stream1:
         st.markdown('''
         <div class="stream-box">
-            <div class="stream-header">📡 STREAM 01: RAW OPTICAL INGEST</div>
+            <div class="stream-header">STREAM 01: RAW OPTICAL INGEST</div>
         </div>
         ''', unsafe_allow_html=True)
         st.image(input_img, use_container_width=True)
@@ -997,7 +993,7 @@ elif selected_page == "Model":
     with c_stream2:
         st.markdown('''
         <div class="stream-box">
-            <div class="stream-header">🧠 STREAM 02: NEURAL RECONSTRUCTION</div>
+            <div class="stream-header">STREAM 02: NEURAL RECONSTRUCTION</div>
         </div>
         ''', unsafe_allow_html=True)
         if 'reconstructed_img' in st.session_state and st.session_state['reconstructed_img'] is not None:
@@ -1007,7 +1003,7 @@ elif selected_page == "Model":
             buf_rec = io.BytesIO()
             rec_pil.save(buf_rec, format="PNG")
             st.download_button(
-                label="📥 Download Output Image (.PNG)",
+                label="Download Output Image (.PNG)",
                 data=buf_rec.getvalue(),
                 file_name="cloudclear_reconstructed_output.png",
                 mime="image/png",
@@ -1020,7 +1016,7 @@ elif selected_page == "Model":
     with c_stream3:
         st.markdown('''
         <div class="stream-box">
-            <div class="stream-header">📊 STREAM 03: SPATIAL DEVIATION MAP</div>
+            <div class="stream-header">STREAM 03: SPATIAL DEVIATION MAP</div>
         </div>
         ''', unsafe_allow_html=True)
         if 'deviation_map' in st.session_state and st.session_state['deviation_map'] is not None:
@@ -1030,7 +1026,7 @@ elif selected_page == "Model":
             buf_dev = io.BytesIO()
             dev_pil.save(buf_dev, format="PNG")
             st.download_button(
-                label="📥 Download Deviation Map (.PNG)",
+                label="Download Deviation Map (.PNG)",
                 data=buf_dev.getvalue(),
                 file_name="cloudclear_spatial_deviation.png",
                 mime="image/png",
@@ -1120,7 +1116,7 @@ elif selected_page == "Image Conversion":
         up_b2 = st.file_uploader("Upload Band 2 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b2_uploader")
         if up_b2:
             size_mb = round(len(up_b2.getbuffer()) / (1024 * 1024), 2)
-            st.success(f"✔ Ready: `{up_b2.name}` ({size_mb} MB)")
+            st.success(f"Ready: `{up_b2.name}` ({size_mb} MB)")
 
     with c_b3:
         st.markdown('''
@@ -1132,7 +1128,7 @@ elif selected_page == "Image Conversion":
         up_b3 = st.file_uploader("Upload Band 3 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b3_uploader")
         if up_b3:
             size_mb = round(len(up_b3.getbuffer()) / (1024 * 1024), 2)
-            st.success(f"✔ Ready: `{up_b3.name}` ({size_mb} MB)")
+            st.success(f"Ready: `{up_b3.name}` ({size_mb} MB)")
 
     with c_b4:
         st.markdown('''
@@ -1144,13 +1140,13 @@ elif selected_page == "Image Conversion":
         up_b4 = st.file_uploader("Upload Band 4 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b4_uploader")
         if up_b4:
             size_mb = round(len(up_b4.getbuffer()) / (1024 * 1024), 2)
-            st.success(f"✔ Ready: `{up_b4.name}` ({size_mb} MB)")
+            st.success(f"Ready: `{up_b4.name}` ({size_mb} MB)")
 
     st.markdown("<div style='margin-top:1.2rem;'></div>", unsafe_allow_html=True)
 
     # C. Action Button
-    if st.button("⚡ STACK & CONVERT BANDS", use_container_width=True):
-        with st.spinner("Processing: Reading Rasters... ➔ Radiometric Normalization... ➔ Building 3-Band GeoTIFF..."):
+    if st.button("STACK & CONVERT BANDS", use_container_width=True):
+        with st.spinner("Processing: Reading Rasters... -> Radiometric Normalization... -> Building 3-Band GeoTIFF..."):
             b2_data, meta2 = read_single_raster_band(up_b2, sample_color_channel=1)
             b3_data, meta3 = read_single_raster_band(up_b3, sample_color_channel=0)
             b4_data, meta4 = read_single_raster_band(up_b4, sample_color_channel=2)
@@ -1190,7 +1186,7 @@ elif selected_page == "Image Conversion":
     if 'conversion_result' in st.session_state and st.session_state['conversion_result'] is not None:
         res = st.session_state['conversion_result']
         st.markdown("---")
-        st.markdown('<h3 style="color:#10B981; margin-bottom:1.2rem;">🎉 CONVERSION & STACKING COMPLETE</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#10B981; margin-bottom:1.2rem;">CONVERSION & STACKING COMPLETE</h3>', unsafe_allow_html=True)
 
         r_col1, r_col2 = st.columns(2)
 
@@ -1206,7 +1202,7 @@ elif selected_page == "Image Conversion":
             st.image(res['png_bytes'], use_container_width=True)
             st.markdown("<div style='margin-top:0.8rem;'></div>", unsafe_allow_html=True)
             st.download_button(
-                "📥 Download Preview (.PNG)",
+                "Download Preview (.PNG)",
                 data=res['png_bytes'],
                 file_name="liss4_combined_image.png",
                 mime="image/png",
@@ -1235,7 +1231,7 @@ elif selected_page == "Image Conversion":
             ''', unsafe_allow_html=True)
 
             st.download_button(
-                "📥 Download Multi-Band Raster (.TIF)",
+                "Download Multi-Band Raster (.TIF)",
                 data=res['tif_bytes'],
                 file_name="liss4_combined_multiband.tif",
                 mime="image/tiff",
@@ -1254,7 +1250,7 @@ elif selected_page == "Contact":
         <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
             <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Sabaresh K</h2>
             <a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
-                📧 sabaresh.k2025aids@sece.ac.in
+                Email: sabaresh.k2025aids@sece.ac.in
             </a>
         </div>
         ''', unsafe_allow_html=True)
@@ -1263,7 +1259,7 @@ elif selected_page == "Contact":
         <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
             <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Saadhana S</h2>
             <a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
-                📧 saadhana.s2025aids@sece.ac.in
+                Email: saadhana.s2025aids@sece.ac.in
             </a>
         </div>
         ''', unsafe_allow_html=True)
@@ -1272,7 +1268,7 @@ elif selected_page == "Contact":
         <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
             <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Pranika R</h2>
             <a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
-                📧 pranika.r2025aids@sece.ac.in
+                Email: pranika.r2025aids@sece.ac.in
             </a>
         </div>
         ''', unsafe_allow_html=True)
@@ -1285,10 +1281,10 @@ elif selected_page == "Contact":
             c_name = st.text_input("Your Name:", placeholder="Enter your full name...")
             c_email = st.text_input("Your Email Address:", placeholder="name@domain.com...")
             c_msg = st.text_area("Message Details:", placeholder="Type your message here...", height=160)
-            c_sub = st.form_submit_button("🚀 TRANSMIT INQUIRY")
+            c_sub = st.form_submit_button("TRANSMIT INQUIRY")
             if c_sub:
                 if c_name and c_email and c_msg:
-                    st.success("✅ Thank you! Your message has been logged and transmitted directly to Team Rise2Gether.")
+                    st.success("Thank you! Your message has been logged and transmitted directly to Team Rise2Gether.")
                 else:
                     st.warning("Please fill in your Name, Email, and Message before submitting.")
         st.markdown('</div>', unsafe_allow_html=True)
@@ -1296,7 +1292,7 @@ elif selected_page == "Contact":
     with loc_col:
         st.markdown('''
         <div class="pitch-card">
-            <h4 style="color:#10B981; margin-top:0;">📍 Our Institution</h4>
+            <h4 style="color:#10B981; margin-top:0;">Our Institution</h4>
             <h3 style="color:#FFFFFF; margin:0.5rem 0 0.2rem 0; font-size:1.3rem;">Sri Eshwar College of Engineering and Technology</h3>
             <p style="color:#94A3B8; font-size:0.95rem;">Coimbatore, Tamil Nadu, India</p>
             <hr style="border-color:rgba(0,212,255,0.2); margin:1rem 0;">
