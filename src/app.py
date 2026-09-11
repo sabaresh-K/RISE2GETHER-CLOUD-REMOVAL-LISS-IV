@@ -897,7 +897,19 @@ elif selected_page == "Model":
         </div>
         ''', unsafe_allow_html=True)
         if 'reconstructed_img' in st.session_state and st.session_state['reconstructed_img'] is not None:
-            st.image(st.session_state['reconstructed_img'], use_container_width=True)
+            rec_pil = Image.fromarray(st.session_state['reconstructed_img'])
+            st.image(rec_pil, use_container_width=True)
+            st.markdown("<div style='margin-top:0.6rem;'></div>", unsafe_allow_html=True)
+            buf_rec = io.BytesIO()
+            rec_pil.save(buf_rec, format="PNG")
+            st.download_button(
+                label="📥 Download Output Image (.PNG)",
+                data=buf_rec.getvalue(),
+                file_name="cloudclear_reconstructed_output.png",
+                mime="image/png",
+                use_container_width=True,
+                key="dl_rec_img"
+            )
         else:
             st.info("Awaiting Execution Signal...")
 
@@ -908,7 +920,19 @@ elif selected_page == "Model":
         </div>
         ''', unsafe_allow_html=True)
         if 'deviation_map' in st.session_state and st.session_state['deviation_map'] is not None:
-            st.image(st.session_state['deviation_map'], use_container_width=True)
+            dev_pil = Image.fromarray(st.session_state['deviation_map'])
+            st.image(dev_pil, use_container_width=True)
+            st.markdown("<div style='margin-top:0.6rem;'></div>", unsafe_allow_html=True)
+            buf_dev = io.BytesIO()
+            dev_pil.save(buf_dev, format="PNG")
+            st.download_button(
+                label="📥 Download Deviation Map (.PNG)",
+                data=buf_dev.getvalue(),
+                file_name="cloudclear_spatial_deviation.png",
+                mime="image/png",
+                use_container_width=True,
+                key="dl_dev_map"
+            )
         else:
             st.info("Awaiting Execution Signal...")
 
