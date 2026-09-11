@@ -499,19 +499,35 @@ def run_model_inference(img):
     
     return reconstructed, deviation_map, metrics, latency
 
-# 9. Band Stacking & Image Conversion Engine (Blazing Fast Performance)
+# 9. Band Stacking & Image Conversion Engine (Memory-Safe & High Speed)
 def normalize_to_8bit(band_array):
-    """Blazing fast percentile-based stretch (2% - 98%) to eliminate atmospheric haze."""
-    sample = band_array[::4, ::4] if band_array.size > 10000 else band_array
+    """Memory-safe, high-speed percentile stretch for massive satellite GeoTIFFs (up to 20,000x20,000 px)."""
+    if not isinstance(band_array, np.ndarray) or band_array.size == 0:
+        return band_array
+
+    # Subsample for blazing fast 2%-98% percentile calculation
+    stride = max(1, min(band_array.shape[0], band_array.shape[1]) // 512)
+    sample = band_array[::stride, ::stride]
     p2, p98 = np.percentile(sample, (2, 98))
     if p98 <= p2:
         p98 = p2 + 1.0
-    scale = 255.0 / (p98 - p2 + 1e-8)
-    norm = np.clip((band_array - p2) * scale, 0, 255).astype(np.uint8)
-    return norm
+
+    scale = np.float32(255.0 / (p98 - p2 + 1e-8))
+    p2_val = np.float32(p2)
+
+    # In-place subtract and scale to prevent float64 memory allocation crashes
+    if band_array.dtype != np.float32:
+        band_float = band_array.astype(np.float32, copy=True)
+    else:
+        band_float = band_array.copy()
+
+    np.subtract(band_float, p2_val, out=band_float)
+    np.multiply(band_float, scale, out=band_float)
+    np.clip(band_float, 0, 255, out=band_float)
+    return band_float.astype(np.uint8)
 
 def read_single_raster_band(file_obj, sample_color_channel=1):
-    """Reads single-band GeoTIFF/image raster into float32 2D numpy array and metadata."""
+    """Reads single-band GeoTIFF/image raster into memory-safe float32 2D numpy array and metadata."""
     meta = {"width": 512, "height": 512, "crs": "EPSG:32644 (UTM Zone 44N)", "count": 1}
     band_data = None
 
@@ -524,11 +540,20 @@ def read_single_raster_band(file_obj, sample_color_channel=1):
         try:
             import rasterio
             with rasterio.open(tmp_path) as src:
-                band_data = src.read(1).astype(np.float32)
                 meta['width'] = src.width
                 meta['height'] = src.height
                 meta['crs'] = str(src.crs) if src.crs else "EPSG:32644"
                 meta['transform'] = src.transform
+
+                # If giant scene (>4096px), downsample during read to guarantee RAM stability
+                if src.width > 4096 or src.height > 4096:
+                    target_h = min(src.height, 4096)
+                    target_w = min(src.width, 4096)
+                    band_data = src.read(1, out_shape=(target_h, target_w), resampling=rasterio.enums.Resampling.bilinear).astype(np.float32)
+                    meta['width'] = target_w
+                    meta['height'] = target_h
+                else:
+                    band_data = src.read(1).astype(np.float32)
         except Exception:
             pass
 
@@ -536,6 +561,8 @@ def read_single_raster_band(file_obj, sample_color_channel=1):
             try:
                 pil_img = Image.open(tmp_path)
                 pil_img.load()
+                if pil_img.width > 4096 or pil_img.height > 4096:
+                    pil_img.thumbnail((4096, 4096))
                 gray = pil_img.convert("L")
                 band_data = np.array(gray).astype(np.float32)
                 meta['width'] = pil_img.width
@@ -548,6 +575,10 @@ def read_single_raster_band(file_obj, sample_color_channel=1):
                 data = tifffile.imread(tmp_path)
                 if data.ndim == 3:
                     data = data[:, :, 0]
+                if data.shape[0] > 4096 or data.shape[1] > 4096:
+                    step_y = max(1, data.shape[0] // 4096)
+                    step_x = max(1, data.shape[1] // 4096)
+                    data = data[::step_y, ::step_x]
                 band_data = data.astype(np.float32)
                 meta['width'] = data.shape[1]
                 meta['height'] = data.shape[0]
@@ -579,7 +610,7 @@ def read_single_raster_band(file_obj, sample_color_channel=1):
     return band_data, meta
 
 def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
-    """Stacks B4 (NIR), B3 (Red), B2 (Green) and returns GeoTIFF bytes fast."""
+    """Stacks B4 (NIR), B3 (Red), B2 (Green) and returns GeoTIFF bytes fast and memory-safe."""
     b4_norm = normalize_to_8bit(b4)
     b3_norm = normalize_to_8bit(b3)
     b2_norm = normalize_to_8bit(b2)
@@ -1001,9 +1032,19 @@ elif selected_page == "Image Conversion":
             b4_norm = normalize_to_8bit(b4_data)
 
             fcc_rgb = np.dstack([b4_norm, b3_norm, b2_norm])
-            pil_fcc = Image.fromarray(fcc_rgb)
+            
+            # Downsample preview if larger than 2048px for instant browser display
+            h_fcc, w_fcc = fcc_rgb.shape[:2]
+            if max(h_fcc, w_fcc) > 2048:
+                sf = 2048.0 / max(h_fcc, w_fcc)
+                pw, ph = int(w_fcc * sf), int(h_fcc * sf)
+                fcc_preview = cv2.resize(fcc_rgb, (pw, ph), interpolation=cv2.INTER_AREA)
+            else:
+                fcc_preview = fcc_rgb
+
+            pil_fcc = Image.fromarray(fcc_preview)
             png_buf = io.BytesIO()
-            pil_fcc.save(png_buf, format="PNG")
+            pil_fcc.save(png_buf, format="PNG", compress_level=1)
             png_bytes = png_buf.getvalue()
 
             tif_bytes = generate_multiband_geotiff_bytes(b2_data, b3_data, b4_data, meta2)
