@@ -518,13 +518,30 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
+import streamlit.components.v1 as components
+
 # 7. Navigation Radio Tabs
 selected_page = st.radio(
     "Navigation Menu",
-    ["Home", "About", "Features", "Model", "Image Conversion", "Contact"],
+    ["React Next-Gen UI", "Home", "About", "Features", "Model", "Image Conversion", "Contact"],
     horizontal=True,
     label_visibility="collapsed"
 )
+
+if selected_page == "React Next-Gen UI":
+    standalone_path = os.path.join(PROJECT_ROOT, "frontend", "dist", "index_standalone.html")
+    if not os.path.exists(standalone_path):
+        try:
+            import build_standalone_react
+        except Exception:
+            pass
+    if os.path.exists(standalone_path):
+        with open(standalone_path, "r", encoding="utf-8") as f:
+            react_html = f.read()
+        components.html(react_html, height=1000, scrolling=True)
+    else:
+        st.error("React standalone build not found.")
+
 
 # 8. Global Helper Functions for Model Ingestion & Inference
 import tempfile
