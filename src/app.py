@@ -677,7 +677,9 @@ def read_single_raster_band(file_obj, sample_color_channel=1):
             try:
                 data = tifffile.imread(tmp_path)
                 if data.ndim == 3:
-                    data = data[:, :, 0]
+                    data = data[:, :, 0] if data.shape[2] in [3, 4] else data[0]
+                if data.ndim == 4:
+                    data = data[0, 0]
                 if data.shape[0] > 4096 or data.shape[1] > 4096:
                     step_y = max(1, data.shape[0] // 4096)
                     step_x = max(1, data.shape[1] // 4096)
@@ -710,6 +712,12 @@ def read_single_raster_band(file_obj, sample_color_channel=1):
             np.random.seed(42 + sample_color_channel)
             band_data = np.random.randint(40, 220, (512, 512), dtype=np.uint8).astype(np.float32)
 
+    # Ensure band_data is strictly 2D array
+    if band_data.ndim > 2:
+        band_data = np.squeeze(band_data)
+        if band_data.ndim > 2:
+            band_data = band_data[0]
+
     return band_data, meta
 
 def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
@@ -717,6 +725,13 @@ def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
     b4_norm = normalize_to_8bit(b4)
     b3_norm = normalize_to_8bit(b3)
     b2_norm = normalize_to_8bit(b2)
+
+    h_target, w_target = b2_norm.shape[0], b2_norm.shape[1]
+    if b3_norm.shape[:2] != (h_target, w_target):
+        b3_norm = cv2.resize(b3_norm, (w_target, h_target), interpolation=cv2.INTER_AREA)
+    if b4_norm.shape[:2] != (h_target, w_target):
+        b4_norm = cv2.resize(b4_norm, (w_target, h_target), interpolation=cv2.INTER_AREA)
+
     stacked_norm = np.stack([b4_norm, b3_norm, b2_norm], axis=0) # (3, H, W)
 
     try:
@@ -726,8 +741,8 @@ def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
             'driver': 'GTiff',
             'dtype': 'uint8',
             'nodata': None,
-            'width': meta['width'],
-            'height': meta['height'],
+            'width': w_target,
+            'height': h_target,
             'count': 3,
             'compress': 'lzw',
             'crs': meta.get('crs', 'EPSG:32644'),
@@ -1154,6 +1169,12 @@ elif selected_page == "Image Conversion":
             b2_norm = normalize_to_8bit(b2_data)
             b3_norm = normalize_to_8bit(b3_data)
             b4_norm = normalize_to_8bit(b4_data)
+
+            h_target, w_target = b2_norm.shape[0], b2_norm.shape[1]
+            if b3_norm.shape[:2] != (h_target, w_target):
+                b3_norm = cv2.resize(b3_norm, (w_target, h_target), interpolation=cv2.INTER_AREA)
+            if b4_norm.shape[:2] != (h_target, w_target):
+                b4_norm = cv2.resize(b4_norm, (w_target, h_target), interpolation=cv2.INTER_AREA)
 
             fcc_rgb = np.dstack([b4_norm, b3_norm, b2_norm])
             
