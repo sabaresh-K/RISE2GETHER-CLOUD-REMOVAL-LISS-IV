@@ -80,9 +80,14 @@ def compute_metrics(in_np, out_np):
     sam = np.mean(np.abs(in_np.astype(float) - out_np.astype(float))) / 255.0 * 10.0
     return f"{psnr:.2f} dB", f"{ssim:.4f}", f"{rmse:.4f}", f"{sam:.2f}°"
 
-# 5. Space Theme CSS Animations & High Contrast UI (Concept 4 - Dark Titanium & Emerald Emerald Theme)
+# 5. Space Theme CSS Animations & High Contrast UI (Concept 4 - Dark Titanium & Emerald Theme)
 st.markdown('''
 <style>
+    /* Custom Space Crosshair Cursor */
+    html, body, button, input, select, textarea, a, label, .stApp, [role="button"] {
+        cursor: crosshair !important;
+    }
+
     /* Keyframe Animations */
     @keyframes floatSpace {
         0% { transform: translateY(0px); }
@@ -91,22 +96,27 @@ st.markdown('''
     }
     
     @keyframes pulseEmerald {
-        0% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
-        50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.5); }
-        100% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+        0% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.2); }
+        50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.55); }
+        100% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.2); }
     }
 
     @keyframes textEmeraldGlow {
         0% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
-        50% { text-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
+        50% { text-shadow: 0 0 25px rgba(16, 185, 129, 0.9); }
         100% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
     }
 
-    /* Global Dark Titanium Space Background */
+    /* Global Dark Titanium Space Background with Grid Matrix Accent */
     .stApp {
-        background: radial-gradient(circle at 50% 15%, #0F172A 0%, #0B0F19 100%) !important;
+        background: radial-gradient(circle at 50% 15%, #0F172A 0%, #060913 100%) !important;
+        background-image: 
+            radial-gradient(circle at 50% 15%, rgba(15, 23, 42, 0.8) 0%, rgba(6, 9, 19, 0.95) 100%),
+            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px) !important;
+        background-size: 100% 100%, 40px 40px, 40px 40px !important;
         color: #F8FAFC !important;
-        font-family: 'Inter', system-ui, sans-serif !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
     }
     
     .block-container {
@@ -118,54 +128,61 @@ st.markdown('''
     /* Top Header Banner */
     .pitch-header {
         background: rgba(15, 23, 42, 0.85);
-        border: 1px solid rgba(16, 185, 129, 0.3);
+        border: 1px solid rgba(16, 185, 129, 0.35);
         border-bottom: 2px solid #10B981;
-        border-radius: 12px;
-        padding: 1.2rem 1.8rem;
+        border-radius: 14px;
+        padding: 1.4rem 2rem;
         margin-bottom: 1.5rem;
-        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
-        backdrop-filter: blur(12px);
+        box-shadow: 0 12px 35px rgba(16, 185, 129, 0.18);
+        backdrop-filter: blur(16px);
         animation: pulseEmerald 4s infinite alternate;
     }
     
     .pitch-title {
-        font-size: 2.2rem;
+        font-size: 2.3rem;
         font-weight: 900;
         background: linear-gradient(90deg, #FFFFFF 0%, #10B981 50%, #34D399 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        letter-spacing: 1px;
+        letter-spacing: 1.2px;
         margin: 0;
         animation: textEmeraldGlow 3s infinite alternate;
     }
 
     .pitch-sub {
-        font-size: 0.95rem;
+        font-size: 0.98rem;
         color: #94A3B8;
-        margin-top: 0.2rem;
+        margin-top: 0.25rem;
+        letter-spacing: 0.3px;
     }
 
     .status-badge-online {
         display: inline-block;
-        background: rgba(16, 185, 129, 0.15);
+        background: rgba(16, 185, 129, 0.18);
         border: 1px solid #10B981;
         color: #10B981;
-        padding: 0.4rem 1.0rem;
+        padding: 0.45rem 1.1rem;
         border-radius: 20px;
         font-size: 0.85rem;
         font-weight: 700;
-        box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        box-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
+        transition: all 0.3s ease;
+    }
+    .status-badge-online:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
     }
 
     /* Navigation Radio Bar Styling */
     .stRadio > div {
         background: rgba(15, 23, 42, 0.85) !important;
-        border: 1px solid rgba(16, 185, 129, 0.3) !important;
+        border: 1px solid rgba(16, 185, 129, 0.35) !important;
         border-radius: 30px !important;
-        padding: 0.5rem 1.2rem !important;
-        gap: 1.5rem !important;
-        margin-bottom: 1.2rem !important;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        padding: 0.55rem 1.4rem !important;
+        gap: 1.6rem !important;
+        margin-bottom: 1.4rem !important;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(12px) !important;
     }
 
     /* All Form & Radio Labels High Contrast Visibility */
@@ -186,27 +203,45 @@ st.markdown('''
         font-weight: 700 !important;
         font-size: 1.05rem !important;
         text-shadow: 0 2px 4px rgba(0,0,0,0.6) !important;
+        transition: color 0.2s ease, text-shadow 0.2s ease !important;
     }
 
     .stRadio label:hover p {
         color: #34D399 !important;
+        text-shadow: 0 0 10px rgba(52, 211, 153, 0.6) !important;
     }
 
     /* Floating Dark Titanium Space Cards */
     .pitch-card {
-        background: rgba(15, 23, 42, 0.75);
-        border: 1px solid rgba(16, 185, 129, 0.25);
-        border-radius: 12px;
-        padding: 1.8rem;
+        background: rgba(15, 23, 42, 0.78);
+        border: 1px solid rgba(16, 185, 129, 0.28);
+        border-radius: 14px;
+        padding: 1.9rem;
         margin-bottom: 1.5rem;
-        backdrop-filter: blur(12px);
-        transition: all 0.3s ease;
+        backdrop-filter: blur(14px);
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pitch-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.6), transparent);
+        opacity: 0;
+        transition: opacity 0.35s ease;
     }
 
     .pitch-card:hover {
-        border-color: rgba(16, 185, 129, 0.6);
-        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
-        transform: translateY(-3px);
+        border-color: rgba(16, 185, 129, 0.65);
+        box-shadow: 0 12px 35px rgba(16, 185, 129, 0.25), 0 0 15px rgba(16, 185, 129, 0.1);
+        transform: translateY(-4px);
+    }
+
+    .pitch-card:hover::before {
+        opacity: 1;
     }
 
     /* High-Contrast Input Boxes */
@@ -214,16 +249,17 @@ st.markdown('''
         background-color: #0B132B !important;
         color: #FFFFFF !important;
         border: 1px solid rgba(16, 185, 129, 0.4) !important;
-        border-radius: 8px !important;
+        border-radius: 10px !important;
         font-size: 1rem !important;
         font-family: 'Inter', sans-serif !important;
-        padding: 0.8rem 1rem !important;
+        padding: 0.85rem 1.1rem !important;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
     }
 
     .stTextInput input:focus, .stTextArea textarea:focus {
         border-color: #10B981 !important;
-        box-shadow: 0 0 15px rgba(16, 185, 129, 0.5) !important;
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.55) !important;
         outline: none !important;
         background-color: #0F1D38 !important;
     }
@@ -246,29 +282,31 @@ st.markdown('''
         background: rgba(15, 23, 42, 0.9);
         border: 1px solid rgba(16, 185, 129, 0.3);
         border-top: 3px solid #10B981;
-        border-radius: 10px;
-        padding: 1.2rem;
+        border-radius: 12px;
+        padding: 1.3rem;
         text-align: center;
-        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .metric-card-box:hover {
-        transform: scale(1.03);
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
     }
 
     .metric-card-val {
-        font-size: 1.8rem;
+        font-size: 1.85rem;
         font-weight: 800;
         color: #10B981;
         font-family: monospace;
+        text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
     }
 
     .metric-card-lbl {
-        font-size: 0.75rem;
+        font-size: 0.78rem;
         color: #94A3B8;
         text-transform: uppercase;
         letter-spacing: 1px;
-        margin-top: 0.3rem;
+        margin-top: 0.35rem;
     }
 
     /* Emerald Styled Action Button & Form Submit Button */
@@ -277,7 +315,7 @@ st.markdown('''
         color: #FFFFFF !important;
         font-weight: 800 !important;
         border: 1px solid #34D399 !important;
-        border-radius: 8px !important;
+        border-radius: 10px !important;
         letter-spacing: 1px !important;
         text-transform: uppercase !important;
         padding: 0.85rem 1.6rem !important;
@@ -307,8 +345,8 @@ st.markdown('''
     .stream-box {
         background: rgba(15, 23, 42, 0.85);
         border: 1px solid rgba(16, 185, 129, 0.3);
-        border-radius: 12px;
-        padding: 1.2rem;
+        border-radius: 14px;
+        padding: 1.3rem;
         text-align: center;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         margin-bottom: 1rem;
@@ -317,7 +355,7 @@ st.markdown('''
     .stream-header {
         color: #10B981;
         font-weight: 800;
-        font-size: 0.85rem;
+        font-size: 0.88rem;
         letter-spacing: 1px;
         text-transform: uppercase;
         margin-bottom: 0.8rem;
@@ -331,8 +369,8 @@ st.markdown('''
         background: rgba(15, 23, 42, 0.8);
         border: 1px solid rgba(16, 185, 129, 0.25);
         border-left: 4px solid #10B981;
-        border-radius: 10px;
-        padding: 1.2rem;
+        border-radius: 12px;
+        padding: 1.3rem;
         margin-bottom: 1.2rem;
         transition: all 0.3s ease;
     }
@@ -352,8 +390,8 @@ st.markdown('''
     [data-testid="stFileUploader"] {
         background-color: rgba(15, 23, 42, 0.85) !important;
         border: 1px dashed rgba(16, 185, 129, 0.5) !important;
-        border-radius: 10px !important;
-        padding: 1.2rem !important;
+        border-radius: 12px !important;
+        padding: 1.3rem !important;
         margin-top: 0.5rem !important;
     }
 
@@ -371,7 +409,7 @@ st.markdown('''
     [data-testid="stFileUploaderDropzone"] {
         background-color: #0B132B !important;
         border: 1px dashed #10B981 !important;
-        border-radius: 8px !important;
+        border-radius: 10px !important;
     }
 
     [data-testid="stFileUploaderDropzone"] * {
@@ -400,6 +438,77 @@ st.markdown('''
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 </style>
+
+<!-- Space Stardust Cursor Canvas Particle Effect -->
+<canvas id="space-cursor-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 999999;"></canvas>
+
+<script>
+(function() {
+    const parentDoc = window.parent.document || document;
+    let canvas = parentDoc.getElementById('space-cursor-canvas');
+    if (!canvas) {
+        canvas = parentDoc.createElement('canvas');
+        canvas.id = 'space-cursor-canvas';
+        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;';
+        parentDoc.body.appendChild(canvas);
+    }
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        canvas.width = parentDoc.documentElement.clientWidth || window.innerWidth;
+        canvas.height = parentDoc.documentElement.clientHeight || window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    parentDoc.addEventListener('resize', resize);
+
+    const particles = [];
+    const maxParticles = 40;
+
+    parentDoc.addEventListener('mousemove', function(e) {
+        for(let i=0; i<2; i++) {
+            particles.push({
+                x: e.clientX + (Math.random() - 0.5) * 6,
+                y: e.clientY + (Math.random() - 0.5) * 6,
+                size: Math.random() * 3 + 1,
+                speedX: (Math.random() - 0.5) * 1.6,
+                speedY: (Math.random() - 0.5) * 1.6,
+                color: Math.random() > 0.4 ? '#10B981' : (Math.random() > 0.5 ? '#34D399' : '#6EE7B7'),
+                alpha: 1,
+                decay: Math.random() * 0.035 + 0.025
+            });
+        }
+        if(particles.length > maxParticles) particles.splice(0, particles.length - maxParticles);
+    });
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for(let i = 0; i < particles.length; i++) {
+            let p = particles[i];
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.alpha;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = p.color;
+            ctx.fill();
+
+            p.x += p.speedX;
+            p.y += p.speedY;
+            p.alpha -= p.decay;
+
+            if(p.alpha <= 0) {
+                particles.splice(i, 1);
+                i--;
+            }
+        }
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(animate);
+    }
+    animate();
+})();
+</script>
 ''', unsafe_allow_html=True)
 
 # 6. Header Banner
