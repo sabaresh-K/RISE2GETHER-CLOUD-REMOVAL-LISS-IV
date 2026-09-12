@@ -19,92 +19,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ASTRA 6 UNIVERSE GLOBE.GL + CURSOR EFFECT
-import streamlit.components.v1 as components
-components.html('''
-<style>
-    body { margin: 0; overflow: hidden; background: #000; }
-    #globeViz { width: 100vw; height: 100vh; position: absolute; top:0; left:0; }
-</style>
-<script src="//unpkg.com/three"></script>
-<script src="//unpkg.com/globe.gl"></script>
-<div id="globeViz"></div>
-<script>
-    // 1. GLOBE.GL WITH COMETS
-    const N = 40;
-    const arcsData = [...Array(N).keys()].map(() => ({
-      startLat: (Math.random() - 0.5) * 180,
-      startLng: (Math.random() - 0.5) * 360,
-      endLat: (Math.random() - 0.5) * 180,
-      endLng: (Math.random() - 0.5) * 360,
-      color: ['#10b981', '#34d399', '#10b981', '#ffffff'][Math.floor(Math.random() * 4)]
-    }));
 
-    const globe = Globe()
-        (document.getElementById('globeViz'))
-        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
-        .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
-        .arcsData(arcsData)
-        .arcColor('color')
-        .arcDashLength(0.4)
-        .arcDashGap(4)
-        .arcDashInitialGap(() => Math.random() * 5)
-        .arcDashAnimateTime(2000)
-        .backgroundColor('#010A05');
-
-    globe.controls().autoRotate = true;
-    globe.controls().autoRotateSpeed = 1.2;
-    globe.camera().position.z = 280;
-
-    // Push iframe to parent background
-    if (window.frameElement) {
-        window.frameElement.style.position = 'fixed';
-        window.frameElement.style.top = '0';
-        window.frameElement.style.left = '0';
-        window.frameElement.style.width = '100vw';
-        window.frameElement.style.height = '100vh';
-        window.frameElement.style.border = 'none';
-        window.frameElement.style.zIndex = '-9999';
-        
-        const parentDoc = window.parent.document;
-        
-        // Strip out existing Streamlit background so Globe is visible
-        const removeBg = () => {
-            const stApp = parentDoc.querySelector('.stApp');
-            if (stApp) {
-                stApp.style.setProperty('background', 'transparent', 'important');
-                stApp.style.setProperty('background-image', 'none', 'important');
-                stApp.style.setProperty('background-color', 'transparent', 'important');
-            }
-            const header = parentDoc.querySelector('header');
-            if (header) header.style.setProperty('background', 'transparent', 'important');
-        };
-        removeBg();
-        setInterval(removeBg, 1000); // Enforce transparency
-
-        // 2. ASTRA CURSOR EFFECT IN PARENT
-        if (!parentDoc.getElementById('astra-cursor')) {
-            const cursor = parentDoc.createElement('div');
-            cursor.id = 'astra-cursor';
-            cursor.style.position = 'fixed';
-            cursor.style.width = '600px';
-            cursor.style.height = '600px';
-            cursor.style.borderRadius = '50%';
-            cursor.style.background = 'radial-gradient(circle, rgba(52, 211, 153, 0.15) 0%, rgba(16, 185, 129, 0.05) 40%, transparent 70%)';
-            cursor.style.pointerEvents = 'none';
-            cursor.style.transform = 'translate(-50%, -50%)';
-            cursor.style.zIndex = '0';
-            cursor.style.transition = 'top 0.3s ease-out, left 0.3s ease-out';
-            parentDoc.body.appendChild(cursor);
-
-            parentDoc.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-        }
-    }
-</script>
-''', height=0)
 
 
 # 2. Dynamic Path Setup
@@ -203,16 +118,27 @@ st.markdown('''
     }
 
     /* Global Deep Emerald Space Background with High-Contrast Grid Matrix & Cosmic Glow */
-    .stApp {
+        @keyframes moveStars {
+        0% { background-position: 0 0, 0 0, center, center; }
+        100% { background-position: 0 0, -1000px 1000px, center, center; }
+    }
+    @keyframes starPulse {
+        0% { filter: brightness(0.8) contrast(1.2); }
+        100% { filter: brightness(1.3) contrast(1.5); }
+    }
+.stApp {
         background-color: #000000 !important;
         background-image: 
-            linear-gradient(to bottom, rgba(3, 7, 18, 0.6), rgba(3, 7, 18, 0.95)),
-            url('https://images.unsplash.com/photo-1534796636912-365285027fc3?q=80&w=2560&auto=format&fit=crop') !important;
-        background-size: cover !important;
-        background-position: center !important;
-        background-attachment: fixed !important;
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cdefs%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='3' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g)'%3E%3Cpath d='M50 40 L53 47 L60 50 L53 53 L50 60 L47 53 L40 50 L47 47 Z' fill='%23ffffff' opacity='0.9'/%3E%3Cpath d='M200 150 L204 161 L215 165 L204 169 L200 180 L196 169 L185 165 L196 161 Z' fill='%2310b981' opacity='1'/%3E%3Cpath d='M320 80 L322 88 L330 90 L322 92 L320 100 L318 92 L310 90 L318 88 Z' fill='%2334d399' opacity='0.8'/%3E%3Cpath d='M100 300 L102 306 L108 308 L102 310 L100 316 L98 310 L92 308 L98 306 Z' fill='%23ffffff' opacity='0.9'/%3E%3Cpath d='M280 280 L283 287 L290 290 L283 293 L280 300 L277 293 L270 290 L277 287 Z' fill='%23ffffff' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cdefs%3E%3Cfilter id='g2'%3E%3CfeGaussianBlur stdDeviation='2' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g2)'%3E%3Cpath d='M30 120 L32 126 L38 128 L32 130 L30 136 L28 130 L22 128 L28 126 Z' fill='%2334d399' opacity='0.8'/%3E%3Cpath d='M250 200 L253 207 L260 210 L253 213 L250 220 L247 213 L240 210 L247 207 Z' fill='%23ffffff' opacity='0.9'/%3E%3C/g%3E%3C/svg%3E"),
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)),
+            url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop') !important;
+        background-size: 400px 400px, 300px 300px, cover, cover !important;
+        background-position: center, center, center, center !important;
+        background-attachment: fixed, fixed, fixed, fixed !important;
         color: #FFFFFF !important;
         font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        animation: moveStars 120s linear infinite, starPulse 4s ease-in-out infinite alternate !important;
     }
     
     .block-container {
