@@ -1445,7 +1445,7 @@ elif selected_page == "Contact":
         import streamlit.components.v1 as components
         components.html(html_code, height=520, scrolling=False)
 
-        with loc_col:
+    with loc_col:
         st.markdown('''
     <div class="pitch-card">
         <h4 style="color:#10B981; margin-top:0;">Our Institution</h4>
