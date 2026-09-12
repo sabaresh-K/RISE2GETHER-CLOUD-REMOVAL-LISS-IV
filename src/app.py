@@ -94,460 +94,460 @@ def compute_metrics(in_np, out_np):
 # 5. Space Theme CSS Animations & High Contrast UI (Concept 4 - Dark Titanium & Emerald Theme)
 st.markdown('''
 <style>
-    /* Keyframe Animations */
-    100% { filter: brightness(1.3) contrast(1.5); }
-    }
-    100% { background-position: 0 0, 0 0, -1000px 1000px; }
-    }
-    @keyframes floatSpace {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-8px); }
-        100% { transform: translateY(0px); }
-    }
-    
-    @keyframes pulseBlue {
-        0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.15); }
-        50% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.7), inset 0 0 25px rgba(52, 211, 153, 0.3); }
-        100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.15); }
-    }
+/* Keyframe Animations */
+100% { filter: brightness(1.3) contrast(1.5); }
+}
+100% { background-position: 0 0, 0 0, -1000px 1000px; }
+}
+@keyframes floatSpace {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-8px); }
+100% { transform: translateY(0px); }
+}
 
-    @keyframes textBlueGlow {
-        0% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
-        50% { text-shadow: 0 0 25px rgba(16, 185, 129, 0.95), 0 0 40px rgba(52, 211, 153, 0.6); }
-        100% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
-    }
+@keyframes pulseBlue {
+0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.15); }
+50% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.7), inset 0 0 25px rgba(52, 211, 153, 0.3); }
+100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.15); }
+}
 
-    /* Global Deep Emerald Space Background with High-Contrast Grid Matrix & Cosmic Glow */
-        100% { background-position: 0 0, -1000px 1000px, center, center; }
-    }
-    100% { filter: brightness(1.3) contrast(1.5); }
-    }
-    @keyframes moveStars {
-        0% { background-position: 0 0, 0 0, center, center; }
-        100% { background-position: 0 0, -1000px 1000px, center, center; }
-    }
-    @keyframes starPulse {
-        0% { filter: brightness(0.8) contrast(1.2); }
-        100% { filter: brightness(1.3) contrast(1.5); }
-    }
+@keyframes textBlueGlow {
+0% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+50% { text-shadow: 0 0 25px rgba(16, 185, 129, 0.95), 0 0 40px rgba(52, 211, 153, 0.6); }
+100% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+}
+
+/* Global Deep Emerald Space Background with High-Contrast Grid Matrix & Cosmic Glow */
+100% { background-position: 0 0, -1000px 1000px, center, center; }
+}
+100% { filter: brightness(1.3) contrast(1.5); }
+}
+@keyframes moveStars {
+0% { background-position: 0 0, 0 0, center, center; }
+100% { background-position: 0 0, -1000px 1000px, center, center; }
+}
+@keyframes starPulse {
+0% { filter: brightness(0.8) contrast(1.2); }
+100% { filter: brightness(1.3) contrast(1.5); }
+}
 .stApp {
-        background-color: #000000 !important;
-        background-image: 
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cdefs%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='2' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g)'%3E%3Ccircle cx='50' cy='50' r='2' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='200' cy='150' r='2.5' fill='%2310b981' opacity='1'/%3E%3Ccircle cx='320' cy='80' r='1.5' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='100' cy='300' r='2' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='280' cy='280' r='1' fill='%23ffffff' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E"),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cdefs%3E%3Cfilter id='g2'%3E%3CfeGaussianBlur stdDeviation='1.5' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g2)'%3E%3Ccircle cx='30' cy='120' r='2' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='250' cy='200' r='1.5' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='150' cy='50' r='1' fill='%2310b981' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E"),
-            linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)),
-            url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop') !important;
-        background-size: 400px 400px, 300px 300px, cover, cover !important;
-        background-position: center, center, center, center !important;
-        background-attachment: fixed, fixed, fixed, fixed !important;
-        color: #FFFFFF !important;
-        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-        animation: moveStars 120s linear infinite, starPulse 4s ease-in-out infinite alternate !important;
-    }
-    
-    .block-container {
-        padding-top: 1.2rem !important;
-        padding-bottom: 2.5rem !important;
-        max-width: 1300px !important;
-    }
+background-color: #000000 !important;
+background-image: 
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cdefs%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='2' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g)'%3E%3Ccircle cx='50' cy='50' r='2' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='200' cy='150' r='2.5' fill='%2310b981' opacity='1'/%3E%3Ccircle cx='320' cy='80' r='1.5' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='100' cy='300' r='2' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='280' cy='280' r='1' fill='%23ffffff' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E"),
+url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cdefs%3E%3Cfilter id='g2'%3E%3CfeGaussianBlur stdDeviation='1.5' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g2)'%3E%3Ccircle cx='30' cy='120' r='2' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='250' cy='200' r='1.5' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='150' cy='50' r='1' fill='%2310b981' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E"),
+linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)),
+url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop') !important;
+background-size: 400px 400px, 300px 300px, cover, cover !important;
+background-position: center, center, center, center !important;
+background-attachment: fixed, fixed, fixed, fixed !important;
+color: #FFFFFF !important;
+font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+animation: moveStars 120s linear infinite, starPulse 4s ease-in-out infinite alternate !important;
+}
 
-    /* All Text Global Override to Crisp Pure White & Green */
-    p, span, div, label, li, h1, h2, h3, h4, h5, h6, small {
-        color: #FFFFFF !important;
-    }
+.block-container {
+padding-top: 1.2rem !important;
+padding-bottom: 2.5rem !important;
+max-width: 1300px !important;
+}
 
-    /* Top Header Banner */
-    .pitch-header {
-        background: rgba(16, 185, 129, 0.18) !important;
-        border: 1px solid rgba(16, 185, 129, 0.55);
-        border-bottom: 3px solid #10B981;
-        border-radius: 16px;
-        padding: 1.5rem 2.4rem;
-        margin-bottom: 1.6rem;
-        box-shadow: 0 14px 45px rgba(16, 185, 129, 0.2) !important;
-        backdrop-filter: blur(16px) !important;
-        -webkit-backdrop-filter: blur(16px) !important;
-        animation: pulseBlue 4s infinite alternate;
-    }
-    
-    .pitch-title {
-        font-size: 2.4rem;
-        font-weight: 900;
-        background: linear-gradient(90deg, #FFFFFF 0%, #10B981 45%, #34D399 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: 1.2px;
-        margin: 0;
-        animation: textBlueGlow 3s infinite alternate;
-    }
+/* All Text Global Override to Crisp Pure White & Green */
+p, span, div, label, li, h1, h2, h3, h4, h5, h6, small {
+color: #FFFFFF !important;
+}
 
-    .pitch-sub {
-        font-size: 1rem;
-        color: #E2E8F0 !important;
-        margin-top: 0.25rem;
-        letter-spacing: 0.4px;
-        font-weight: 600;
-    }
+/* Top Header Banner */
+.pitch-header {
+background: rgba(16, 185, 129, 0.18) !important;
+border: 1px solid rgba(16, 185, 129, 0.55);
+border-bottom: 3px solid #10B981;
+border-radius: 16px;
+padding: 1.5rem 2.4rem;
+margin-bottom: 1.6rem;
+box-shadow: 0 14px 45px rgba(16, 185, 129, 0.2) !important;
+backdrop-filter: blur(16px) !important;
+-webkit-backdrop-filter: blur(16px) !important;
+animation: pulseBlue 4s infinite alternate;
+}
 
-    .status-badge-online {
-        display: inline-block;
-        background: rgba(16, 185, 129, 0.25);
-        border: 1px solid #10B981;
-        color: #34D399 !important;
-        padding: 0.45rem 1.1rem;
-        border-radius: 20px;
-        font-size: 0.88rem;
-        font-weight: 800;
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
-        transition: all 0.3s ease;
-    }
-    .status-badge-online:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
-    }
+.pitch-title {
+font-size: 2.4rem;
+font-weight: 900;
+background: linear-gradient(90deg, #FFFFFF 0%, #10B981 45%, #34D399 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+letter-spacing: 1.2px;
+margin: 0;
+animation: textBlueGlow 3s infinite alternate;
+}
 
-    /* Navigation Radio Bar Styling */
-    .stRadio > div {
-        background: rgba(4, 15, 36, 0.92) !important;
-        border: 1px solid rgba(16, 185, 129, 0.5) !important;
-        border-radius: 30px !important;
-        padding: 0.6rem 1.6rem !important;
-        gap: 1.6rem !important;
-        margin-bottom: 1.5rem !important;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(16, 185, 129, 0.2);
-        backdrop-filter: blur(14px) !important;
-    }
+.pitch-sub {
+font-size: 1rem;
+color: #E2E8F0 !important;
+margin-top: 0.25rem;
+letter-spacing: 0.4px;
+font-weight: 600;
+}
 
-    /* All Form & Radio Labels High Contrast Visibility */
-    [data-testid="stWidgetLabel"] p, label p {
-        color: #10B981 !important;
-        font-weight: 800 !important;
-        font-size: 1.08rem !important;
-        letter-spacing: 0.5px !important;
-        margin-bottom: 0.4rem !important;
-        text-shadow: 0 0 10px rgba(16, 185, 129, 0.3) !important;
-    }
+.status-badge-online {
+display: inline-block;
+background: rgba(16, 185, 129, 0.25);
+border: 1px solid #10B981;
+color: #34D399 !important;
+padding: 0.45rem 1.1rem;
+border-radius: 20px;
+font-size: 0.88rem;
+font-weight: 800;
+box-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
+transition: all 0.3s ease;
+}
+.status-badge-online:hover {
+transform: scale(1.05);
+box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+}
 
-    /* Radio Button Option Text Styling */
-    .stRadio label p, 
-    .stRadio [data-testid="stMarkdownContainer"] p, 
-    div[role="radiogroup"] label p,
-    div[role="radiogroup"] span {
-        color: #FFFFFF !important;
-        font-weight: 800 !important;
-        font-size: 1.08rem !important;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.6) !important;
-        transition: color 0.25s ease, text-shadow 0.25s ease !important;
-    }
+/* Navigation Radio Bar Styling */
+.stRadio > div {
+background: rgba(4, 15, 36, 0.92) !important;
+border: 1px solid rgba(16, 185, 129, 0.5) !important;
+border-radius: 30px !important;
+padding: 0.6rem 1.6rem !important;
+gap: 1.6rem !important;
+margin-bottom: 1.5rem !important;
+box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(16, 185, 129, 0.2);
+backdrop-filter: blur(14px) !important;
+}
 
-    .stRadio label:hover p {
-        color: #34D399 !important;
-        text-shadow: 0 0 15px rgba(52, 211, 153, 0.9) !important;
-    }
+/* All Form & Radio Labels High Contrast Visibility */
+[data-testid="stWidgetLabel"] p, label p {
+color: #10B981 !important;
+font-weight: 800 !important;
+font-size: 1.08rem !important;
+letter-spacing: 0.5px !important;
+margin-bottom: 0.4rem !important;
+text-shadow: 0 0 10px rgba(16, 185, 129, 0.3) !important;
+}
 
-    /* Floating Deep Emerald Titanium Space Cards with Glowing Box Cursor Effects */
-    .pitch-card {
-        background: rgba(16, 185, 129, 0.15) !important;
-        border: 1px solid rgba(16, 185, 129, 0.4) !important;
-        border-top: 2px solid #10B981 !important;
-        border-radius: 16px;
-        padding: 2rem;
-        margin-bottom: 1.5rem;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1) !important;
-        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-    }
+/* Radio Button Option Text Styling */
+.stRadio label p, 
+.stRadio [data-testid="stMarkdownContainer"] p, 
+div[role="radiogroup"] label p,
+div[role="radiogroup"] span {
+color: #FFFFFF !important;
+font-weight: 800 !important;
+font-size: 1.08rem !important;
+text-shadow: 0 2px 4px rgba(0,0,0,0.6) !important;
+transition: color 0.25s ease, text-shadow 0.25s ease !important;
+}
 
-    .pitch-card p {
-        color: #F1F5F9 !important;
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
+.stRadio label:hover p {
+color: #34D399 !important;
+text-shadow: 0 0 15px rgba(52, 211, 153, 0.9) !important;
+}
 
-    .pitch-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, transparent, #34D399, transparent);
-        opacity: 0;
-        transition: opacity 0.35s ease;
-    }
+/* Floating Deep Emerald Titanium Space Cards with Glowing Box Cursor Effects */
+.pitch-card {
+background: rgba(16, 185, 129, 0.15) !important;
+border: 1px solid rgba(16, 185, 129, 0.4) !important;
+border-top: 2px solid #10B981 !important;
+border-radius: 16px;
+padding: 2rem;
+margin-bottom: 1.5rem;
+backdrop-filter: blur(12px) !important;
+-webkit-backdrop-filter: blur(12px) !important;
+box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1) !important;
+transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
 
-    .pitch-card:hover {
-        border-color: #10B981;
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 60px rgba(52, 211, 153, 0.25);
-        transform: translateY(-5px);
-    }
+.pitch-card p {
+color: #F1F5F9 !important;
+font-size: 0.95rem;
+line-height: 1.6;
+}
 
-    .pitch-card:hover::before {
-        opacity: 1;
-    }
+.pitch-card::before {
+content: '';
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 3px;
+background: linear-gradient(90deg, transparent, #34D399, transparent);
+opacity: 0;
+transition: opacity 0.35s ease;
+}
 
-    /* High-Contrast Input Boxes */
-    .stTextInput input, .stTextArea textarea {
-        background-color: #031D15 !important;
-        color: #FFFFFF !important;
-        border: 1px solid rgba(16, 185, 129, 0.55) !important;
-        border-radius: 12px !important;
-        font-size: 1.02rem !important;
-        font-family: 'Inter', sans-serif !important;
-        padding: 0.9rem 1.2rem !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
-        transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
-    }
+.pitch-card:hover {
+border-color: #10B981;
+box-shadow: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 60px rgba(52, 211, 153, 0.25);
+transform: translateY(-5px);
+}
 
-    .stTextInput input:focus, .stTextArea textarea:focus {
-        border-color: #10B981 !important;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.75) !important;
-        outline: none !important;
-        background-color: #05291E !important;
-    }
+.pitch-card:hover::before {
+opacity: 1;
+}
 
-    .stTextInput label, .stTextArea label {
-        color: #10B981 !important;
-        font-weight: 800 !important;
-        font-size: 1rem !important;
-        letter-spacing: 0.5px !important;
-        margin-bottom: 0.4rem !important;
-    }
+/* High-Contrast Input Boxes */
+.stTextInput input, .stTextArea textarea {
+background-color: #031D15 !important;
+color: #FFFFFF !important;
+border: 1px solid rgba(16, 185, 129, 0.55) !important;
+border-radius: 12px !important;
+font-size: 1.02rem !important;
+font-family: 'Inter', sans-serif !important;
+padding: 0.9rem 1.2rem !important;
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
 
-    .stTextInput input::placeholder, .stTextArea textarea::placeholder {
-        color: #94A3B8 !important;
-        opacity: 1 !important;
-    }
+.stTextInput input:focus, .stTextArea textarea:focus {
+border-color: #10B981 !important;
+box-shadow: 0 0 25px rgba(16, 185, 129, 0.75) !important;
+outline: none !important;
+background-color: #05291E !important;
+}
 
-    /* Telemetry Metric Display Boxes with Glowing Hover Aura */
-    .metric-card-box {
-        background: rgba(16, 185, 129, 0.15) !important;
-        border: 1px solid rgba(16, 185, 129, 0.4) !important;
-        border-radius: 12px;
-        padding: 1.5rem 1rem;
-        text-align: center;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1) !important;
-        height: 140px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.stTextInput label, .stTextArea label {
+color: #10B981 !important;
+font-weight: 800 !important;
+font-size: 1rem !important;
+letter-spacing: 0.5px !important;
+margin-bottom: 0.4rem !important;
+}
 
-    .metric-card-box:hover {
-        transform: translateY(-5px) scale(1.03);
-        border-color: #34D399;
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 50px rgba(52, 211, 153, 0.3);
-    }
+.stTextInput input::placeholder, .stTextArea textarea::placeholder {
+color: #94A3B8 !important;
+opacity: 1 !important;
+}
 
-    .metric-card-val {
-        font-size: 2rem;
-        font-weight: 900;
-        color: #34D399 !important;
-        font-family: monospace;
-        text-shadow: 0 0 15px rgba(52, 211, 153, 0.7);
-    }
+/* Telemetry Metric Display Boxes with Glowing Hover Aura */
+.metric-card-box {
+background: rgba(16, 185, 129, 0.15) !important;
+border: 1px solid rgba(16, 185, 129, 0.4) !important;
+border-radius: 12px;
+padding: 1.5rem 1rem;
+text-align: center;
+backdrop-filter: blur(12px) !important;
+-webkit-backdrop-filter: blur(12px) !important;
+box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1) !important;
+height: 140px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .metric-card-lbl {
-        font-size: 0.8rem;
-        color: #FFFFFF !important;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: 0.35rem;
-    }
+.metric-card-box:hover {
+transform: translateY(-5px) scale(1.03);
+border-color: #34D399;
+box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 50px rgba(52, 211, 153, 0.3);
+}
 
-    /* Emerald Styled Action Button & Form Submit Button */
-    .stButton>button, .stFormSubmitButton>button, button[kind="formSubmit"], .stDownloadButton>button {
-        background: linear-gradient(90deg, #047857 0%, #10B981 50%, #34D399 100%) !important;
-        color: #FFFFFF !important;
-        font-weight: 900 !important;
-        border: 1px solid #34D399 !important;
-        border-radius: 12px !important;
-        letter-spacing: 1.2px !important;
-        text-transform: uppercase !important;
-        padding: 0.95rem 1.8rem !important;
-        font-size: 1.05rem !important;
-        box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important;
-        transition: all 0.3s ease !important;
-    }
+.metric-card-val {
+font-size: 2rem;
+font-weight: 900;
+color: #34D399 !important;
+font-family: monospace;
+text-shadow: 0 0 15px rgba(52, 211, 153, 0.7);
+}
 
-    .stFormSubmitButton p, .stFormSubmitButton span, .stFormSubmitButton div, .stDownloadButton p, .stDownloadButton span {
-        color: #FFFFFF !important;
-        font-weight: 900 !important;
-        font-size: 1.05rem !important;
-    }
+.metric-card-lbl {
+font-size: 0.8rem;
+color: #FFFFFF !important;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-top: 0.35rem;
+}
 
-    .stButton>button:hover, .stFormSubmitButton>button:hover, button[kind="formSubmit"]:hover, .stDownloadButton>button:hover {
-        background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
-        color: #03140E !important;
-        transform: translateY(-3px) !important;
-        box-shadow: 0 0 40px rgba(16, 185, 129, 0.9), 0 0 70px rgba(52, 211, 153, 0.5) !important;
-    }
+/* Emerald Styled Action Button & Form Submit Button */
+.stButton>button, .stFormSubmitButton>button, button[kind="formSubmit"], .stDownloadButton>button {
+background: linear-gradient(90deg, #047857 0%, #10B981 50%, #34D399 100%) !important;
+color: #FFFFFF !important;
+font-weight: 900 !important;
+border: 1px solid #34D399 !important;
+border-radius: 12px !important;
+letter-spacing: 1.2px !important;
+text-transform: uppercase !important;
+padding: 0.95rem 1.8rem !important;
+font-size: 1.05rem !important;
+box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important;
+transition: all 0.3s ease !important;
+}
 
-    .stFormSubmitButton button:hover p, .stFormSubmitButton button:hover span, .stDownloadButton button:hover p, .stDownloadButton button:hover span {
-        color: #03140E !important;
-    }
+.stFormSubmitButton p, .stFormSubmitButton span, .stFormSubmitButton div, .stDownloadButton p, .stDownloadButton span {
+color: #FFFFFF !important;
+font-weight: 900 !important;
+font-size: 1.05rem !important;
+}
 
-    /* Model Workspace Custom Glass Containers */
-    .stream-box {
-        background: rgba(4, 15, 36, 0.9);
-        border: 1px solid rgba(16, 185, 129, 0.45);
-        border-radius: 14px;
-        padding: 1.3rem;
-        text-align: center;
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
-        margin-bottom: 1rem;
-        transition: all 0.3s ease;
-    }
+.stButton>button:hover, .stFormSubmitButton>button:hover, button[kind="formSubmit"]:hover, .stDownloadButton>button:hover {
+background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
+color: #03140E !important;
+transform: translateY(-3px) !important;
+box-shadow: 0 0 40px rgba(16, 185, 129, 0.9), 0 0 70px rgba(52, 211, 153, 0.5) !important;
+}
 
-    .stream-box:hover {
-        border-color: #10B981;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
-    }
+.stFormSubmitButton button:hover p, .stFormSubmitButton button:hover span, .stDownloadButton button:hover p, .stDownloadButton button:hover span {
+color: #03140E !important;
+}
 
-    .stream-header {
-        color: #34D399 !important;
-        font-weight: 900;
-        font-size: 0.92rem;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 0.8rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.4rem;
-        text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
-    }
+/* Model Workspace Custom Glass Containers */
+.stream-box {
+background: rgba(4, 15, 36, 0.9);
+border: 1px solid rgba(16, 185, 129, 0.45);
+border-radius: 14px;
+padding: 1.3rem;
+text-align: center;
+box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+margin-bottom: 1rem;
+transition: all 0.3s ease;
+}
 
-    .model-feature-card {
-        background: rgba(16, 185, 129, 0.12) !important;
-        border: 1px solid rgba(16, 185, 129, 0.3) !important;
-        border-radius: 12px;
-        padding: 1.8rem;
-        height: 100%;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1) !important;
-        transition: transform 0.3s ease, border-color 0.3s ease;
-    }
+.stream-box:hover {
+border-color: #10B981;
+box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+}
 
-    .model-feature-card p {
-        color: #F1F5F9 !important;
-    }
+.stream-header {
+color: #34D399 !important;
+font-weight: 900;
+font-size: 0.92rem;
+letter-spacing: 1px;
+text-transform: uppercase;
+margin-bottom: 0.8rem;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 0.4rem;
+text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+}
 
-    .model-feature-card:hover {
-        border-color: #10B981;
-        transform: translateY(-3px);
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.45);
-    }
+.model-feature-card {
+background: rgba(16, 185, 129, 0.12) !important;
+border: 1px solid rgba(16, 185, 129, 0.3) !important;
+border-radius: 12px;
+padding: 1.8rem;
+height: 100%;
+backdrop-filter: blur(12px) !important;
+-webkit-backdrop-filter: blur(12px) !important;
+box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1) !important;
+transition: transform 0.3s ease, border-color 0.3s ease;
+}
 
-    /* Hide Sidebar Globally */
-    [data-testid="stSidebar"] {
-        display: none !important;
-    }
+.model-feature-card p {
+color: #F1F5F9 !important;
+}
 
-    /* File Uploader High Contrast Styling */
-    [data-testid="stFileUploader"] {
-        background-color: rgba(4, 15, 36, 0.9) !important;
-        border: 1.5px dashed rgba(16, 185, 129, 0.6) !important;
-        border-radius: 14px !important;
-        padding: 1.4rem !important;
-        margin-top: 0.5rem !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
-    }
+.model-feature-card:hover {
+border-color: #10B981;
+transform: translateY(-3px);
+box-shadow: 0 0 30px rgba(16, 185, 129, 0.45);
+}
 
-    [data-testid="stFileUploader"] label, 
-    [data-testid="stFileUploader"] span, 
-    [data-testid="stFileUploader"] p, 
-    [data-testid="stFileUploader"] small,
-    [data-testid="stFileUploader"] div,
-    [data-testid="stFileUploaderFileName"] {
-        color: #FFFFFF !important;
-        font-weight: 800 !important;
-        font-size: 1.02rem !important;
-    }
+/* Hide Sidebar Globally */
+[data-testid="stSidebar"] {
+display: none !important;
+}
 
-    [data-testid="stFileUploaderDropzone"] {
-        background-color: #031D15 !important;
-        border: 1.5px dashed #10B981 !important;
-        border-radius: 10px !important;
-    }
+/* File Uploader High Contrast Styling */
+[data-testid="stFileUploader"] {
+background-color: rgba(4, 15, 36, 0.9) !important;
+border: 1.5px dashed rgba(16, 185, 129, 0.6) !important;
+border-radius: 14px !important;
+padding: 1.4rem !important;
+margin-top: 0.5rem !important;
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
 
-    [data-testid="stFileUploaderDropzone"] * {
-        color: #FFFFFF !important;
-        font-weight: 800 !important;
-    }
+[data-testid="stFileUploader"] label, 
+[data-testid="stFileUploader"] span, 
+[data-testid="stFileUploader"] p, 
+[data-testid="stFileUploader"] small,
+[data-testid="stFileUploader"] div,
+[data-testid="stFileUploaderFileName"] {
+color: #FFFFFF !important;
+font-weight: 800 !important;
+font-size: 1.02rem !important;
+}
 
-    [data-testid="stFileUploaderDropzone"] button,
-    [data-testid="stFileUploader"] button {
-        background: linear-gradient(90deg, #047857 0%, #10B981 100%) !important;
-        color: #FFFFFF !important;
-        border: 1px solid #34D399 !important;
-        font-weight: 900 !important;
-        border-radius: 8px !important;
-        padding: 0.65rem 1.3rem !important;
-        text-transform: uppercase !important;
-        box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4) !important;
-    }
+[data-testid="stFileUploaderDropzone"] {
+background-color: #031D15 !important;
+border: 1.5px dashed #10B981 !important;
+border-radius: 10px !important;
+}
 
-    [data-testid="stFileUploaderDropzone"] button:hover,
-    [data-testid="stFileUploader"] button:hover {
-        background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
-        color: #03140E !important;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.8) !important;
-    }
+[data-testid="stFileUploaderDropzone"] * {
+color: #FFFFFF !important;
+font-weight: 800 !important;
+}
 
-    
-    [data-testid="stUploadedFile"] { background-color: #031D15 !important; border: 1px solid #10B981 !important; }
-    [data-testid="stUploadedFile"] * { color: #10B981 !important; font-weight: 800 !important; }
-    [data-testid="stUploadedFile"] button { background: transparent !important; box-shadow: none !important; border: none !important; color: #EF4444 !important; }
-    
-    /* Make SURE the file uploader pill is dark */
-    [data-testid="stFileUploader"] section, 
-    div[data-testid="stUploadedFile"],
-    .stUploadedFile,
-    ul[data-testid="stUploadedFileList"] > li {
-        background-color: #031D15 !important;
-        background: #031D15 !important;
-    }
-    
-    [data-testid="stFileUploader"] section *,
-    div[data-testid="stUploadedFile"] * {
-        color: #10B981 !important;
-    }
-    
-    #MainMenu {visibility: hidden;}
+[data-testid="stFileUploaderDropzone"] button,
+[data-testid="stFileUploader"] button {
+background: linear-gradient(90deg, #047857 0%, #10B981 100%) !important;
+color: #FFFFFF !important;
+border: 1px solid #34D399 !important;
+font-weight: 900 !important;
+border-radius: 8px !important;
+padding: 0.65rem 1.3rem !important;
+text-transform: uppercase !important;
+box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4) !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button:hover,
+[data-testid="stFileUploader"] button:hover {
+background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
+color: #03140E !important;
+box-shadow: 0 0 25px rgba(16, 185, 129, 0.8) !important;
+}
 
 
-    footer {visibility: hidden;}
+[data-testid="stUploadedFile"] { background-color: #031D15 !important; border: 1px solid #10B981 !important; }
+[data-testid="stUploadedFile"] * { color: #10B981 !important; font-weight: 800 !important; }
+[data-testid="stUploadedFile"] button { background: transparent !important; box-shadow: none !important; border: none !important; color: #EF4444 !important; }
 
-    /* COMET ANIMATIONS */
-    .comets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; overflow: hidden; }
-    .comet {
-        position: absolute;
-        width: 150px;
-        height: 3px;
-        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(52,211,153,0.8) 50%, transparent 100%);
-        box-shadow: 0 0 20px rgba(52,211,153,0.8);
-        border-radius: 50%;
-        transform: rotate(-45deg);
-        opacity: 0;
-    }
-    .c1 { top: 10%; left: 80%; animation: shootingStar 7s linear infinite; animation-delay: 0s; }
-    .c2 { top: 30%; left: 110%; animation: shootingStar 9s linear infinite; animation-delay: 2.5s; }
-    .c3 { top: -10%; left: 60%; animation: shootingStar 8s linear infinite; animation-delay: 5s; }
-    .c4 { top: 50%; left: 120%; animation: shootingStar 12s linear infinite; animation-delay: 7s; }
+/* Make SURE the file uploader pill is dark */
+[data-testid="stFileUploader"] section, 
+div[data-testid="stUploadedFile"],
+.stUploadedFile,
+ul[data-testid="stUploadedFileList"] > li {
+background-color: #031D15 !important;
+background: #031D15 !important;
+}
 
-    @keyframes shootingStar {
-        0% { transform: rotate(-45deg) translateX(0); opacity: 1; }
-        10% { transform: rotate(-45deg) translateX(-150vw); opacity: 0; }
-        100% { transform: rotate(-45deg) translateX(-150vw); opacity: 0; }
-    }
+[data-testid="stFileUploader"] section *,
+div[data-testid="stUploadedFile"] * {
+color: #10B981 !important;
+}
+
+#MainMenu {visibility: hidden;}
+
+
+footer {visibility: hidden;}
+
+/* COMET ANIMATIONS */
+.comets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; overflow: hidden; }
+.comet {
+position: absolute;
+width: 150px;
+height: 3px;
+background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(52,211,153,0.8) 50%, transparent 100%);
+box-shadow: 0 0 20px rgba(52,211,153,0.8);
+border-radius: 50%;
+transform: rotate(-45deg);
+opacity: 0;
+}
+.c1 { top: 10%; left: 80%; animation: shootingStar 7s linear infinite; animation-delay: 0s; }
+.c2 { top: 30%; left: 110%; animation: shootingStar 9s linear infinite; animation-delay: 2.5s; }
+.c3 { top: -10%; left: 60%; animation: shootingStar 8s linear infinite; animation-delay: 5s; }
+.c4 { top: 50%; left: 120%; animation: shootingStar 12s linear infinite; animation-delay: 7s; }
+
+@keyframes shootingStar {
+0% { transform: rotate(-45deg) translateX(0); opacity: 1; }
+10% { transform: rotate(-45deg) translateX(-150vw); opacity: 0; }
+100% { transform: rotate(-45deg) translateX(-150vw); opacity: 0; }
+}
 </style>
 
 <!-- Space Stardust & Interactive Glowing Box Cursor Canvas -->
@@ -558,10 +558,10 @@ st.markdown('''
 st.markdown('''
 <div class="pitch-header">
 <div style="display:flex; justify-content:space-between; align-items:center;">
-    <div>
-        <div class="pitch-title">CloudClear-LISS</div>
-        <div class="pitch-sub">AI-Powered Satellite Imagery Cloud Reconstruction Platform</div>
-    </div>
+<div>
+<div class="pitch-title">CloudClear-LISS</div>
+<div class="pitch-sub">AI-Powered Satellite Imagery Cloud Reconstruction Platform</div>
+</div>
 </div>
 </div>
 ''', unsafe_allow_html=True)
@@ -858,212 +858,212 @@ if selected_page == "Home":
     
     # 1. THE CHALLENGE SECTION
     st.markdown('''
-    <div style="margin-bottom: 3rem;">
-        <span style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">The Challenge</span>
-        <h2 style="color:#ffffff; margin-top:0.8rem;">High-Resolution Cloud Obscuration</h2>
-        <p style="color:#94A3B8; font-size:1.1rem; margin-top:0;">Why traditional optical remote sensing struggles to capture persistent ground realities.</p>
-        
-        <div style="display:flex; gap:1.5rem; margin-top:1.5rem;">
-            <div class="pitch-card" style="flex:1; border-top: 2px solid #EF4444 !important; padding:1.5rem;">
-                <h4 style="color:#EF4444; margin-top:0;">LISS-IV High Resolution</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">ISRO's LISS-IV sensor aboard Resourcesat provides exceptional high-resolution optical imagery at 5.8 meters, essential for monitoring micro-level changes in agriculture and land use.</p>
-            </div>
-            <div class="pitch-card" style="flex:1; border-top: 2px solid #F97316 !important; padding:1.5rem;">
-                <h4 style="color:#F97316; margin-top:0;">Tropical Cloud Obscuration</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Persistent cloud cover obscures critical scenes, rendering up to 64% of optical data unusable in tropical regions and leaving massive temporal gaps in GIS analysis.</p>
-            </div>
-            <div class="pitch-card" style="flex:1; border-top: 2px solid #F59E0B !important; padding:1.5rem;">
-                <h4 style="color:#F59E0B; margin-top:0;">Limitations of Existing Methods</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Spatial interpolation blurs ground textures, while optical temporal averages fail during rapid land events (e.g. floods). A physical deep learning model is required.</p>
-            </div>
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+<div style="margin-bottom: 3rem;">
+<span style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">The Challenge</span>
+<h2 style="color:#ffffff; margin-top:0.8rem;">High-Resolution Cloud Obscuration</h2>
+<p style="color:#94A3B8; font-size:1.1rem; margin-top:0;">Why traditional optical remote sensing struggles to capture persistent ground realities.</p>
+
+<div style="display:flex; gap:1.5rem; margin-top:1.5rem;">
+<div class="pitch-card" style="flex:1; border-top: 2px solid #EF4444 !important; padding:1.5rem;">
+<h4 style="color:#EF4444; margin-top:0;">LISS-IV High Resolution</h4>
+<p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">ISRO's LISS-IV sensor aboard Resourcesat provides exceptional high-resolution optical imagery at 5.8 meters, essential for monitoring micro-level changes in agriculture and land use.</p>
+</div>
+<div class="pitch-card" style="flex:1; border-top: 2px solid #F97316 !important; padding:1.5rem;">
+<h4 style="color:#F97316; margin-top:0;">Tropical Cloud Obscuration</h4>
+<p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Persistent cloud cover obscures critical scenes, rendering up to 64% of optical data unusable in tropical regions and leaving massive temporal gaps in GIS analysis.</p>
+</div>
+<div class="pitch-card" style="flex:1; border-top: 2px solid #F59E0B !important; padding:1.5rem;">
+<h4 style="color:#F59E0B; margin-top:0;">Limitations of Existing Methods</h4>
+<p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Spatial interpolation blurs ground textures, while optical temporal averages fail during rapid land events (e.g. floods). A physical deep learning model is required.</p>
+</div>
+</div>
+</div>
+''', unsafe_allow_html=True)
 
     # 2. TECHNICAL PIPELINE & SYSTEM ARCHITECTURE
     st.markdown('''
-    <div style="margin-bottom: 3rem;">
-        <span style="background:rgba(59,130,246,0.15); border:1px solid #3B82F6; color:#3B82F6; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Technical Pipeline</span>
-        <h2 style="color:#ffffff; margin-top:0.8rem;">System Architecture</h2>
-        
-        <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem;">
-            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #3B82F6; padding:1.5rem;">
-                <h4 style="color:#3B82F6; margin-top:0; font-size:1.1rem;">01. Data Acquisition</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;"><strong>LISS-IV Input:</strong> 5.8m spatial resolution optical bands (G, R, NIR). Crucial for land analysis but obscured by clouds.<br>
-                <strong>Sentinel-1 SAR Input:</strong> C-band microwave radar (VV/VH dual-pol) data penetrating clouds to record surface roughness and physical layouts.</p>
-            </div>
-            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #06B6D4; padding:1.5rem;">
-                <h4 style="color:#06B6D4; margin-top:0; font-size:1.1rem;">02. Preprocessing</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Geo-alignment, co-registration, radiometric normalization, and cloud/shadow mask extraction.</p>
-            </div>
-            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
-                <h4 style="color:#10B981; margin-top:0; font-size:1.1rem;">03. AI Core (CycleGAN & U-Net)</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Dual generators utilizing U-Net skip connections reconstruct hidden optical reflectance from SAR structural features with high fidelity.</p>
-            </div>
-            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #8B5CF6; padding:1.5rem;">
-                <h4 style="color:#8B5CF6; margin-top:0; font-size:1.1rem;">04. Output Layer</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Assembles clean patches back into WGS84 coordinates. Runs validation metrics (PSNR, SSIM, SAM, RMSE) for GIS mapping.</p>
-            </div>
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+<div style="margin-bottom: 3rem;">
+<span style="background:rgba(59,130,246,0.15); border:1px solid #3B82F6; color:#3B82F6; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Technical Pipeline</span>
+<h2 style="color:#ffffff; margin-top:0.8rem;">System Architecture</h2>
+
+<div style="display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem;">
+<div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #3B82F6; padding:1.5rem;">
+<h4 style="color:#3B82F6; margin-top:0; font-size:1.1rem;">01. Data Acquisition</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;"><strong>LISS-IV Input:</strong> 5.8m spatial resolution optical bands (G, R, NIR). Crucial for land analysis but obscured by clouds.<br>
+<strong>Sentinel-1 SAR Input:</strong> C-band microwave radar (VV/VH dual-pol) data penetrating clouds to record surface roughness and physical layouts.</p>
+</div>
+<div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #06B6D4; padding:1.5rem;">
+<h4 style="color:#06B6D4; margin-top:0; font-size:1.1rem;">02. Preprocessing</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Geo-alignment, co-registration, radiometric normalization, and cloud/shadow mask extraction.</p>
+</div>
+<div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
+<h4 style="color:#10B981; margin-top:0; font-size:1.1rem;">03. AI Core (CycleGAN & U-Net)</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Dual generators utilizing U-Net skip connections reconstruct hidden optical reflectance from SAR structural features with high fidelity.</p>
+</div>
+<div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #8B5CF6; padding:1.5rem;">
+<h4 style="color:#8B5CF6; margin-top:0; font-size:1.1rem;">04. Output Layer</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Assembles clean patches back into WGS84 coordinates. Runs validation metrics (PSNR, SSIM, SAM, RMSE) for GIS mapping.</p>
+</div>
+</div>
+</div>
+''', unsafe_allow_html=True)
 
     # 3. KEY FEATURES
     st.markdown('''
-    <div style="margin-bottom: 3rem;">
-        <span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Engineered for Geospatial Rigor</span>
-        
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem; margin-top:1.5rem;">
-            <div class="model-feature-card">
-                <h4 style="color:#10B981; margin-top:0;">LISS-IV Resolution</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Maintains native 5.8m pixel spacing without introducing synthetic artifacts.</p>
-            </div>
-            <div class="model-feature-card">
-                <h4 style="color:#10B981; margin-top:0;">Multi-Sensor Fusion</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Blends optical reflection with C-band radar backscatter for structural fidelity.</p>
-            </div>
-            <div class="model-feature-card">
-                <h4 style="color:#10B981; margin-top:0;">CycleGAN Architecture</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Unpaired image-to-image translation guarantees structural consistency across domains.</p>
-            </div>
-            <div class="model-feature-card">
-                <h4 style="color:#10B981; margin-top:0;">Georeferenced Output</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Retains all coordinate system metadata (UTM / WGS84) for GIS software integration.</p>
-            </div>
-            <div class="model-feature-card">
-                <h4 style="color:#10B981; margin-top:0;">Quality Validated</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Verified via PSNR, SSIM, SAM, and RMSE relative to ground truth.</p>
-            </div>
-            <div class="model-feature-card">
-                <h4 style="color:#10B981; margin-top:0;">GPU Accelerated</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Optimized PyTorch inference allows rapid patch-wise scene recovery in seconds.</p>
-            </div>
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+<div style="margin-bottom: 3rem;">
+<span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Engineered for Geospatial Rigor</span>
+
+<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem; margin-top:1.5rem;">
+<div class="model-feature-card">
+<h4 style="color:#10B981; margin-top:0;">LISS-IV Resolution</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Maintains native 5.8m pixel spacing without introducing synthetic artifacts.</p>
+</div>
+<div class="model-feature-card">
+<h4 style="color:#10B981; margin-top:0;">Multi-Sensor Fusion</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Blends optical reflection with C-band radar backscatter for structural fidelity.</p>
+</div>
+<div class="model-feature-card">
+<h4 style="color:#10B981; margin-top:0;">CycleGAN Architecture</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Unpaired image-to-image translation guarantees structural consistency across domains.</p>
+</div>
+<div class="model-feature-card">
+<h4 style="color:#10B981; margin-top:0;">Georeferenced Output</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Retains all coordinate system metadata (UTM / WGS84) for GIS software integration.</p>
+</div>
+<div class="model-feature-card">
+<h4 style="color:#10B981; margin-top:0;">Quality Validated</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Verified via PSNR, SSIM, SAM, and RMSE relative to ground truth.</p>
+</div>
+<div class="model-feature-card">
+<h4 style="color:#10B981; margin-top:0;">GPU Accelerated</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Optimized PyTorch inference allows rapid patch-wise scene recovery in seconds.</p>
+</div>
+</div>
+</div>
+''', unsafe_allow_html=True)
 
     # 4. WORKFLOW ("HOW IT WORKS")
     st.markdown('''
-    <div style="margin-bottom: 3rem;">
-        <span style="background:rgba(245,158,11,0.15); border:1px solid #F59E0B; color:#F59E0B; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Workflow</span>
-        <h2 style="color:#ffffff; margin-top:0.8rem;">How It Works</h2>
-        
-        <div style="display:flex; justify-content:space-between; gap:1rem; margin-top:1.5rem; text-align:center;">
-            <div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
-                <h3 style="color:#F59E0B; margin:0;">01. Upload</h3>
-                <p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">Cloudy LISS-IV (optical) and Sentinel-1 (SAR) scenes.</p>
-            </div>
-            <div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
-                <h3 style="color:#F59E0B; margin:0;">02. Align</h3>
-                <p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">Co-registration, normalization, and patch extraction (256x256 grids).</p>
-            </div>
-            <div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
-                <h3 style="color:#F59E0B; margin:0;">03. Detect</h3>
-                <p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">Generates cloud & shadow masks using spectral signature thresholds.</p>
-            </div>
-            <div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
-                <h3 style="color:#F59E0B; margin:0;">04. Reconstruct</h3>
-                <p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">CycleGAN core infuses SAR edge details and structural layouts into masks.</p>
-            </div>
-            <div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
-                <h3 style="color:#F59E0B; margin:0;">05. Export</h3>
-                <p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">Assembles patches back into a georeferenced, cloud-free GeoTIFF raster.</p>
-            </div>
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+<div style="margin-bottom: 3rem;">
+<span style="background:rgba(245,158,11,0.15); border:1px solid #F59E0B; color:#F59E0B; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Workflow</span>
+<h2 style="color:#ffffff; margin-top:0.8rem;">How It Works</h2>
+
+<div style="display:flex; justify-content:space-between; gap:1rem; margin-top:1.5rem; text-align:center;">
+<div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
+<h3 style="color:#F59E0B; margin:0;">01. Upload</h3>
+<p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">Cloudy LISS-IV (optical) and Sentinel-1 (SAR) scenes.</p>
+</div>
+<div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
+<h3 style="color:#F59E0B; margin:0;">02. Align</h3>
+<p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">Co-registration, normalization, and patch extraction (256x256 grids).</p>
+</div>
+<div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
+<h3 style="color:#F59E0B; margin:0;">03. Detect</h3>
+<p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">Generates cloud & shadow masks using spectral signature thresholds.</p>
+</div>
+<div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
+<h3 style="color:#F59E0B; margin:0;">04. Reconstruct</h3>
+<p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">CycleGAN core infuses SAR edge details and structural layouts into masks.</p>
+</div>
+<div class="metric-card-box" style="flex:1; height:auto; padding:1.5rem;">
+<h3 style="color:#F59E0B; margin:0;">05. Export</h3>
+<p style="color:#94A3B8; font-size:0.9rem; margin-top:0.5rem;">Assembles patches back into a georeferenced, cloud-free GeoTIFF raster.</p>
+</div>
+</div>
+</div>
+''', unsafe_allow_html=True)
 
     # 5. DOWNSTREAM IMPACT & TECH STACK
     c1, c2 = st.columns([1.5, 1])
     with c1:
         st.markdown('''
-        <div style="margin-bottom: 2rem;">
-            <span style="background:rgba(139,92,246,0.15); border:1px solid #8B5CF6; color:#8B5CF6; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Impact</span>
-            <h2 style="color:#ffffff; margin-top:0.8rem;">Downstream Domain Applications</h2>
-            
-            <div class="pitch-card" style="padding:1.5rem; margin-top:1.5rem;">
-                <h4 style="color:#8B5CF6; margin-top:0;">Precision Agriculture</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Track crop health (NDVI) throughout monsoon seasons without missing growth stages.</p>
-                <h4 style="color:#8B5CF6; margin-top:1rem;">Disaster Response</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Provide situational awareness updates to rescue teams immediately after storms or landslides.</p>
-                <h4 style="color:#8B5CF6; margin-top:1rem;">Urban & Forest Planning</h4>
-                <p style="color:#94A3B8; font-size:0.95rem;">Monitor illegal deforestation, infrastructure growth, and reservoir levels year-round.</p>
-            </div>
-        </div>
-        ''', unsafe_allow_html=True)
+<div style="margin-bottom: 2rem;">
+<span style="background:rgba(139,92,246,0.15); border:1px solid #8B5CF6; color:#8B5CF6; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Impact</span>
+<h2 style="color:#ffffff; margin-top:0.8rem;">Downstream Domain Applications</h2>
+
+<div class="pitch-card" style="padding:1.5rem; margin-top:1.5rem;">
+<h4 style="color:#8B5CF6; margin-top:0;">Precision Agriculture</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Track crop health (NDVI) throughout monsoon seasons without missing growth stages.</p>
+<h4 style="color:#8B5CF6; margin-top:1rem;">Disaster Response</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Provide situational awareness updates to rescue teams immediately after storms or landslides.</p>
+<h4 style="color:#8B5CF6; margin-top:1rem;">Urban & Forest Planning</h4>
+<p style="color:#94A3B8; font-size:0.95rem;">Monitor illegal deforestation, infrastructure growth, and reservoir levels year-round.</p>
+</div>
+</div>
+''', unsafe_allow_html=True)
     with c2:
         st.markdown('''
-        <div style="margin-bottom: 2rem;">
-            <span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Tech Stack</span>
-            <h2 style="color:#ffffff; margin-top:0.8rem;">Engineering Stack</h2>
-            
-            <div class="pitch-card" style="padding:1.5rem; margin-top:1.5rem; text-align:center;">
-                <p style="color:#E2E8F0; font-size:1rem; font-weight:700; margin-bottom:0.2rem;">Deep Learning (AI/ML)</p>
-                <p style="color:#10B981; font-size:0.95rem; margin-bottom:1.5rem;">PyTorch, TorchVision, TensorBoard</p>
-                
-                <p style="color:#E2E8F0; font-size:1rem; font-weight:700; margin-bottom:0.2rem;">Geospatial Processing</p>
-                <p style="color:#10B981; font-size:0.95rem; margin-bottom:1.5rem;">OpenCV, NumPy, Rasterio, GDAL, QGIS</p>
-                
-                <p style="color:#E2E8F0; font-size:1rem; font-weight:700; margin-bottom:0.2rem;">Backend & Deployment</p>
-                <p style="color:#10B981; font-size:0.95rem; margin-bottom:0;">Python, FastAPI, Docker</p>
-            </div>
-        </div>
-        ''', unsafe_allow_html=True)
+<div style="margin-bottom: 2rem;">
+<span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Tech Stack</span>
+<h2 style="color:#ffffff; margin-top:0.8rem;">Engineering Stack</h2>
+
+<div class="pitch-card" style="padding:1.5rem; margin-top:1.5rem; text-align:center;">
+<p style="color:#E2E8F0; font-size:1rem; font-weight:700; margin-bottom:0.2rem;">Deep Learning (AI/ML)</p>
+<p style="color:#10B981; font-size:0.95rem; margin-bottom:1.5rem;">PyTorch, TorchVision, TensorBoard</p>
+
+<p style="color:#E2E8F0; font-size:1rem; font-weight:700; margin-bottom:0.2rem;">Geospatial Processing</p>
+<p style="color:#10B981; font-size:0.95rem; margin-bottom:1.5rem;">OpenCV, NumPy, Rasterio, GDAL, QGIS</p>
+
+<p style="color:#E2E8F0; font-size:1rem; font-weight:700; margin-bottom:0.2rem;">Backend & Deployment</p>
+<p style="color:#10B981; font-size:0.95rem; margin-bottom:0;">Python, FastAPI, Docker</p>
+</div>
+</div>
+''', unsafe_allow_html=True)
 
 elif selected_page == "About":
     # 1. THE CHALLENGE SECTION
     st.markdown('''
-    <div style="margin-bottom: 3rem;">
-        <span style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">The Challenge</span>
-        <h2 style="color:#ffffff; margin-top:0.8rem;">Clouds Obscuring Earth's Surface</h2>
-        
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1.5rem; margin-top:1.5rem;">
-            <div class="pitch-card" style="border-top: 2px solid #EF4444 !important; padding:1.5rem;">
-                <h4 style="color:#EF4444; margin-top:0;">LISS-IV Spatial Resolution</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">LISS-IV provides ultra-high resolution (5.8m) optical imagery essential for detailed GIS analysis.</p>
-            </div>
-            <div class="pitch-card" style="border-top: 2px solid #F97316 !important; padding:1.5rem;">
-                <h4 style="color:#F97316; margin-top:0;">Persistent Cloud Cover</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Clouds frequently obscure 30% to 60% of optical images in tropical areas, rendering them unusable.</p>
-            </div>
-            <div class="pitch-card" style="border-top: 2px solid #F59E0B !important; padding:1.5rem;">
-                <h4 style="color:#F59E0B; margin-top:0;">Information Loss</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Traditional interpolation and temporal averaging lose critical spatial boundaries and spectral characteristics.</p>
-            </div>
-            <div class="pitch-card" style="border-top: 2px solid #EAB308 !important; padding:1.5rem;">
-                <h4 style="color:#EAB308; margin-top:0;">Need for Custom Solution</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">A critical gap exists for an ISRO-specific pipeline tailored to LISS-IV resolutions and spectral bands.</p>
-            </div>
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+<div style="margin-bottom: 3rem;">
+<span style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">The Challenge</span>
+<h2 style="color:#ffffff; margin-top:0.8rem;">Clouds Obscuring Earth's Surface</h2>
+
+<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1.5rem; margin-top:1.5rem;">
+<div class="pitch-card" style="border-top: 2px solid #EF4444 !important; padding:1.5rem;">
+<h4 style="color:#EF4444; margin-top:0;">LISS-IV Spatial Resolution</h4>
+<p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">LISS-IV provides ultra-high resolution (5.8m) optical imagery essential for detailed GIS analysis.</p>
+</div>
+<div class="pitch-card" style="border-top: 2px solid #F97316 !important; padding:1.5rem;">
+<h4 style="color:#F97316; margin-top:0;">Persistent Cloud Cover</h4>
+<p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Clouds frequently obscure 30% to 60% of optical images in tropical areas, rendering them unusable.</p>
+</div>
+<div class="pitch-card" style="border-top: 2px solid #F59E0B !important; padding:1.5rem;">
+<h4 style="color:#F59E0B; margin-top:0;">Information Loss</h4>
+<p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Traditional interpolation and temporal averaging lose critical spatial boundaries and spectral characteristics.</p>
+</div>
+<div class="pitch-card" style="border-top: 2px solid #EAB308 !important; padding:1.5rem;">
+<h4 style="color:#EAB308; margin-top:0;">Need for Custom Solution</h4>
+<p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">A critical gap exists for an ISRO-specific pipeline tailored to LISS-IV resolutions and spectral bands.</p>
+</div>
+</div>
+</div>
+''', unsafe_allow_html=True)
 
     # 2. OUR INNOVATION SECTION
     st.markdown('''
-    <div style="margin-bottom: 3rem;">
-        <span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Our Innovation</span>
-        <h2 style="color:#ffffff; margin-top:0.8rem;">AI-Powered Cloud Reconstruction</h2>
-        
-        <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem;">
-            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
-                <h4 style="color:#10B981; margin-top:0; font-size:1.1rem;">AI Cloud Detection</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Deep segmentation networks accurately flag clouds, shadows, and clear ground margins.</p>
-            </div>
-            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #34D399; padding:1.5rem;">
-                <h4 style="color:#34D399; margin-top:0; font-size:1.1rem;">SAR-Guided U-Net Reconstruction</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Fuses Sentinel-1 microwave radar backscatter (C-band) to reconstruct structural layouts under dense clouds. A generative U-Net core with dense skip connections directly routes high-frequency spatial details to ensure the native 5.8m resolution is flawlessly preserved.</p>
-            </div>
-            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #059669; padding:1.5rem;">
-                <h4 style="color:#059669; margin-top:0; font-size:1.1rem;">LISS-IV Optimization</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Model explicitly trained to match LISS-IV's unique Green, Red, and Near-Infrared (NIR) band parameters.</p>
-            </div>
-            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #047857; padding:1.5rem;">
-                <h4 style="color:#047857; margin-top:0; font-size:1.1rem;">Production GeoTIFFs</h4>
-                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Exports standard georeferenced rasters, preserving coordinate reference systems (CRS) for QGIS and ArcGIS.</p>
-            </div>
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+<div style="margin-bottom: 3rem;">
+<span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Our Innovation</span>
+<h2 style="color:#ffffff; margin-top:0.8rem;">AI-Powered Cloud Reconstruction</h2>
+
+<div style="display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem;">
+<div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
+<h4 style="color:#10B981; margin-top:0; font-size:1.1rem;">AI Cloud Detection</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Deep segmentation networks accurately flag clouds, shadows, and clear ground margins.</p>
+</div>
+<div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #34D399; padding:1.5rem;">
+<h4 style="color:#34D399; margin-top:0; font-size:1.1rem;">SAR-Guided U-Net Reconstruction</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Fuses Sentinel-1 microwave radar backscatter (C-band) to reconstruct structural layouts under dense clouds. A generative U-Net core with dense skip connections directly routes high-frequency spatial details to ensure the native 5.8m resolution is flawlessly preserved.</p>
+</div>
+<div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #059669; padding:1.5rem;">
+<h4 style="color:#059669; margin-top:0; font-size:1.1rem;">LISS-IV Optimization</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Model explicitly trained to match LISS-IV's unique Green, Red, and Near-Infrared (NIR) band parameters.</p>
+</div>
+<div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #047857; padding:1.5rem;">
+<h4 style="color:#047857; margin-top:0; font-size:1.1rem;">Production GeoTIFFs</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Exports standard georeferenced rasters, preserving coordinate reference systems (CRS) for QGIS and ArcGIS.</p>
+</div>
+</div>
+</div>
+''', unsafe_allow_html=True)
 
     st.markdown("### Multi-Objective Adversarial Optimization")
     m1, m2, m3, m4 = st.columns(4)
@@ -1243,10 +1243,10 @@ elif selected_page == "Model":
 
     with c_stream1:
         st.markdown('''
-    <div class="stream-box">
-        <div class="stream-header">STREAM 01: RAW OPTICAL INGEST</div>
-    </div>
-        ''', unsafe_allow_html=True)
+<div class="stream-box">
+<div class="stream-header">STREAM 01: RAW OPTICAL INGEST</div>
+</div>
+''', unsafe_allow_html=True)
         st.image(input_img, use_container_width=True)
         st.markdown("<div style='margin-top:0.6rem;'></div>", unsafe_allow_html=True)
         buf_raw = io.BytesIO()
@@ -1286,10 +1286,10 @@ elif selected_page == "Model":
 
     with c_stream3:
         st.markdown('''
-    <div class="stream-box">
-        <div class="stream-header">STREAM 03: SPATIAL DEVIATION MAP</div>
-    </div>
-        ''', unsafe_allow_html=True)
+<div class="stream-box">
+<div class="stream-header">STREAM 03: SPATIAL DEVIATION MAP</div>
+</div>
+''', unsafe_allow_html=True)
         if 'deviation_map' in st.session_state and st.session_state['deviation_map'] is not None:
             dev_pil = Image.fromarray(st.session_state['deviation_map'])
             st.image(dev_pil, use_container_width=True)
@@ -1337,21 +1337,21 @@ elif selected_page == "Image Conversion":
     # A. Header Section
     st.markdown('''
 <div class="pitch-card" style="margin-bottom:1.5rem;">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-        <div>
-                <h2 style="color:#10B981; margin:0 0 0.4rem 0; font-size:1.8rem; font-weight:800;">
-                    LISS-IV Multi-Band Stacking & Conversion Engine
-                </h2>
-        <p style="color:#94A3B8; font-size:0.95rem; margin:0;">
-                    Upload raw single-band LISS-IV GeoTIFF rasters (B2, B3, B4) to synthesize a unified multi-band GeoTIFF and high-contrast False Color Composite (FCC) preview.
-                </p>
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+<div>
+<h2 style="color:#10B981; margin:0 0 0.4rem 0; font-size:1.8rem; font-weight:800;">
+LISS-IV Multi-Band Stacking & Conversion Engine
+</h2>
+<p style="color:#94A3B8; font-size:0.95rem; margin:0;">
+Upload raw single-band LISS-IV GeoTIFF rasters (B2, B3, B4) to synthesize a unified multi-band GeoTIFF and high-contrast False Color Composite (FCC) preview.
+</p>
 </div>
-        <div>
-                <span class="status-badge-online">Preprocessing Module — CloudClear-LISS</span>
+<div>
+<span class="status-badge-online">Preprocessing Module — CloudClear-LISS</span>
 </div>
-    </div>
 </div>
-    ''', unsafe_allow_html=True)
+</div>
+''', unsafe_allow_html=True)
 
     # B. Upload Section (3 Discrete Input Dropzones Grid)
     st.markdown("### Single-Band Input Dropzones")
@@ -1359,11 +1359,11 @@ elif selected_page == "Image Conversion":
 
     with c_b2:
         st.markdown('''
-    <div class="pitch-card" style="border-top:4px solid #10B981; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
-    <h4 style="color:#10B981; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 2 (B2 - Green)</h4>
-    <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.52 - 0.59 µm Spectral Range</p>
-    </div>
-        ''', unsafe_allow_html=True)
+<div class="pitch-card" style="border-top:4px solid #10B981; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
+<h4 style="color:#10B981; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 2 (B2 - Green)</h4>
+<p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.52 - 0.59 µm Spectral Range</p>
+</div>
+''', unsafe_allow_html=True)
         up_b2 = st.file_uploader("Upload Band 2 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b2_uploader")
         if up_b2:
             size_mb = round(len(up_b2.getbuffer()) / (1024 * 1024), 2)
@@ -1371,11 +1371,11 @@ elif selected_page == "Image Conversion":
 
     with c_b3:
         st.markdown('''
-    <div class="pitch-card" style="border-top:4px solid #F59E0B; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
-    <h4 style="color:#F59E0B; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 3 (B3 - Red)</h4>
-    <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.62 - 0.68 µm Spectral Range</p>
-    </div>
-        ''', unsafe_allow_html=True)
+<div class="pitch-card" style="border-top:4px solid #F59E0B; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
+<h4 style="color:#F59E0B; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 3 (B3 - Red)</h4>
+<p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.62 - 0.68 µm Spectral Range</p>
+</div>
+''', unsafe_allow_html=True)
         up_b3 = st.file_uploader("Upload Band 3 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b3_uploader")
         if up_b3:
             size_mb = round(len(up_b3.getbuffer()) / (1024 * 1024), 2)
@@ -1383,11 +1383,11 @@ elif selected_page == "Image Conversion":
 
     with c_b4:
         st.markdown('''
-    <div class="pitch-card" style="border-top:4px solid #8B5CF6; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
-    <h4 style="color:#8B5CF6; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 4 (B4 - Near-Infrared)</h4>
-    <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.77 - 0.86 µm Spectral Range</p>
-    </div>
-        ''', unsafe_allow_html=True)
+<div class="pitch-card" style="border-top:4px solid #8B5CF6; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
+<h4 style="color:#8B5CF6; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 4 (B4 - Near-Infrared)</h4>
+<p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.77 - 0.86 µm Spectral Range</p>
+</div>
+''', unsafe_allow_html=True)
         up_b4 = st.file_uploader("Upload Band 4 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b4_uploader")
         if up_b4:
             size_mb = round(len(up_b4.getbuffer()) / (1024 * 1024), 2)
@@ -1449,13 +1449,13 @@ elif selected_page == "Image Conversion":
 
         with r_col1:
             st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #10B981;">
-        <h4 style="color:#10B981; margin-top:0;">1. Visual False Color Composite (FCC) Preview (.PNG)</h4>
-        <p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
-                    Radiometrically normalized 3-band composite (Red: NIR, Green: Red, Blue: Green).
-                </p>
+<div class="pitch-card" style="border-left:4px solid #10B981;">
+<h4 style="color:#10B981; margin-top:0;">1. Visual False Color Composite (FCC) Preview (.PNG)</h4>
+<p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
+Radiometrically normalized 3-band composite (Red: NIR, Green: Red, Blue: Green).
+</p>
 </div>
-            ''', unsafe_allow_html=True)
+''', unsafe_allow_html=True)
             st.image(res['png_bytes'], use_container_width=True)
             st.markdown("<div style='margin-top:0.8rem;'></div>", unsafe_allow_html=True)
             st.download_button(
@@ -1468,13 +1468,13 @@ elif selected_page == "Image Conversion":
 
         with r_col2:
             st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #00D4FF;">
-        <h4 style="color:#10B981; margin-top:0;">2. GIS-Ready Multi-Band Raster (.TIF)</h4>
-        <p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
-                    Stacked 3-band GeoTIFF raster preserving spatial resolution and CRS metadata.
-                </p>
+<div class="pitch-card" style="border-left:4px solid #00D4FF;">
+<h4 style="color:#10B981; margin-top:0;">2. GIS-Ready Multi-Band Raster (.TIF)</h4>
+<p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
+Stacked 3-band GeoTIFF raster preserving spatial resolution and CRS metadata.
+</p>
 </div>
-            ''', unsafe_allow_html=True)
+''', unsafe_allow_html=True)
 
             st.markdown(f'''
         <div class="model-feature-card">
@@ -1507,31 +1507,31 @@ elif selected_page == "Contact":
     t1, t2, t3 = st.columns(3)
     with t1:
         st.markdown('''
-    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
-            <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Sabaresh K</h2>
-            <a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
-                Email: sabaresh.k2025aids@sece.ac.in
-            </a>
-    </div>
-        ''', unsafe_allow_html=True)
+<div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
+<h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Sabaresh K</h2>
+<a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
+Email: sabaresh.k2025aids@sece.ac.in
+</a>
+</div>
+''', unsafe_allow_html=True)
     with t2:
         st.markdown('''
-    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
-            <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Saadhana S</h2>
-            <a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
-                Email: saadhana.s2025aids@sece.ac.in
-            </a>
-    </div>
-        ''', unsafe_allow_html=True)
+<div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
+<h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Saadhana S</h2>
+<a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
+Email: saadhana.s2025aids@sece.ac.in
+</a>
+</div>
+''', unsafe_allow_html=True)
     with t3:
         st.markdown('''
-    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
-            <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Pranika R</h2>
-            <a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
-                Email: pranika.r2025aids@sece.ac.in
-            </a>
-    </div>
-        ''', unsafe_allow_html=True)
+<div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
+<h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Pranika R</h2>
+<a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
+Email: pranika.r2025aids@sece.ac.in
+</a>
+</div>
+''', unsafe_allow_html=True)
 
     form_col, loc_col = st.columns([1.5, 1])
     with form_col:
