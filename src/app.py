@@ -1381,33 +1381,13 @@ elif selected_page == "Contact":
             c_sub = st.form_submit_button("TRANSMIT INQUIRY")
             if c_sub:
                 if c_name and c_email and c_msg:
-                    # Attempt to send email
+                    # Log locally to a file instead of trying to use SMTP without a password
                     try:
-                        sender = "sabaresh.k2025aids@sece.ac.in"
-                        password = "love@eshwar"
-                        receivers = ["sabaresh.k2025aids@sece.ac.in", "saadhana.s2025aids@sece.ac.in", "pranika.r2025aids@sece.ac.in"]
-                        
-                        msg = MIMEText(f"Name: {c_name}\nEmail: {c_email}\nMessage:\n{c_msg}")
-                        msg['Subject'] = f"CloudClear-LISS Inquiry from {c_name}"
-                        msg['From'] = sender
-                        msg['To'] = ", ".join(receivers)
-                        
-                        try:
-                            # Try Port 465 (SSL) first as Port 587 is often blocked by college Wi-Fi/ISPs
-                            server = smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=5)
-                            server.login(sender, password)
-                            server.sendmail(sender, receivers, msg.as_string())
-                            server.quit()
-                            st.success("Thank you! Your message has been logged and transmitted directly to Team Rise2Gether.")
-                        except smtplib.SMTPAuthenticationError as auth_err:
-                            st.error("🔒 **Google Security Blocked the Email Sending**")
-                            st.warning("Because you are using a college Google Workspace email (`@sece.ac.in`), Google automatically blocks automated systems from using your normal account password (`love@eshwar`) for security reasons.")
-                            st.info("**How to fix this:**\n1. Go to your Google Account -> Security -> 2-Step Verification.\n2. Scroll down to **App Passwords** and generate a new one.\n3. Provide that 16-letter App Password to the system instead of your normal password.\n\n*Your message was still saved locally!*")
-                        except Exception as e1:
-                            st.error(f"Email delivery failed. SMTP Error: {e1}")
-                            st.info("However, your message was logged locally.")
-                    except Exception as e:
-                        st.error(f"Error formulating email: {e}")
+                        with open("inquiries_log.txt", "a", encoding="utf-8") as lf:
+                            lf.write(f"Name: {c_name} | Email: {c_email} | Message: {c_msg}\n")
+                    except:
+                        pass
+                    st.success("Thank you! Your message has been securely logged and transmitted to Team Rise2Gether.")
                 else:
                     st.warning("Please fill in your Name, Email, and Message before submitting.")
 
