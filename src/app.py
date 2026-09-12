@@ -463,7 +463,12 @@ st.markdown('''
         box-shadow: 0 0 25px rgba(16, 185, 129, 0.8) !important;
     }
 
+    
+    [data-testid="stUploadedFile"] { background-color: #031D15 !important; border: 1px solid #10B981 !important; }
+    [data-testid="stUploadedFile"] * { color: #10B981 !important; font-weight: 800 !important; }
+    [data-testid="stUploadedFile"] button { background: transparent !important; box-shadow: none !important; border: none !important; color: #EF4444 !important; }
     #MainMenu {visibility: hidden;}
+
     footer {visibility: hidden;}
 </style>
 
