@@ -91,6 +91,10 @@ def compute_metrics(in_np, out_np):
 st.markdown('''
 <style>
     /* Keyframe Animations */
+    @keyframes starPulse {
+        0% { filter: brightness(0.8) contrast(1.2); }
+        100% { filter: brightness(1.3) contrast(1.5); }
+    }
     @keyframes moveStars {
         0% { background-position: 0 0, 0 0, 0 0; }
         100% { background-position: 0 0, 0 0, -1000px 1000px; }
@@ -119,12 +123,13 @@ st.markdown('''
         background-image: 
             radial-gradient(circle at top right, rgba(14, 165, 233, 0.12) 0%, transparent 40%),
             radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Ccircle cx='50' cy='50' r='1.5' fill='%23fff' opacity='0.8'/%3E%3Ccircle cx='200' cy='150' r='2' fill='%23fff' opacity='0.9'/%3E%3Ccircle cx='250' cy='30' r='1' fill='%23fff' opacity='0.5'/%3E%3Ccircle cx='80' cy='250' r='2.5' fill='%23fff' opacity='0.7'/%3E%3Ccircle cx='150' cy='280' r='1' fill='%23fff' opacity='0.4'/%3E%3C/svg%3E") !important;
-        background-size: 100% 100%, 100% 100%, 500px 500px !important;
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cdefs%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='3' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g)'%3E%3Cpath d='M50 40 L53 47 L60 50 L53 53 L50 60 L47 53 L40 50 L47 47 Z' fill='%23ffffff' opacity='0.9'/%3E%3Cpath d='M200 150 L204 161 L215 165 L204 169 L200 180 L196 169 L185 165 L196 161 Z' fill='%230ea5e9' opacity='1'/%3E%3Cpath d='M320 80 L322 88 L330 90 L322 92 L320 100 L318 92 L310 90 L318 88 Z' fill='%2338bdf8' opacity='0.8'/%3E%3Cpath d='M100 300 L102 306 L108 308 L102 310 L100 316 L98 310 L92 308 L98 306 Z' fill='%23ffffff' opacity='0.9'/%3E%3Cpath d='M280 280 L283 287 L290 290 L283 293 L280 300 L277 293 L270 290 L277 287 Z' fill='%23ffffff' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cdefs%3E%3Cfilter id='g2'%3E%3CfeGaussianBlur stdDeviation='2' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g2)'%3E%3Cpath d='M30 120 L32 126 L38 128 L32 130 L30 136 L28 130 L22 128 L28 126 Z' fill='%2338bdf8' opacity='0.8'/%3E%3Cpath d='M250 200 L253 207 L260 210 L253 213 L250 220 L247 213 L240 210 L247 207 Z' fill='%23ffffff' opacity='0.9'/%3E%3C/g%3E%3C/svg%3E") !important;
+        background-size: 100% 100%, 100% 100%, 400px 400px, 300px 300px !important;
         background-attachment: fixed !important;
         color: #FFFFFF !important;
         font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-        animation: moveStars 120s linear infinite !important;
+        animation: moveStars 120s linear infinite, starPulse 4s ease-in-out infinite alternate !important;
     }
     
     .block-container {
