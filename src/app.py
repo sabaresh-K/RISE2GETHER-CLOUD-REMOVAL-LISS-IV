@@ -1011,42 +1011,60 @@ if selected_page == "Home":
         ''', unsafe_allow_html=True)
 
 elif selected_page == "About":
-    st.markdown("### The Evolution of Cloud Removal")
-    st.markdown('''<div class="pitch-header">
-<h2 style="margin:0; color:#ffffff;">Why Traditional Methods Fail</h2>
-<p style="color:#94A3B8; margin-top:0.5rem; font-size:1.1rem;">
-A deep-dive into the architectural shortcomings of existing remote sensing techniques.
-</p>
-</div>''', unsafe_allow_html=True)
-
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        st.markdown('''<div class="model-feature-card">
-<h3 style="color:#EF4444;">Cloud Masking</h3>
-<p style="color:#94A3B8;">Simply identifies and nullifies cloudy pixels, leaving large void data gaps that break automated downstream analytics.</p>
-</div>''', unsafe_allow_html=True)
-    with c2:
-        st.markdown('''<div class="model-feature-card">
-<h3 style="color:#EF4444;">Temporal Mosaicing</h3>
-<p style="color:#94A3B8;">Replaces cloudy areas with historical images taken weeks earlier, failing to capture real-time dynamic events like flash floods.</p>
-</div>''', unsafe_allow_html=True)
-    with c3:
-        st.markdown('''<div class="model-feature-card">
-<h3 style="color:#EF4444;">Standard GANs</h3>
-<p style="color:#94A3B8;">Uses traditional deep learning to blindly guess missing areas without physical ground truth, leading to severe geometric hallucinations.</p>
-</div>''', unsafe_allow_html=True)
+    # 1. THE CHALLENGE SECTION
+    st.markdown('''
+    <div style="margin-bottom: 3rem;">
+        <span style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">The Challenge</span>
+        <h2 style="color:#ffffff; margin-top:0.8rem;">Clouds Obscuring Earth's Surface</h2>
         
-    st.markdown("### Our USP: SAR-Guided CycleGAN")
-    st.markdown('''<div class="pitch-card" style="padding: 2rem;">
-<h4 style="color:#10B981; font-size:1.3rem;">Physical Grounding vs. Statistical Hallucination</h4>
-<p style="font-size:1.05rem; color:#E2E8F0; line-height:1.6;">
-Our solution reconstructs the ground truth hidden under clouds instead of waiting for it or discarding it. By strictly constraining the generative process using Sentinel-1 C-Band SAR, the network cannot simply make up terrain. 
-</p>
-<p style="font-size:1.05rem; color:#E2E8F0; line-height:1.6; margin-bottom:0;">
-We exclusively reconstruct pixels tagged as cloud or cloud shadow. <strong>100% of authentic, clear-sky optical pixels are preserved unaltered</strong>, maintaining absolute radiometric integrity for downstream agricultural and defense applications.
-</p>
-</div>''', unsafe_allow_html=True)
-    
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:1.5rem; margin-top:1.5rem;">
+            <div class="pitch-card" style="border-top: 2px solid #EF4444 !important; padding:1.5rem;">
+                <h4 style="color:#EF4444; margin-top:0;">LISS-IV Spatial Resolution</h4>
+                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">LISS-IV provides ultra-high resolution (5.8m) optical imagery essential for detailed GIS analysis.</p>
+            </div>
+            <div class="pitch-card" style="border-top: 2px solid #F97316 !important; padding:1.5rem;">
+                <h4 style="color:#F97316; margin-top:0;">Persistent Cloud Cover</h4>
+                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Clouds frequently obscure 30% to 60% of optical images in tropical areas, rendering them unusable.</p>
+            </div>
+            <div class="pitch-card" style="border-top: 2px solid #F59E0B !important; padding:1.5rem;">
+                <h4 style="color:#F59E0B; margin-top:0;">Information Loss</h4>
+                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">Traditional interpolation and temporal averaging lose critical spatial boundaries and spectral characteristics.</p>
+            </div>
+            <div class="pitch-card" style="border-top: 2px solid #EAB308 !important; padding:1.5rem;">
+                <h4 style="color:#EAB308; margin-top:0;">Need for Custom Solution</h4>
+                <p style="color:#94A3B8; font-size:0.95rem; line-height:1.5;">A critical gap exists for an ISRO-specific pipeline tailored to LISS-IV resolutions and spectral bands.</p>
+            </div>
+        </div>
+    </div>
+    ''', unsafe_allow_html=True)
+
+    # 2. OUR INNOVATION SECTION
+    st.markdown('''
+    <div style="margin-bottom: 3rem;">
+        <span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Our Innovation</span>
+        <h2 style="color:#ffffff; margin-top:0.8rem;">AI-Powered Cloud Reconstruction</h2>
+        
+        <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem;">
+            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
+                <h4 style="color:#10B981; margin-top:0; font-size:1.1rem;">AI Cloud Detection</h4>
+                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Deep segmentation networks accurately flag clouds, shadows, and clear ground margins.</p>
+            </div>
+            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #34D399; padding:1.5rem;">
+                <h4 style="color:#34D399; margin-top:0; font-size:1.1rem;">SAR-Guided U-Net Reconstruction</h4>
+                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Fuses Sentinel-1 microwave radar backscatter (C-band) to reconstruct structural layouts under dense clouds. A generative U-Net core with dense skip connections directly routes high-frequency spatial details to ensure the native 5.8m resolution is flawlessly preserved.</p>
+            </div>
+            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #059669; padding:1.5rem;">
+                <h4 style="color:#059669; margin-top:0; font-size:1.1rem;">LISS-IV Optimization</h4>
+                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Model explicitly trained to match LISS-IV's unique Green, Red, and Near-Infrared (NIR) band parameters.</p>
+            </div>
+            <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #047857; padding:1.5rem;">
+                <h4 style="color:#047857; margin-top:0; font-size:1.1rem;">Production GeoTIFFs</h4>
+                <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Exports standard georeferenced rasters, preserving coordinate reference systems (CRS) for QGIS and ArcGIS.</p>
+            </div>
+        </div>
+    </div>
+    ''', unsafe_allow_html=True)
+
     st.markdown("### Multi-Objective Adversarial Optimization")
     m1, m2, m3, m4 = st.columns(4)
     with m1:
