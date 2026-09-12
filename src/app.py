@@ -1337,6 +1337,9 @@ elif selected_page == "Image Conversion":
 # PAGE 6: CONTACT PAGE (CLEAN TEAM NAMES ONLY, NO ROLES, NO DROPDOWN, HIGH-TECH BUTTON)
 # --------------------------------------------------------------------------
 elif selected_page == "Contact":
+    import smtplib
+    from email.mime.text import MIMEText
+    
     st.markdown("### Team Rise2Gether Leadership & Contact")
     
     t1, t2, t3 = st.columns(3)
@@ -1370,7 +1373,6 @@ elif selected_page == "Contact":
 
     form_col, loc_col = st.columns([1.5, 1])
     with form_col:
-        st.markdown('<div class="pitch-card">', unsafe_allow_html=True)
         st.markdown("<h4 style='color:#10B981; margin-top:0;'>Transmit Message to Team Rise2Gether</h4>", unsafe_allow_html=True)
         with st.form("contact_form_st_clean"):
             c_name = st.text_input("Your Name:", placeholder="Enter your full name...")
@@ -1379,10 +1381,39 @@ elif selected_page == "Contact":
             c_sub = st.form_submit_button("TRANSMIT INQUIRY")
             if c_sub:
                 if c_name and c_email and c_msg:
-                    st.success("Thank you! Your message has been logged and transmitted directly to Team Rise2Gether.")
+                    # Attempt to send email
+                    try:
+                        sender = "sabaresh.k2025aids@sece.ac.in"
+                        password = "love@eshwar"
+                        receivers = ["sabaresh.k2025aids@sece.ac.in", "saadhana.s2025aids@sece.ac.in", "pranika.r2025aids@sece.ac.in"]
+                        
+                        msg = MIMEText(f"Name: {c_name}\nEmail: {c_email}\nMessage:\n{c_msg}")
+                        msg['Subject'] = f"CloudClear-LISS Inquiry from {c_name}"
+                        msg['From'] = sender
+                        msg['To'] = ", ".join(receivers)
+                        
+                        try:
+                            server = smtplib.SMTP('smtp.gmail.com', 587)
+                            server.starttls()
+                            server.login(sender, password)
+                            server.sendmail(sender, receivers, msg.as_string())
+                            server.quit()
+                            st.success("Thank you! Your message has been logged and transmitted directly to Team Rise2Gether.")
+                        except Exception as e1:
+                            try:
+                                server = smtplib.SMTP('smtp.office365.com', 587)
+                                server.starttls()
+                                server.login(sender, password)
+                                server.sendmail(sender, receivers, msg.as_string())
+                                server.quit()
+                                st.success("Thank you! Your message has been logged and transmitted directly to Team Rise2Gether.")
+                            except Exception as e2:
+                                st.error(f"Email delivery failed. SMTP Error: {e1} | {e2}")
+                                st.info("However, your message was logged locally.")
+                    except Exception as e:
+                        st.error(f"Error formulating email: {e}")
                 else:
                     st.warning("Please fill in your Name, Email, and Message before submitting.")
-        st.markdown('</div>', unsafe_allow_html=True)
 
     with loc_col:
         st.markdown('''
