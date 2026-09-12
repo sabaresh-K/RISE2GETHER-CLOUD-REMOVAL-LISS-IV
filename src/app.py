@@ -794,63 +794,81 @@ def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
 # --------------------------------------------------------------------------
 if selected_page == "Home":
     st.markdown('''
-    <div class="pitch-card" style="text-align:center; padding:3rem 2rem;">
-        <h1 style="color:#10B981; font-size:3rem; font-weight:900; margin:0 0 1.2rem 0; line-height:1.2;">
-            Revealing the Earth Beneath the Clouds
+    <div class="pitch-card" style="text-align:center; padding:3.5rem 2rem; border-top: 4px solid #10B981;">
+        <h1 style="color:#10B981; font-size:3.2rem; font-weight:900; margin:0 0 0.5rem 0; line-height:1.2;">
+            🛰️ CloudClear-LISS
         </h1>
-        <p style="font-size:1.25rem; color:#E2E8F0; max-width:850px; margin:0 auto 2rem auto; line-height:1.6;">
-            AI-Powered Cloud Removal and Ground Surface Reconstruction for <strong>LISS-IV</strong> Satellite Imagery. 
-            Fusing Sentinel-1 C-band SAR radar backscatter with multi-band optical sensors to restore obscured terrain details with 5.8m spatial precision.
+        <h3 style="color:#FFFFFF; font-size:1.8rem; font-weight:700; margin:0 0 1.5rem 0;">
+            Revealing the Earth Beneath the Clouds
+        </h3>
+        <p style="font-size:1.2rem; color:#E2E8F0; max-width:850px; margin:0 auto 1rem auto; line-height:1.6;">
+            <strong>AI-Powered Multimodal Cloud Removal & Ground Surface Reconstruction for ISRO LISS-IV Satellite Imagery</strong>
+        </p>
+        <p style="font-size:1rem; color:#94A3B8; margin:0;">
+            <em>Developed by Team Rise2Gether | Sri Eshwar College of Engineering and Technology</em>
         </p>
     </div>
     ''', unsafe_allow_html=True)
     
-    st.markdown("### The High-Resolution Obscuration Challenge")
+    st.markdown("### 🌐 System Overview")
     c1, c2 = st.columns([1.5, 1])
     with c1:
         st.markdown('''
         <div class="pitch-card">
-            <h4 style="color:#10B981;">LISS-IV 5.8m Resolution Obscuration</h4>
+            <h4 style="color:#10B981; margin-top:0;">The Obscuration Challenge</h4>
             <p style="font-size:1.05rem; color:#E2E8F0; line-height:1.6;">
-                The <strong>LISS-IV</strong> sensor aboard Resourcesat captures ultra-high-resolution optical imagery at <strong>5.8 meters</strong>. 
-                However, persistent tropical cloud cover obscures up to <strong>60% of optical data</strong>, causing critical intelligence gaps in agriculture, disaster response, and forestry.
+                Persistent cloud cover and atmospheric shadows obscure up to <strong>30%–60% of optical satellite scenes</strong> over the Indian subcontinent, rendering high-resolution Earth observation data unusable during critical agricultural and monsoon seasons.
             </p>
-            <p style="font-size:1.05rem; color:#94A3B8; line-height:1.6;">
-                Traditional interpolation blurs fine boundaries, while temporal optical averages fail during floods. Our SAR-guided CycleGAN model penetrates cloud barriers to reconstruct ground truth physically.
+            <p style="font-size:1.05rem; color:#94A3B8; line-height:1.6; margin-bottom:0;">
+                <strong>CloudClear-LISS</strong> integrates high-resolution <strong>5.8 m LISS-IV optical data</strong> with all-weather, cloud-penetrating <strong>Sentinel-1 C-Band Synthetic Aperture Radar (SAR)</strong> imagery. Using a dual-encoder generative reconstruction pipeline, our system penetrates cloud obstructions to restore true surface reflectance and spatial details without geographic distortion or spectral loss.
             </p>
         </div>
         ''', unsafe_allow_html=True)
     with c2:
         st.markdown('''
-        <div class="pitch-card" style="text-align:center;">
-            <div style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.6rem 1.2rem; border-radius:8px; font-weight:800; display:inline-block; margin-bottom:1rem;">
-                64% Persistent Cloud Obscuration
+        <div class="pitch-card" style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center;">
+            <div style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.8rem 1.2rem; border-radius:8px; font-weight:800; font-size:1.2rem; margin-bottom:1rem;">
+                Up to 60% Cloud Obscuration
             </div>
-            <p style="font-size:0.95rem; color:#94A3B8;">LISS-IV Band 3 (Red) Spectral Coverage Loss</p>
+            <p style="font-size:1rem; color:#94A3B8; margin-bottom:0;">Recovering critical spatial intelligence lost to tropical cloud cover during monsoon seasons.</p>
         </div>
         ''', unsafe_allow_html=True)
 
-    st.markdown("### End-to-End Technical Pipeline")
-    a1, a2, a3, a4 = st.columns(4)
-    with a1:
-        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">01. Data Acquisition</h4><p style="font-size:0.9rem; color:#94A3B8;">5.8m LISS-IV optical bands + Sentinel-1 C-band SAR radar.</p></div>', unsafe_allow_html=True)
-    with a2:
-        st.markdown('<div class="pitch-card"><h4 style="color:#F97316;">02. Preprocessing</h4><p style="font-size:0.9rem; color:#94A3B8;">Sub-pixel co-registration, calibration, and cloud/shadow mask extraction.</p></div>', unsafe_allow_html=True)
-    with a3:
-        st.markdown('<div class="pitch-card"><h4 style="color:#F59E0B;">03. AI Processing</h4><p style="font-size:0.9rem; color:#94A3B8;">SAR-guided CycleGAN model infuses radar structural features into masks.</p></div>', unsafe_allow_html=True)
-    with a4:
-        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">04. Output Layer</h4><p style="font-size:0.9rem; color:#94A3B8;">GeoTIFF export with full CRS metadata & telemetry validation.</p></div>', unsafe_allow_html=True)
+    st.markdown("### ⚙️ System Architecture Pipeline")
+    st.markdown('''
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom:2rem;">
+        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981;">
+            <h4 style="color:#10B981; margin-top:0;">01. Multi-Source Data Ingestion</h4>
+            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;"><strong>Optical Input:</strong> LISS-IV 3-Band GeoTIFF (B2: Green, B3: Red, B4: NIR) at 5.8 m.<br><br><strong>Microwave Input:</strong> Sentinel-1 SAR (Dual Polarization: VV & VH backscatter channels).</p>
+        </div>
+        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #F97316;">
+            <h4 style="color:#F97316; margin-top:0;">02. Sub-Pixel Preprocessing & Mask Generation</h4>
+            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;">Precise geospatial co-registration, radiometric calibration, and dynamic cloud/shadow boundary detection.</p>
+        </div>
+        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #F59E0B;">
+            <h4 style="color:#F59E0B; margin-top:0;">03. Dual-Branch Feature Extraction & Fusion</h4>
+            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;">Dedicated Optical Encoder captures spectral context. Dedicated SAR Encoder extracts ground geometry and structural edges. Multimodal intermediate fusion bridges radar backscatter with optical reflectance.</p>
+        </div>
+        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #3B82F6;">
+            <h4 style="color:#3B82F6; margin-top:0;">04. Generative Neural Surface Reconstruction</h4>
+            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;">U-Net-based reconstruction core restores occluded surface patches while strictly preserving authentic clear-sky pixels.</p>
+        </div>
+        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #8B5CF6; grid-column: 1 / -1;">
+            <h4 style="color:#8B5CF6; margin-top:0;">05. GIS-Ready Export & Validation</h4>
+            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;">Produces full-precision, georeferenced .tif GeoTIFF rasters and True/False Color .png previews with computed PSNR, SSIM, SAM, and RMSE evaluation scores.</p>
+        </div>
+    </div>
+    ''', unsafe_allow_html=True)
 
     st.markdown("### Downstream High-Value Impact")
     d1, d2, d3 = st.columns(3)
     with d1:
-        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">Precision Agriculture</h4><p style="color:#94A3B8;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card"><h4 style="color:#10B981; margin-top:0;">Precision Agriculture</h4><p style="color:#94A3B8; margin-bottom:0;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
     with d2:
-        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">Emergency Flood Response</h4><p style="color:#94A3B8;">Active radar penetrates storm clouds to delineate standing water boundaries in real time.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card"><h4 style="color:#10B981; margin-top:0;">Emergency Flood Response</h4><p style="color:#94A3B8; margin-bottom:0;">Active radar penetrates storm clouds to delineate standing water boundaries in real time.</p></div>', unsafe_allow_html=True)
     with d3:
-        st.markdown('<div class="pitch-card"><h4 style="color:#10B981;">Forestry & Urban Sprawl</h4><p style="color:#94A3B8;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card"><h4 style="color:#10B981; margin-top:0;">Forestry & Urban Sprawl</h4><p style="color:#94A3B8; margin-bottom:0;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
 
-# --------------------------------------------------------------------------
 # PAGE 2: ABOUT (CLEAN BENCHMARKS ONLY - ROADMAP REMOVED)
 # --------------------------------------------------------------------------
 elif selected_page == "About":
