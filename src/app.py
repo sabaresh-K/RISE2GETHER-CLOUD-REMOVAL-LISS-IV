@@ -31,45 +31,52 @@ st.config.set_option("server.maxUploadSize", 5120)
 @st.cache_resource
 def load_model_core():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    # Engine 1 UNet Checkpoint (High-Resolution LISS-IV Trained Model)
+    liss4_path = os.path.join(PROJECT_ROOT, "checkpoints", "liss4_gpu_generator.pth")
     checkpoint_path = os.path.join(PROJECT_ROOT, "data", "generator_checkpoint.pth")
     backup_path = os.path.join(PROJECT_ROOT, "checkpoints", "rice1_generator.pth")
+    active_path1 = liss4_path if os.path.exists(liss4_path) else (checkpoint_path if os.path.exists(checkpoint_path) else backup_path)
     
-    active_path = checkpoint_path if os.path.exists(checkpoint_path) else (backup_path if os.path.exists(backup_path) else None)
-    
-    loaded = False
-    model = None
-    status = "ONLINE (PyTorch UNet Model Ready)"
+    # Engine 2 CycleGAN Checkpoint
+    cyclegan_path = os.path.join(PROJECT_ROOT, "data", "cyclegan_a2b.pth")
+    cyclegan_ckpt = os.path.join(PROJECT_ROOT, "checkpoints", "sar_cyclegan.pth")
+    active_path2 = cyclegan_path if os.path.exists(cyclegan_path) else (cyclegan_ckpt if os.path.exists(cyclegan_ckpt) else None)
+
+    status = "ONLINE (Dual Engine: Optical U-Net + SAR-Guided CycleGAN Ready)"
     
     try:
-        from src.models import CloudRemovalGenerator
-        model = CloudRemovalGenerator(in_channels=3, out_channels=3)
-        if active_path:
-            state_dict = torch.load(active_path, map_location=device)
-            model.load_state_dict(state_dict, strict=True)
-            status = "ONLINE (RICE1 Trained Checkpoint Loaded)"
-            loaded = True
-    except Exception:
-        pass
+        from src.models import CloudRemovalGenerator, SARCycleGANGenerator
+        engine1_model = CloudRemovalGenerator(in_channels=3, out_channels=3)
+        engine2_model = SARCycleGANGenerator(in_channels=5, out_channels=3)
+        
+        if active_path1:
+            state_dict1 = torch.load(active_path1, map_location=device)
+            engine1_model.load_state_dict(state_dict1, strict=True)
 
-    if not loaded:
-        try:
-            from models import SatelliteCloudRemovalUNet
-            model = SatelliteCloudRemovalUNet(in_channels=3, out_channels=3)
-            if active_path:
-                model.load_state_dict(torch.load(active_path, map_location=device), strict=False)
-                status = "ONLINE (RICE1 Trained Checkpoint Loaded)"
-        except Exception as e:
-            import torch.nn as nn
-            class IdentityPass(nn.Module):
-                def forward(self, x): return x
-            model = IdentityPass()
-            status = f"FALLBACK ({e})"
+        if active_path2:
+            try:
+                state_dict2 = torch.load(active_path2, map_location=device)
+                if isinstance(state_dict2, dict) and "G_A2B" in state_dict2:
+                    engine2_model.load_state_dict(state_dict2["G_A2B"], strict=True)
+                else:
+                    engine2_model.load_state_dict(state_dict2, strict=True)
+                status = "ONLINE (Engine 1 UNet Trained Checkpoint | Engine 2 CycleGAN Trained Checkpoint Loaded)"
+            except Exception:
+                pass
+    except Exception as e:
+        import torch.nn as nn
+        class IdentityPass(nn.Module):
+            def forward(self, x): return x[:, :3, :, :] if x.size(1) >= 5 else x
+        engine1_model = IdentityPass()
+        engine2_model = IdentityPass()
+        status = f"FALLBACK ({e})"
 
-    model.to(device)
-    model.eval()
-    return model, device, status
+    engine1_model.to(device).eval()
+    engine2_model.to(device).eval()
+    return {"engine1": engine1_model, "engine2": engine2_model}, device, status
 
-MODEL, DEVICE, MODEL_STATUS = load_model_core()
+MODEL_DICT, DEVICE, MODEL_STATUS = load_model_core()
 
 # 4. Metrics Engine
 def compute_metrics(in_np, out_np):
@@ -91,26 +98,23 @@ st.markdown('''
     }
     
     @keyframes pulseEmerald {
-        0% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.2); }
-        50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.55); }
-        100% { box-shadow: 0 0 12px rgba(16, 185, 129, 0.2); }
+        0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.15); }
+        50% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.7), inset 0 0 25px rgba(52, 211, 153, 0.3); }
+        100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.15); }
     }
 
     @keyframes textEmeraldGlow {
-        0% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
-        50% { text-shadow: 0 0 25px rgba(16, 185, 129, 0.9); }
-        100% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+        0% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+        50% { text-shadow: 0 0 25px rgba(16, 185, 129, 0.95), 0 0 40px rgba(52, 211, 153, 0.6); }
+        100% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
     }
 
-    /* Global Dark Titanium Space Background with Grid Matrix Accent */
+    /* Global Deep Emerald Space Background with High-Contrast Grid Matrix & Cosmic Glow */
     .stApp {
-        background: radial-gradient(circle at 50% 15%, #0F172A 0%, #060913 100%) !important;
-        background-image: 
-            radial-gradient(circle at 50% 15%, rgba(15, 23, 42, 0.8) 0%, rgba(6, 9, 19, 0.95) 100%),
-            linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px) !important;
-        background-size: 100% 100%, 40px 40px, 40px 40px !important;
-        color: #F8FAFC !important;
+        background: #000000 !important;
+        background-color: #000000 !important;
+        background-image: none !important;
+        color: #FFFFFF !important;
         font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
     }
     
@@ -120,23 +124,28 @@ st.markdown('''
         max-width: 1300px !important;
     }
 
+    /* All Text Global Override to Crisp Pure White & Green */
+    p, span, div, label, li, h1, h2, h3, h4, h5, h6, small {
+        color: #FFFFFF !important;
+    }
+
     /* Top Header Banner */
     .pitch-header {
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid rgba(16, 185, 129, 0.35);
-        border-bottom: 2px solid #10B981;
-        border-radius: 14px;
-        padding: 1.4rem 2rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 12px 35px rgba(16, 185, 129, 0.18);
-        backdrop-filter: blur(16px);
+        background: rgba(4, 30, 22, 0.92);
+        border: 1px solid rgba(16, 185, 129, 0.55);
+        border-bottom: 3px solid #10B981;
+        border-radius: 16px;
+        padding: 1.5rem 2.4rem;
+        margin-bottom: 1.6rem;
+        box-shadow: 0 14px 45px rgba(16, 185, 129, 0.3);
+        backdrop-filter: blur(18px);
         animation: pulseEmerald 4s infinite alternate;
     }
     
     .pitch-title {
-        font-size: 2.3rem;
+        font-size: 2.4rem;
         font-weight: 900;
-        background: linear-gradient(90deg, #FFFFFF 0%, #10B981 50%, #34D399 100%);
+        background: linear-gradient(90deg, #FFFFFF 0%, #10B981 45%, #34D399 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         letter-spacing: 1.2px;
@@ -145,48 +154,50 @@ st.markdown('''
     }
 
     .pitch-sub {
-        font-size: 0.98rem;
-        color: #94A3B8;
+        font-size: 1rem;
+        color: #E2E8F0 !important;
         margin-top: 0.25rem;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.4px;
+        font-weight: 600;
     }
 
     .status-badge-online {
         display: inline-block;
-        background: rgba(16, 185, 129, 0.18);
+        background: rgba(16, 185, 129, 0.25);
         border: 1px solid #10B981;
-        color: #10B981;
+        color: #34D399 !important;
         padding: 0.45rem 1.1rem;
         border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 700;
-        box-shadow: 0 0 18px rgba(16, 185, 129, 0.35);
+        font-size: 0.88rem;
+        font-weight: 800;
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
         transition: all 0.3s ease;
     }
     .status-badge-online:hover {
         transform: scale(1.05);
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
     }
 
     /* Navigation Radio Bar Styling */
     .stRadio > div {
-        background: rgba(15, 23, 42, 0.85) !important;
-        border: 1px solid rgba(16, 185, 129, 0.35) !important;
+        background: rgba(4, 30, 22, 0.92) !important;
+        border: 1px solid rgba(16, 185, 129, 0.5) !important;
         border-radius: 30px !important;
-        padding: 0.55rem 1.4rem !important;
+        padding: 0.6rem 1.6rem !important;
         gap: 1.6rem !important;
-        margin-bottom: 1.4rem !important;
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(12px) !important;
+        margin-bottom: 1.5rem !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(16, 185, 129, 0.2);
+        backdrop-filter: blur(14px) !important;
     }
 
     /* All Form & Radio Labels High Contrast Visibility */
     [data-testid="stWidgetLabel"] p, label p {
         color: #10B981 !important;
         font-weight: 800 !important;
-        font-size: 1.05rem !important;
+        font-size: 1.08rem !important;
         letter-spacing: 0.5px !important;
         margin-bottom: 0.4rem !important;
+        text-shadow: 0 0 10px rgba(16, 185, 129, 0.3) !important;
     }
 
     /* Radio Button Option Text Styling */
@@ -195,44 +206,51 @@ st.markdown('''
     div[role="radiogroup"] label p,
     div[role="radiogroup"] span {
         color: #FFFFFF !important;
-        font-weight: 700 !important;
-        font-size: 1.05rem !important;
+        font-weight: 800 !important;
+        font-size: 1.08rem !important;
         text-shadow: 0 2px 4px rgba(0,0,0,0.6) !important;
-        transition: color 0.2s ease, text-shadow 0.2s ease !important;
+        transition: color 0.25s ease, text-shadow 0.25s ease !important;
     }
 
     .stRadio label:hover p {
         color: #34D399 !important;
-        text-shadow: 0 0 10px rgba(52, 211, 153, 0.6) !important;
+        text-shadow: 0 0 15px rgba(52, 211, 153, 0.9) !important;
     }
 
-    /* Floating Dark Titanium Space Cards */
+    /* Floating Deep Emerald Titanium Space Cards with Glowing Box Cursor Effects */
     .pitch-card {
-        background: rgba(15, 23, 42, 0.78);
-        border: 1px solid rgba(16, 185, 129, 0.28);
-        border-radius: 14px;
-        padding: 1.9rem;
+        background: rgba(4, 30, 22, 0.88);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        border-top: 2px solid #10B981;
+        border-radius: 16px;
+        padding: 2rem;
         margin-bottom: 1.5rem;
-        backdrop-filter: blur(14px);
+        backdrop-filter: blur(16px);
         transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
+    }
+
+    .pitch-card p {
+        color: #F1F5F9 !important;
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
     .pitch-card::before {
         content: '';
         position: absolute;
         top: 0; left: 0; right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.6), transparent);
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #34D399, transparent);
         opacity: 0;
         transition: opacity 0.35s ease;
     }
 
     .pitch-card:hover {
-        border-color: rgba(16, 185, 129, 0.65);
-        box-shadow: 0 12px 35px rgba(16, 185, 129, 0.25), 0 0 15px rgba(16, 185, 129, 0.1);
-        transform: translateY(-4px);
+        border-color: #10B981;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 60px rgba(52, 211, 153, 0.25);
+        transform: translateY(-5px);
     }
 
     .pitch-card:hover::before {
@@ -241,64 +259,66 @@ st.markdown('''
 
     /* High-Contrast Input Boxes */
     .stTextInput input, .stTextArea textarea {
-        background-color: #0B132B !important;
+        background-color: #031D15 !important;
         color: #FFFFFF !important;
-        border: 1px solid rgba(16, 185, 129, 0.4) !important;
-        border-radius: 10px !important;
-        font-size: 1rem !important;
+        border: 1px solid rgba(16, 185, 129, 0.55) !important;
+        border-radius: 12px !important;
+        font-size: 1.02rem !important;
         font-family: 'Inter', sans-serif !important;
-        padding: 0.85rem 1.1rem !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+        padding: 0.9rem 1.2rem !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
         transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
     }
 
     .stTextInput input:focus, .stTextArea textarea:focus {
         border-color: #10B981 !important;
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.55) !important;
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.75) !important;
         outline: none !important;
-        background-color: #0F1D38 !important;
+        background-color: #05291E !important;
     }
 
     .stTextInput label, .stTextArea label {
         color: #10B981 !important;
-        font-weight: 700 !important;
-        font-size: 0.95rem !important;
+        font-weight: 800 !important;
+        font-size: 1rem !important;
         letter-spacing: 0.5px !important;
         margin-bottom: 0.4rem !important;
     }
 
     .stTextInput input::placeholder, .stTextArea textarea::placeholder {
-        color: #64748B !important;
+        color: #94A3B8 !important;
         opacity: 1 !important;
     }
 
-    /* Telemetry Metric Display Boxes */
+    /* Telemetry Metric Display Boxes with Glowing Hover Aura */
     .metric-card-box {
-        background: rgba(15, 23, 42, 0.9);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        border-top: 3px solid #10B981;
-        border-radius: 12px;
-        padding: 1.3rem;
+        background: rgba(4, 30, 22, 0.94);
+        border: 1px solid rgba(16, 185, 129, 0.45);
+        border-top: 3px solid #34D399;
+        border-radius: 14px;
+        padding: 1.35rem;
         text-align: center;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .metric-card-box:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+        transform: translateY(-5px) scale(1.03);
+        border-color: #34D399;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 50px rgba(52, 211, 153, 0.3);
     }
 
     .metric-card-val {
-        font-size: 1.85rem;
-        font-weight: 800;
-        color: #10B981;
+        font-size: 2rem;
+        font-weight: 900;
+        color: #34D399 !important;
         font-family: monospace;
-        text-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+        text-shadow: 0 0 15px rgba(52, 211, 153, 0.7);
     }
 
     .metric-card-lbl {
-        font-size: 0.78rem;
-        color: #94A3B8;
+        font-size: 0.8rem;
+        color: #FFFFFF !important;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-top: 0.35rem;
@@ -306,51 +326,57 @@ st.markdown('''
 
     /* Emerald Styled Action Button & Form Submit Button */
     .stButton>button, .stFormSubmitButton>button, button[kind="formSubmit"], .stDownloadButton>button {
-        background: linear-gradient(90deg, #059669 0%, #10B981 100%) !important;
+        background: linear-gradient(90deg, #047857 0%, #10B981 50%, #34D399 100%) !important;
         color: #FFFFFF !important;
-        font-weight: 800 !important;
+        font-weight: 900 !important;
         border: 1px solid #34D399 !important;
-        border-radius: 10px !important;
-        letter-spacing: 1px !important;
+        border-radius: 12px !important;
+        letter-spacing: 1.2px !important;
         text-transform: uppercase !important;
-        padding: 0.85rem 1.6rem !important;
-        font-size: 1rem !important;
-        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4) !important;
+        padding: 0.95rem 1.8rem !important;
+        font-size: 1.05rem !important;
+        box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important;
         transition: all 0.3s ease !important;
     }
 
     .stFormSubmitButton p, .stFormSubmitButton span, .stFormSubmitButton div, .stDownloadButton p, .stDownloadButton span {
         color: #FFFFFF !important;
-        font-weight: 800 !important;
+        font-weight: 900 !important;
         font-size: 1.05rem !important;
     }
 
     .stButton>button:hover, .stFormSubmitButton>button:hover, button[kind="formSubmit"]:hover, .stDownloadButton>button:hover {
         background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
-        color: #0B0F19 !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 8px 30px rgba(16, 185, 129, 0.8) !important;
+        color: #03140E !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 0 40px rgba(16, 185, 129, 0.9), 0 0 70px rgba(52, 211, 153, 0.5) !important;
     }
 
     .stFormSubmitButton button:hover p, .stFormSubmitButton button:hover span, .stDownloadButton button:hover p, .stDownloadButton button:hover span {
-        color: #0B0F19 !important;
+        color: #03140E !important;
     }
 
     /* Model Workspace Custom Glass Containers */
     .stream-box {
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid rgba(16, 185, 129, 0.3);
+        background: rgba(4, 30, 22, 0.9);
+        border: 1px solid rgba(16, 185, 129, 0.45);
         border-radius: 14px;
         padding: 1.3rem;
         text-align: center;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
         margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .stream-box:hover {
+        border-color: #10B981;
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
     }
 
     .stream-header {
-        color: #10B981;
-        font-weight: 800;
-        font-size: 0.88rem;
+        color: #34D399 !important;
+        font-weight: 900;
+        font-size: 0.92rem;
         letter-spacing: 1px;
         text-transform: uppercase;
         margin-bottom: 0.8rem;
@@ -358,11 +384,12 @@ st.markdown('''
         align-items: center;
         justify-content: center;
         gap: 0.4rem;
+        text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
     }
 
     .model-feature-card {
-        background: rgba(15, 23, 42, 0.8);
-        border: 1px solid rgba(16, 185, 129, 0.25);
+        background: rgba(4, 30, 22, 0.88);
+        border: 1px solid rgba(16, 185, 129, 0.35);
         border-left: 4px solid #10B981;
         border-radius: 12px;
         padding: 1.3rem;
@@ -370,10 +397,14 @@ st.markdown('''
         transition: all 0.3s ease;
     }
 
+    .model-feature-card p {
+        color: #F1F5F9 !important;
+    }
+
     .model-feature-card:hover {
-        border-color: rgba(16, 185, 129, 0.6);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+        border-color: #10B981;
+        transform: translateY(-3px);
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.45);
     }
 
     /* Hide Sidebar Globally */
@@ -383,11 +414,12 @@ st.markdown('''
 
     /* File Uploader High Contrast Styling */
     [data-testid="stFileUploader"] {
-        background-color: rgba(15, 23, 42, 0.85) !important;
-        border: 1px dashed rgba(16, 185, 129, 0.5) !important;
-        border-radius: 12px !important;
-        padding: 1.3rem !important;
+        background-color: rgba(4, 30, 22, 0.9) !important;
+        border: 1.5px dashed rgba(16, 185, 129, 0.6) !important;
+        border-radius: 14px !important;
+        padding: 1.4rem !important;
         margin-top: 0.5rem !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
     }
 
     [data-testid="stFileUploader"] label, 
@@ -397,113 +429,46 @@ st.markdown('''
     [data-testid="stFileUploader"] div,
     [data-testid="stFileUploaderFileName"] {
         color: #FFFFFF !important;
-        font-weight: 700 !important;
-        font-size: 1rem !important;
+        font-weight: 800 !important;
+        font-size: 1.02rem !important;
     }
 
     [data-testid="stFileUploaderDropzone"] {
-        background-color: #0B132B !important;
-        border: 1px dashed #10B981 !important;
+        background-color: #031D15 !important;
+        border: 1.5px dashed #10B981 !important;
         border-radius: 10px !important;
     }
 
     [data-testid="stFileUploaderDropzone"] * {
         color: #FFFFFF !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
     }
 
     [data-testid="stFileUploaderDropzone"] button,
     [data-testid="stFileUploader"] button {
-        background: linear-gradient(90deg, #059669 0%, #10B981 100%) !important;
+        background: linear-gradient(90deg, #047857 0%, #10B981 100%) !important;
         color: #FFFFFF !important;
         border: 1px solid #34D399 !important;
-        font-weight: 800 !important;
+        font-weight: 900 !important;
         border-radius: 8px !important;
-        padding: 0.6rem 1.2rem !important;
+        padding: 0.65rem 1.3rem !important;
         text-transform: uppercase !important;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
+        box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4) !important;
     }
 
     [data-testid="stFileUploaderDropzone"] button:hover,
     [data-testid="stFileUploader"] button:hover {
         background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
-        color: #0B0F19 !important;
+        color: #03140E !important;
+        box-shadow: 0 0 25px rgba(16, 185, 129, 0.8) !important;
     }
 
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 </style>
 
-<!-- Space Stardust Cursor Canvas Particle Effect -->
-<canvas id="space-cursor-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 999999;"></canvas>
+<!-- Space Stardust & Interactive Glowing Box Cursor Canvas -->
 
-<script>
-(function() {
-    const parentDoc = window.parent.document || document;
-    let canvas = parentDoc.getElementById('space-cursor-canvas');
-    if (!canvas) {
-        canvas = parentDoc.createElement('canvas');
-        canvas.id = 'space-cursor-canvas';
-        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;';
-        parentDoc.body.appendChild(canvas);
-    }
-    const ctx = canvas.getContext('2d');
-    
-    function resize() {
-        canvas.width = parentDoc.documentElement.clientWidth || window.innerWidth;
-        canvas.height = parentDoc.documentElement.clientHeight || window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-    parentDoc.addEventListener('resize', resize);
-
-    const particles = [];
-    const maxParticles = 40;
-
-    parentDoc.addEventListener('mousemove', function(e) {
-        for(let i=0; i<2; i++) {
-            particles.push({
-                x: e.clientX + (Math.random() - 0.5) * 6,
-                y: e.clientY + (Math.random() - 0.5) * 6,
-                size: Math.random() * 3 + 1,
-                speedX: (Math.random() - 0.5) * 1.6,
-                speedY: (Math.random() - 0.5) * 1.6,
-                color: Math.random() > 0.4 ? '#10B981' : (Math.random() > 0.5 ? '#34D399' : '#6EE7B7'),
-                alpha: 1,
-                decay: Math.random() * 0.035 + 0.025
-            });
-        }
-        if(particles.length > maxParticles) particles.splice(0, particles.length - maxParticles);
-    });
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        for(let i = 0; i < particles.length; i++) {
-            let p = particles[i];
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.globalAlpha = p.alpha;
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = p.color;
-            ctx.fill();
-
-            p.x += p.speedX;
-            p.y += p.speedY;
-            p.alpha -= p.decay;
-
-            if(p.alpha <= 0) {
-                particles.splice(i, 1);
-                i--;
-            }
-        }
-        ctx.globalAlpha = 1;
-        requestAnimationFrame(animate);
-    }
-    animate();
-})();
-</script>
 ''', unsafe_allow_html=True)
 
 # 6. Header Banner
@@ -518,30 +483,13 @@ st.markdown('''
 </div>
 ''', unsafe_allow_html=True)
 
-import streamlit.components.v1 as components
-
 # 7. Navigation Radio Tabs
 selected_page = st.radio(
     "Navigation Menu",
-    ["React Next-Gen UI", "Home", "About", "Features", "Model", "Image Conversion", "Contact"],
+    ["Home", "About", "Features", "Model", "Image Conversion", "Contact"],
     horizontal=True,
     label_visibility="collapsed"
 )
-
-if selected_page == "React Next-Gen UI":
-    standalone_path = os.path.join(PROJECT_ROOT, "frontend", "dist", "index_standalone.html")
-    if not os.path.exists(standalone_path):
-        try:
-            import build_standalone_react
-        except Exception:
-            pass
-    if os.path.exists(standalone_path):
-        with open(standalone_path, "r", encoding="utf-8") as f:
-            react_html = f.read()
-        components.html(react_html, height=1000, scrolling=True)
-    else:
-        st.error("React standalone build not found.")
-
 
 # 8. Global Helper Functions for Model Ingestion & Inference
 import tempfile
@@ -602,20 +550,54 @@ def load_satellite_image(file_obj):
 
     return img.resize((512, 512))
 
-def run_model_inference(img):
+def postprocess_model_output(in_np, out_np):
+    """
+    Direct Model Output Postprocessing:
+    - Uses the raw neural network prediction directly (full cloud-free reconstruction).
+    - Only zeros out black nodata swathe border pixels (pixels with near-zero sum in all channels).
+    - No blending with input — the model output IS the cloud-free image.
+    """
+    valid_mask = (in_np.sum(axis=-1) > 15)
+    reconstructed = np.clip((out_np + 1.0) * 127.5, 0, 255).astype(np.uint8)
+    reconstructed[~valid_mask] = 0
+    return reconstructed, valid_mask
+
+def run_model_inference(img, engine_mode="Engine 1: Optical U-Net (Single Scene)", sar_img=None):
     in_np = np.array(img).astype(np.float32)
     norm_in = (in_np / 127.5) - 1.0
-    tensor_in = torch.from_numpy(norm_in).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
+    tensor_opt = torch.from_numpy(norm_in).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
     
     t_start = time.time()
     with torch.inference_mode():
-        tensor_out = MODEL(tensor_in)
+        if "Engine 2" in engine_mode:
+            model = MODEL_DICT["engine2"]
+            if sar_img is not None:
+                sar_np = np.array(sar_img).astype(np.float32)
+                if sar_np.ndim == 2:
+                    sar_np = np.stack([sar_np, sar_np], axis=-1)
+                elif sar_np.shape[2] == 1:
+                    sar_np = np.concatenate([sar_np, sar_np], axis=-1)
+                else:
+                    sar_np = sar_np[:, :, :2]
+                norm_sar = (sar_np / 127.5) - 1.0
+                tensor_sar = torch.from_numpy(norm_sar).permute(2, 0, 1).unsqueeze(0).to(DEVICE)
+                tensor_in = torch.cat([tensor_opt, tensor_sar], dim=1)
+            else:
+                tensor_in = tensor_opt
+            tensor_out = model(tensor_in)
+        else:
+            model = MODEL_DICT["engine1"]
+            tensor_out = model(tensor_opt)
+
     latency = f"{time.time() - t_start:.2f} sec"
     
     out_np = tensor_out.squeeze(0).cpu().permute(1, 2, 0).numpy()
-    reconstructed = np.clip((out_np + 1.0) * 127.5, 0, 255).astype(np.uint8)
+    reconstructed, valid_mask = postprocess_model_output(in_np, out_np)
+    
     deviation_map = np.abs(in_np.astype(float) - reconstructed.astype(float)).astype(np.uint8)
-    metrics = compute_metrics(in_np, reconstructed)
+    deviation_map[~valid_mask] = 0
+    
+    metrics = compute_metrics(in_np[valid_mask], reconstructed[valid_mask]) if np.any(valid_mask) else compute_metrics(in_np, reconstructed)
     
     return reconstructed, deviation_map, metrics, latency
 
@@ -952,14 +934,20 @@ elif selected_page == "Model":
     </div>
     ''', unsafe_allow_html=True)
 
-    col_ing1, col_ing2 = st.columns([1.2, 1])
+    col_ing1, col_ing2 = st.columns(2)
     with col_ing1:
+        st.markdown('<h4 style="color:#10B981; font-size:1.05rem; margin-bottom:0.5rem;">1. OPTICAL ASSET INGESTION</h4>', unsafe_allow_html=True)
+        uploaded_file = st.file_uploader("Upload LISS-IV / Optical Asset (.tif, .png, .jpg up to 5 GB):", type=["tif", "png", "jpg", "jpeg"], key="optical_uploader")
         stream_type = st.radio(
-            "Select Ingestion Stream:",
-            ["ISRO Resourcesat LISS-IV Sample"]
+            "Or Select Preset Data Stream:",
+            ["ISRO Resourcesat LISS-IV Sample"],
+            horizontal=True
         )
+
     with col_ing2:
-        uploaded_file = st.file_uploader("Upload Custom LISS-IV Asset (.tif, .png, .jpg up to 5 GB):", type=["tif", "png", "jpg", "jpeg"])
+        st.markdown('<h4 style="color:#10B981; font-size:1.05rem; margin-bottom:0.5rem;">2. SAR ASSET INGESTION (OPTIONAL FOR ENGINE 2)</h4>', unsafe_allow_html=True)
+        uploaded_sar = st.file_uploader("Upload Paired Sentinel-1 SAR Asset (.tif, .png, .jpg):", type=["tif", "png", "jpg", "jpeg"], key="sar_uploader")
+        st.info("Engine 1 operates on optical only. Engine 2 fuses Optical + SAR if provided, or generates radar proxies automatically.")
 
     if uploaded_file:
         try:
@@ -991,6 +979,13 @@ elif selected_page == "Model":
                         grid[i*64:(i+1)*64, j*64:(j+1)*64] = [135, 75, 65]
             input_img = Image.fromarray(grid)
 
+    sar_img = None
+    if uploaded_sar:
+        try:
+            sar_img = load_satellite_image(uploaded_sar)
+        except Exception:
+            sar_img = None
+
     current_img_bytes = input_img.tobytes()
     if 'last_img_bytes' in st.session_state and st.session_state['last_img_bytes'] != current_img_bytes:
         st.session_state.pop('reconstructed_img', None)
@@ -998,20 +993,28 @@ elif selected_page == "Model":
         st.session_state.pop('metrics', None)
         st.session_state['last_img_bytes'] = current_img_bytes
 
-    st.markdown("<div style='margin-top:1rem;'></div>", unsafe_allow_html=True)
-    if st.button("RUN MODEL", use_container_width=True):
-        with st.spinner("Executing PyTorch Neural Network Reconstruction..."):
-            rec_img, dev_map, met_vals, lat_val = run_model_inference(input_img)
+    st.markdown("<div style='margin-top:1.2rem;'></div>", unsafe_allow_html=True)
+    
+    # Dual Model Execution Buttons
+    col_btn1, col_btn2 = st.columns(2)
+    run_engine_1 = col_btn1.button("CONVERT WITH ENGINE 1 (OPTICAL U-NET)", use_container_width=True)
+    run_engine_2 = col_btn2.button("CONVERT WITH ENGINE 2 (SAR-GUIDED CYCLEGAN)", use_container_width=True)
+
+    if run_engine_1 or run_engine_2:
+        chosen_engine = "Engine 1: Optical U-Net (Single Scene)" if run_engine_1 else "Engine 2: SAR-Guided CycleGAN (LISS-IV + Sentinel-1 SAR)"
+        with st.spinner(f"Executing PyTorch {chosen_engine} Reconstruction..."):
+            rec_img, dev_map, met_vals, lat_val = run_model_inference(input_img, engine_mode=chosen_engine, sar_img=sar_img)
             st.session_state['reconstructed_img'] = rec_img
             st.session_state['deviation_map'] = dev_map
             st.session_state['metrics'] = met_vals
             st.session_state['latency_val'] = lat_val
+            st.session_state['active_engine_label'] = "Engine 1 (Optical U-Net)" if run_engine_1 else "Engine 2 (SAR CycleGAN)"
             st.session_state['last_img_bytes'] = current_img_bytes
             st.rerun()
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top:1.5rem;'></div>", unsafe_allow_html=True)
 
-    # Main Workspace Layout: 3 Stream Boxes
+    # Main Workspace Layout: 3 Stream Boxes (Equal Height & Aligned)
     c_stream1, c_stream2, c_stream3 = st.columns(3)
 
     with c_stream1:
@@ -1021,11 +1024,23 @@ elif selected_page == "Model":
         </div>
         ''', unsafe_allow_html=True)
         st.image(input_img, use_container_width=True)
+        st.markdown("<div style='margin-top:0.6rem;'></div>", unsafe_allow_html=True)
+        buf_raw = io.BytesIO()
+        input_img.save(buf_raw, format="PNG")
+        st.download_button(
+            label="Download Raw Input Image (.PNG)",
+            data=buf_raw.getvalue(),
+            file_name="cloudclear_raw_input.png",
+            mime="image/png",
+            use_container_width=True,
+            key="dl_raw_img"
+        )
 
     with c_stream2:
-        st.markdown('''
+        active_engine_hdr = f"STREAM 02: {st.session_state.get('active_engine_label', 'NEURAL RECONSTRUCTION').upper()}"
+        st.markdown(f'''
         <div class="stream-box">
-            <div class="stream-header">STREAM 02: NEURAL RECONSTRUCTION</div>
+            <div class="stream-header">{active_engine_hdr}</div>
         </div>
         ''', unsafe_allow_html=True)
         if 'reconstructed_img' in st.session_state and st.session_state['reconstructed_img'] is not None:

@@ -1,68 +1,75 @@
+import os
+import sys
+import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-from dataset_loader import LISS4CloudDataset
-import os
-import sys
 
-# Setup relative tracking paths
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..")) if "src" in CURRENT_DIR else CURRENT_DIR
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-# Import the correct class name
-from models import CloudRemovalGenerator
+from src.dataset_loader import LISS4CloudDataset
+from src.models import CloudRemovalGenerator
 
-def train_framework():
+def train_unet_rice2(epochs=15, batch_size=8, lr=0.0002):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"🚀 Training Engine reporting for duty. Compute Target: {device}")
-
-    BATCH_SIZE = 4
-    LEARNING_RATE = 2e-4
-    EPOCHS = 10
+    print(f"=== Training UNet Engine 1 on RICE2 Dataset | Device: {device} ===")
     
-    CHECKPOINT_DIR = os.path.join(PROJECT_ROOT, "data")
-    os.makedirs(CHECKPOINT_DIR, exist_ok=True)
-    
-    print("Parsing dataset indexes...")
-    train_dataset = LISS4CloudDataset(dataset_type="RICE1")
-    train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, drop_last=True)
+    dataset_dir = "C:\\Users\\sabar\\Downloads\\RICE_DATASET"
+    if not os.path.exists(os.path.join(dataset_dir, "RICE2")):
+        dataset_dir = os.path.join(PROJECT_ROOT, "data")
+        dataset_type = "RICE1"
+    else:
+        dataset_type = "RICE2"
 
-    # Initialize correct network structure
+    dataset = LISS4CloudDataset(base_dir=dataset_dir, dataset_type=dataset_type)
+    loader = DataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=True)
+    print(f"[Dataset] Total RICE2 samples: {len(dataset)} | Batches per epoch: {len(loader)}")
+
     model = CloudRemovalGenerator(in_channels=3, out_channels=3).to(device)
-    
-    criterion = nn.L1Loss() 
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
+    criterion = nn.L1Loss()
+    optimizer = optim.Adam(model.parameters(), lr=lr, betas=(0.5, 0.999))
 
-    print("\n🏁 Beginning Model Optimization Loop...")
-    for epoch in range(1, EPOCHS + 1):
+    t_start = time.time()
+    for epoch in range(1, epochs + 1):
         model.train()
         running_loss = 0.0
         
-        for step, (cloudy_imgs, clear_imgs) in enumerate(train_loader):
-            cloudy_imgs = cloudy_imgs.to(device)
-            clear_imgs = clear_imgs.to(device)
-            
+        for step, batch in enumerate(loader):
+            if isinstance(batch, (list, tuple)):
+                cloudy = batch[0].to(device)
+                clear = batch[1].to(device)
+            else:
+                cloudy = batch["cloudy"].to(device)
+                clear = batch["clear"].to(device)
+
             optimizer.zero_grad()
-            reconstructed_imgs = model(cloudy_imgs)
-            
-            loss = criterion(reconstructed_imgs, clear_imgs)
+            output = model(cloudy)
+            loss = criterion(output, clear)
             loss.backward()
             optimizer.step()
-            
+
             running_loss += loss.item()
-            
-            if (step + 1) % 10 == 0:
-                print(f"Epoch [{epoch}/{EPOCHS}] | Step [{step+1}/{len(train_loader)}] | Loss: {loss.item():.4f}")
-        
-        epoch_loss = running_loss / len(train_loader)
-        print(f"✅ Epoch [{epoch}/{EPOCHS}] Complete. Avg Loss: {epoch_loss:.4f}")
-        
-        checkpoint_path = os.path.join(CHECKPOINT_DIR, "generator_checkpoint.pth")
-        torch.save(model.state_dict(), checkpoint_path)
-        print(f"💾 Checkpoint saved to: {checkpoint_path}")
+
+        avg_loss = running_loss / len(loader)
+        print(f"Epoch [{epoch:02d}/{epochs:02d}] | Loss L1: {avg_loss:.4f}")
+
+    total_time = time.time() - t_start
+    print(f"[Completed] UNet Training finished in {total_time / 60.0:.2f} minutes.")
+
+    # Save to both data/ generator_checkpoint.pth and checkpoints/ rice1_generator.pth
+    p1 = os.path.join(PROJECT_ROOT, "data", "generator_checkpoint.pth")
+    p2 = os.path.join(PROJECT_ROOT, "checkpoints", "rice1_generator.pth")
+    os.makedirs(os.path.dirname(p1), exist_ok=True)
+    os.makedirs(os.path.dirname(p2), exist_ok=True)
+
+    torch.save(model.state_dict(), p1)
+    torch.save(model.state_dict(), p2)
+    print(f"[Saved] UNet RICE2 Checkpoints saved to:\n  - {p1}\n  - {p2}")
+    return model
 
 if __name__ == "__main__":
-    train_framework()
+    train_unet_rice2(epochs=15, batch_size=8)

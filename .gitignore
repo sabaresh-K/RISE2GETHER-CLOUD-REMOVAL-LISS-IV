@@ -170,5 +170,4 @@ data.zip
 *.pth
 *.npy
 PROJECT_PRESENTATION_SCRIPT.md
-frontend/node_modules/
 

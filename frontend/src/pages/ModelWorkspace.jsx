@@ -27,8 +27,7 @@ export default function ModelWorkspace() {
         body = await res.arrayBuffer();
       }
 
-      const apiBase = window.location.port === "8000" ? "" : "http://localhost:8000";
-      const response = await fetch(`${apiBase}/api/process-raster`, {
+      const response = await fetch('http://localhost:8000/api/process-raster', {
         method: 'POST',
         headers: { 'Content-Type': 'application/octet-stream' },
         body: body
