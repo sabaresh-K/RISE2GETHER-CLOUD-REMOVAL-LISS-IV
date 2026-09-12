@@ -158,14 +158,15 @@ st.markdown('''
 
     /* Top Header Banner */
     .pitch-header {
-        background: rgba(4, 15, 36, 0.92);
+        background: rgba(16, 185, 129, 0.18) !important;
         border: 1px solid rgba(16, 185, 129, 0.55);
         border-bottom: 3px solid #10B981;
         border-radius: 16px;
         padding: 1.5rem 2.4rem;
         margin-bottom: 1.6rem;
-        box-shadow: 0 14px 45px rgba(16, 185, 129, 0.3);
-        backdrop-filter: blur(18px);
+        box-shadow: 0 14px 45px rgba(16, 185, 129, 0.2) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
         animation: pulseBlue 4s infinite alternate;
     }
     
@@ -246,13 +247,15 @@ st.markdown('''
 
     /* Floating Deep Emerald Titanium Space Cards with Glowing Box Cursor Effects */
     .pitch-card {
-        background: rgba(4, 15, 36, 0.88);
-        border: 1px solid rgba(16, 185, 129, 0.4);
-        border-top: 2px solid #10B981;
+        background: rgba(16, 185, 129, 0.15) !important;
+        border: 1px solid rgba(16, 185, 129, 0.4) !important;
+        border-top: 2px solid #10B981 !important;
         border-radius: 16px;
         padding: 2rem;
         margin-bottom: 1.5rem;
-        backdrop-filter: blur(16px);
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1) !important;
         transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
@@ -319,19 +322,20 @@ st.markdown('''
 
     /* Telemetry Metric Display Boxes with Glowing Hover Aura */
     .metric-card-box {
-        background: rgba(4, 15, 36, 0.94);
-        border: 1px solid rgba(16, 185, 129, 0.45);
-        border-top: 3px solid #34D399;
-        border-radius: 14px;
-        padding: 1.35rem;
+        background: rgba(16, 185, 129, 0.15) !important;
+        border: 1px solid rgba(16, 185, 129, 0.4) !important;
+        border-radius: 12px;
+        padding: 1.5rem 1rem;
         text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        height: 100%;
-        min-height: 140px;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1) !important;
+        height: 140px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .metric-card-box:hover {
@@ -421,13 +425,15 @@ st.markdown('''
     }
 
     .model-feature-card {
-        background: rgba(4, 15, 36, 0.88);
-        border: 1px solid rgba(16, 185, 129, 0.35);
-        border-left: 4px solid #10B981;
+        background: rgba(16, 185, 129, 0.12) !important;
+        border: 1px solid rgba(16, 185, 129, 0.3) !important;
         border-radius: 12px;
-        padding: 1.3rem;
-        margin-bottom: 1.2rem;
-        transition: all 0.3s ease;
+        padding: 1.8rem;
+        height: 100%;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1) !important;
+        transition: transform 0.3s ease, border-color 0.3s ease;
     }
 
     .model-feature-card p {
