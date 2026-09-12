@@ -866,11 +866,11 @@ if selected_page == "Home":
     st.markdown("### Downstream High-Value Impact")
     d1, d2, d3 = st.columns(3)
     with d1:
-        st.markdown('<div class="pitch-card" style="height: 100%; min-height: 150px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Precision Agriculture</h4><p style="color:#94A3B8; margin-bottom:0;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Precision Agriculture</h4><p style="color:#94A3B8; margin-bottom:0;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
     with d2:
-        st.markdown('<div class="pitch-card" style="height: 100%; min-height: 150px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Emergency Flood Response</h4><p style="color:#94A3B8; margin-bottom:0;">Active radar penetrates storm clouds to delineate standing water boundaries in real time.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Emergency Flood Response</h4><p style="color:#94A3B8; margin-bottom:0;">Active radar penetrates storm clouds to delineate standing water boundaries in real time.</p></div>', unsafe_allow_html=True)
     with d3:
-        st.markdown('<div class="pitch-card" style="height: 100%; min-height: 150px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Forestry & Urban Sprawl</h4><p style="color:#94A3B8; margin-bottom:0;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Forestry & Urban Sprawl</h4><p style="color:#94A3B8; margin-bottom:0;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
 
 # PAGE 2: ABOUT (CLEAN BENCHMARKS ONLY - ROADMAP REMOVED)
 # --------------------------------------------------------------------------
