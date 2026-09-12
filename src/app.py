@@ -836,8 +836,8 @@ if selected_page == "Home":
 </div>
 <div style="color:#10B981; font-size:2rem; font-weight:900; text-align:center;">⬇</div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
-<h4 style="color:#10B981; margin-top:0; font-size:1.4rem; font-weight:900;">03. SAR-Guided CycleGAN & U-Net Core</h4>
-<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Dual generators utilizing U-Net skip connections reconstruct hidden optical reflectance from SAR structural features with high fidelity.</p>
+<h4 style="color:#10B981; margin-top:0; font-size:1.3rem; font-weight:900;">03. AI Core (SAR-Guided CycleGAN)</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Our generative CycleGAN leverages Sentinel-1 SAR structural guidance to reconstruct terrain beneath thick clouds. An independent Optical U-Net is utilized purely for single-scene optical mapping.</p>
 </div>
 <div style="color:#8B5CF6; font-size:2rem; font-weight:900; text-align:center;">⬇</div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #8B5CF6; padding:1.5rem;">
@@ -981,7 +981,7 @@ elif selected_page == "About":
 </div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #34D399; padding:1.5rem;">
 <h4 style="color:#34D399; margin-top:0; font-size:1.4rem; font-weight:900;">SAR-Guided CycleGAN Reconstruction</h4>
-<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;"><strong>Our core innovation relies on a custom CycleGAN architecture.</strong> It fuses Sentinel-1 microwave radar backscatter (C-band) to reconstruct structural layouts under dense clouds. The generative CycleGAN core, built on a U-Net backbone with dense skip connections, directly routes high-frequency spatial details to ensure the native 5.8m resolution is flawlessly preserved through unpaired image-to-image translation.</p>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;"><strong>Our core innovation relies on a custom CycleGAN architecture.</strong> It strictly uses Sentinel-1 microwave radar backscatter (C-band) as structural guidance to reconstruct layouts under dense clouds. Conversely, our secondary U-Net functions purely as an optical network without SAR input. The CycleGAN core ensures the native 5.8m resolution is flawlessly preserved through unpaired image-to-image translation.</p>
 </div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #059669; padding:1.5rem;">
 <h4 style="color:#059669; margin-top:0; font-size:1.1rem;">LISS-IV Optimization</h4>
