@@ -91,31 +91,40 @@ def compute_metrics(in_np, out_np):
 st.markdown('''
 <style>
     /* Keyframe Animations */
+    @keyframes moveStars {
+        0% { background-position: 0 0, 0 0, 0 0; }
+        100% { background-position: 0 0, 0 0, -1000px 1000px; }
+    }
     @keyframes floatSpace {
         0% { transform: translateY(0px); }
         50% { transform: translateY(-8px); }
         100% { transform: translateY(0px); }
     }
     
-    @keyframes pulseEmerald {
-        0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.15); }
-        50% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.7), inset 0 0 25px rgba(52, 211, 153, 0.3); }
-        100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.15); }
+    @keyframes pulseBlue {
+        0% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.3), inset 0 0 15px rgba(14, 165, 233, 0.15); }
+        50% { box-shadow: 0 0 35px rgba(14, 165, 233, 0.7), inset 0 0 25px rgba(56, 189, 248, 0.3); }
+        100% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.3), inset 0 0 15px rgba(14, 165, 233, 0.15); }
     }
 
-    @keyframes textEmeraldGlow {
-        0% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
-        50% { text-shadow: 0 0 25px rgba(16, 185, 129, 0.95), 0 0 40px rgba(52, 211, 153, 0.6); }
-        100% { text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+    @keyframes textBlueGlow {
+        0% { text-shadow: 0 0 10px rgba(14, 165, 233, 0.4); }
+        50% { text-shadow: 0 0 25px rgba(14, 165, 233, 0.95), 0 0 40px rgba(56, 189, 248, 0.6); }
+        100% { text-shadow: 0 0 10px rgba(14, 165, 233, 0.4); }
     }
 
     /* Global Deep Emerald Space Background with High-Contrast Grid Matrix & Cosmic Glow */
     .stApp {
-        background: #000000 !important;
-        background-color: #000000 !important;
-        background-image: none !important;
+        background-color: #020617 !important;
+        background-image: 
+            radial-gradient(circle at top right, rgba(14, 165, 233, 0.12) 0%, transparent 40%),
+            radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Ccircle cx='50' cy='50' r='1.5' fill='%23fff' opacity='0.8'/%3E%3Ccircle cx='200' cy='150' r='2' fill='%23fff' opacity='0.9'/%3E%3Ccircle cx='250' cy='30' r='1' fill='%23fff' opacity='0.5'/%3E%3Ccircle cx='80' cy='250' r='2.5' fill='%23fff' opacity='0.7'/%3E%3Ccircle cx='150' cy='280' r='1' fill='%23fff' opacity='0.4'/%3E%3C/svg%3E") !important;
+        background-size: 100% 100%, 100% 100%, 500px 500px !important;
+        background-attachment: fixed !important;
         color: #FFFFFF !important;
         font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        animation: moveStars 120s linear infinite !important;
     }
     
     .block-container {
@@ -131,26 +140,26 @@ st.markdown('''
 
     /* Top Header Banner */
     .pitch-header {
-        background: rgba(4, 30, 22, 0.92);
-        border: 1px solid rgba(16, 185, 129, 0.55);
-        border-bottom: 3px solid #10B981;
+        background: rgba(4, 15, 36, 0.92);
+        border: 1px solid rgba(14, 165, 233, 0.55);
+        border-bottom: 3px solid #0EA5E9;
         border-radius: 16px;
         padding: 1.5rem 2.4rem;
         margin-bottom: 1.6rem;
-        box-shadow: 0 14px 45px rgba(16, 185, 129, 0.3);
+        box-shadow: 0 14px 45px rgba(14, 165, 233, 0.3);
         backdrop-filter: blur(18px);
-        animation: pulseEmerald 4s infinite alternate;
+        animation: pulseBlue 4s infinite alternate;
     }
     
     .pitch-title {
         font-size: 2.4rem;
         font-weight: 900;
-        background: linear-gradient(90deg, #FFFFFF 0%, #10B981 45%, #34D399 100%);
+        background: linear-gradient(90deg, #FFFFFF 0%, #0EA5E9 45%, #38BDF8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         letter-spacing: 1.2px;
         margin: 0;
-        animation: textEmeraldGlow 3s infinite alternate;
+        animation: textBlueGlow 3s infinite alternate;
     }
 
     .pitch-sub {
@@ -163,41 +172,41 @@ st.markdown('''
 
     .status-badge-online {
         display: inline-block;
-        background: rgba(16, 185, 129, 0.25);
-        border: 1px solid #10B981;
-        color: #34D399 !important;
+        background: rgba(14, 165, 233, 0.25);
+        border: 1px solid #0EA5E9;
+        color: #38BDF8 !important;
         padding: 0.45rem 1.1rem;
         border-radius: 20px;
         font-size: 0.88rem;
         font-weight: 800;
-        box-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
+        box-shadow: 0 0 20px rgba(14, 165, 233, 0.45);
         transition: all 0.3s ease;
     }
     .status-badge-online:hover {
         transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+        box-shadow: 0 0 30px rgba(14, 165, 233, 0.8);
     }
 
     /* Navigation Radio Bar Styling */
     .stRadio > div {
-        background: rgba(4, 30, 22, 0.92) !important;
-        border: 1px solid rgba(16, 185, 129, 0.5) !important;
+        background: rgba(4, 15, 36, 0.92) !important;
+        border: 1px solid rgba(14, 165, 233, 0.5) !important;
         border-radius: 30px !important;
         padding: 0.6rem 1.6rem !important;
         gap: 1.6rem !important;
         margin-bottom: 1.5rem !important;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(16, 185, 129, 0.2);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(14, 165, 233, 0.2);
         backdrop-filter: blur(14px) !important;
     }
 
     /* All Form & Radio Labels High Contrast Visibility */
     [data-testid="stWidgetLabel"] p, label p {
-        color: #10B981 !important;
+        color: #0EA5E9 !important;
         font-weight: 800 !important;
         font-size: 1.08rem !important;
         letter-spacing: 0.5px !important;
         margin-bottom: 0.4rem !important;
-        text-shadow: 0 0 10px rgba(16, 185, 129, 0.3) !important;
+        text-shadow: 0 0 10px rgba(14, 165, 233, 0.3) !important;
     }
 
     /* Radio Button Option Text Styling */
@@ -213,15 +222,15 @@ st.markdown('''
     }
 
     .stRadio label:hover p {
-        color: #34D399 !important;
-        text-shadow: 0 0 15px rgba(52, 211, 153, 0.9) !important;
+        color: #38BDF8 !important;
+        text-shadow: 0 0 15px rgba(56, 189, 248, 0.9) !important;
     }
 
     /* Floating Deep Emerald Titanium Space Cards with Glowing Box Cursor Effects */
     .pitch-card {
-        background: rgba(4, 30, 22, 0.88);
-        border: 1px solid rgba(16, 185, 129, 0.4);
-        border-top: 2px solid #10B981;
+        background: rgba(4, 15, 36, 0.88);
+        border: 1px solid rgba(14, 165, 233, 0.4);
+        border-top: 2px solid #0EA5E9;
         border-radius: 16px;
         padding: 2rem;
         margin-bottom: 1.5rem;
@@ -242,14 +251,14 @@ st.markdown('''
         position: absolute;
         top: 0; left: 0; right: 0;
         height: 3px;
-        background: linear-gradient(90deg, transparent, #34D399, transparent);
+        background: linear-gradient(90deg, transparent, #38BDF8, transparent);
         opacity: 0;
         transition: opacity 0.35s ease;
     }
 
     .pitch-card:hover {
-        border-color: #10B981;
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 60px rgba(52, 211, 153, 0.25);
+        border-color: #0EA5E9;
+        box-shadow: 0 0 30px rgba(14, 165, 233, 0.5), 0 0 60px rgba(56, 189, 248, 0.25);
         transform: translateY(-5px);
     }
 
@@ -261,7 +270,7 @@ st.markdown('''
     .stTextInput input, .stTextArea textarea {
         background-color: #031D15 !important;
         color: #FFFFFF !important;
-        border: 1px solid rgba(16, 185, 129, 0.55) !important;
+        border: 1px solid rgba(14, 165, 233, 0.55) !important;
         border-radius: 12px !important;
         font-size: 1.02rem !important;
         font-family: 'Inter', sans-serif !important;
@@ -271,14 +280,14 @@ st.markdown('''
     }
 
     .stTextInput input:focus, .stTextArea textarea:focus {
-        border-color: #10B981 !important;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.75) !important;
+        border-color: #0EA5E9 !important;
+        box-shadow: 0 0 25px rgba(14, 165, 233, 0.75) !important;
         outline: none !important;
         background-color: #05291E !important;
     }
 
     .stTextInput label, .stTextArea label {
-        color: #10B981 !important;
+        color: #0EA5E9 !important;
         font-weight: 800 !important;
         font-size: 1rem !important;
         letter-spacing: 0.5px !important;
@@ -292,9 +301,9 @@ st.markdown('''
 
     /* Telemetry Metric Display Boxes with Glowing Hover Aura */
     .metric-card-box {
-        background: rgba(4, 30, 22, 0.94);
-        border: 1px solid rgba(16, 185, 129, 0.45);
-        border-top: 3px solid #34D399;
+        background: rgba(4, 15, 36, 0.94);
+        border: 1px solid rgba(14, 165, 233, 0.45);
+        border-top: 3px solid #38BDF8;
         border-radius: 14px;
         padding: 1.35rem;
         text-align: center;
@@ -309,16 +318,16 @@ st.markdown('''
 
     .metric-card-box:hover {
         transform: translateY(-5px) scale(1.03);
-        border-color: #34D399;
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 50px rgba(52, 211, 153, 0.3);
+        border-color: #38BDF8;
+        box-shadow: 0 0 30px rgba(14, 165, 233, 0.6), 0 0 50px rgba(56, 189, 248, 0.3);
     }
 
     .metric-card-val {
         font-size: 2rem;
         font-weight: 900;
-        color: #34D399 !important;
+        color: #38BDF8 !important;
         font-family: monospace;
-        text-shadow: 0 0 15px rgba(52, 211, 153, 0.7);
+        text-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
     }
 
     .metric-card-lbl {
@@ -332,16 +341,16 @@ st.markdown('''
 
     /* Emerald Styled Action Button & Form Submit Button */
     .stButton>button, .stFormSubmitButton>button, button[kind="formSubmit"], .stDownloadButton>button {
-        background: linear-gradient(90deg, #047857 0%, #10B981 50%, #34D399 100%) !important;
+        background: linear-gradient(90deg, #047857 0%, #0EA5E9 50%, #38BDF8 100%) !important;
         color: #FFFFFF !important;
         font-weight: 900 !important;
-        border: 1px solid #34D399 !important;
+        border: 1px solid #38BDF8 !important;
         border-radius: 12px !important;
         letter-spacing: 1.2px !important;
         text-transform: uppercase !important;
         padding: 0.95rem 1.8rem !important;
         font-size: 1.05rem !important;
-        box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important;
+        box-shadow: 0 6px 25px rgba(14, 165, 233, 0.5) !important;
         transition: all 0.3s ease !important;
     }
 
@@ -352,10 +361,10 @@ st.markdown('''
     }
 
     .stButton>button:hover, .stFormSubmitButton>button:hover, button[kind="formSubmit"]:hover, .stDownloadButton>button:hover {
-        background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
+        background: linear-gradient(90deg, #0EA5E9 0%, #38BDF8 100%) !important;
         color: #03140E !important;
         transform: translateY(-3px) !important;
-        box-shadow: 0 0 40px rgba(16, 185, 129, 0.9), 0 0 70px rgba(52, 211, 153, 0.5) !important;
+        box-shadow: 0 0 40px rgba(14, 165, 233, 0.9), 0 0 70px rgba(56, 189, 248, 0.5) !important;
     }
 
     .stFormSubmitButton button:hover p, .stFormSubmitButton button:hover span, .stDownloadButton button:hover p, .stDownloadButton button:hover span {
@@ -364,8 +373,8 @@ st.markdown('''
 
     /* Model Workspace Custom Glass Containers */
     .stream-box {
-        background: rgba(4, 30, 22, 0.9);
-        border: 1px solid rgba(16, 185, 129, 0.45);
+        background: rgba(4, 15, 36, 0.9);
+        border: 1px solid rgba(14, 165, 233, 0.45);
         border-radius: 14px;
         padding: 1.3rem;
         text-align: center;
@@ -375,12 +384,12 @@ st.markdown('''
     }
 
     .stream-box:hover {
-        border-color: #10B981;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+        border-color: #0EA5E9;
+        box-shadow: 0 0 25px rgba(14, 165, 233, 0.5);
     }
 
     .stream-header {
-        color: #34D399 !important;
+        color: #38BDF8 !important;
         font-weight: 900;
         font-size: 0.92rem;
         letter-spacing: 1px;
@@ -390,13 +399,13 @@ st.markdown('''
         align-items: center;
         justify-content: center;
         gap: 0.4rem;
-        text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+        text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
     }
 
     .model-feature-card {
-        background: rgba(4, 30, 22, 0.88);
-        border: 1px solid rgba(16, 185, 129, 0.35);
-        border-left: 4px solid #10B981;
+        background: rgba(4, 15, 36, 0.88);
+        border: 1px solid rgba(14, 165, 233, 0.35);
+        border-left: 4px solid #0EA5E9;
         border-radius: 12px;
         padding: 1.3rem;
         margin-bottom: 1.2rem;
@@ -408,9 +417,9 @@ st.markdown('''
     }
 
     .model-feature-card:hover {
-        border-color: #10B981;
+        border-color: #0EA5E9;
         transform: translateY(-3px);
-        box-shadow: 0 0 30px rgba(16, 185, 129, 0.45);
+        box-shadow: 0 0 30px rgba(14, 165, 233, 0.45);
     }
 
     /* Hide Sidebar Globally */
@@ -420,8 +429,8 @@ st.markdown('''
 
     /* File Uploader High Contrast Styling */
     [data-testid="stFileUploader"] {
-        background-color: rgba(4, 30, 22, 0.9) !important;
-        border: 1.5px dashed rgba(16, 185, 129, 0.6) !important;
+        background-color: rgba(4, 15, 36, 0.9) !important;
+        border: 1.5px dashed rgba(14, 165, 233, 0.6) !important;
         border-radius: 14px !important;
         padding: 1.4rem !important;
         margin-top: 0.5rem !important;
@@ -441,7 +450,7 @@ st.markdown('''
 
     [data-testid="stFileUploaderDropzone"] {
         background-color: #031D15 !important;
-        border: 1.5px dashed #10B981 !important;
+        border: 1.5px dashed #0EA5E9 !important;
         border-radius: 10px !important;
     }
 
@@ -452,26 +461,26 @@ st.markdown('''
 
     [data-testid="stFileUploaderDropzone"] button,
     [data-testid="stFileUploader"] button {
-        background: linear-gradient(90deg, #047857 0%, #10B981 100%) !important;
+        background: linear-gradient(90deg, #047857 0%, #0EA5E9 100%) !important;
         color: #FFFFFF !important;
-        border: 1px solid #34D399 !important;
+        border: 1px solid #38BDF8 !important;
         font-weight: 900 !important;
         border-radius: 8px !important;
         padding: 0.65rem 1.3rem !important;
         text-transform: uppercase !important;
-        box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4) !important;
+        box-shadow: 0 4px 18px rgba(14, 165, 233, 0.4) !important;
     }
 
     [data-testid="stFileUploaderDropzone"] button:hover,
     [data-testid="stFileUploader"] button:hover {
-        background: linear-gradient(90deg, #10B981 0%, #34D399 100%) !important;
+        background: linear-gradient(90deg, #0EA5E9 0%, #38BDF8 100%) !important;
         color: #03140E !important;
-        box-shadow: 0 0 25px rgba(16, 185, 129, 0.8) !important;
+        box-shadow: 0 0 25px rgba(14, 165, 233, 0.8) !important;
     }
 
     
-    [data-testid="stUploadedFile"] { background-color: #031D15 !important; border: 1px solid #10B981 !important; }
-    [data-testid="stUploadedFile"] * { color: #10B981 !important; font-weight: 800 !important; }
+    [data-testid="stUploadedFile"] { background-color: #031D15 !important; border: 1px solid #0EA5E9 !important; }
+    [data-testid="stUploadedFile"] * { color: #0EA5E9 !important; font-weight: 800 !important; }
     [data-testid="stUploadedFile"] button { background: transparent !important; box-shadow: none !important; border: none !important; color: #EF4444 !important; }
     
     /* Make SURE the file uploader pill is dark */
@@ -485,7 +494,7 @@ st.markdown('''
     
     [data-testid="stFileUploader"] section *,
     div[data-testid="stUploadedFile"] * {
-        color: #10B981 !important;
+        color: #0EA5E9 !important;
     }
     
     #MainMenu {visibility: hidden;}
@@ -804,7 +813,7 @@ if selected_page == "Home":
     with c1:
         st.markdown('''
     <div class="pitch-card" style="height: 380px; display:flex; flex-direction:column; justify-content:center;">
-    <h4 style="color:#10B981; margin-top:0;">The Obscuration Challenge</h4>
+    <h4 style="color:#0EA5E9; margin-top:0;">The Obscuration Challenge</h4>
     <p style="font-size:1.05rem; color:#E2E8F0; line-height:1.6;">
                 Persistent cloud cover and atmospheric shadows obscure up to <strong>30%–60% of optical satellite scenes</strong> over the Indian subcontinent, rendering high-resolution Earth observation data unusable during critical agricultural and monsoon seasons.
             </p>
@@ -832,12 +841,12 @@ if selected_page == "Home":
     st.markdown('''
 <div style="display:flex; flex-direction:column; align-items:center; gap: 1rem; margin-bottom:2rem; width:100%;">
 
-<div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
-<h4 style="color:#10B981; margin-top:0; font-size:1.2rem;">01. Data Ingestion</h4>
+<div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #0EA5E9; padding:1.5rem;">
+<h4 style="color:#0EA5E9; margin-top:0; font-size:1.2rem;">01. Data Ingestion</h4>
 <p style="font-size:1rem; color:#94A3B8; margin-bottom:0;"><strong>Optical Input:</strong> LISS-IV 3-Band GeoTIFF (B2: Green, B3: Red, B4: NIR) at 5.8 m.<br><br><strong>Microwave Input:</strong> Sentinel-1 SAR (Dual Polarization: VV & VH backscatter channels).</p>
 </div>
 
-<div style="color:#10B981; font-size:2.5rem; font-weight:900;">⬇</div>
+<div style="color:#0EA5E9; font-size:2.5rem; font-weight:900;">⬇</div>
 
 <div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #F97316; padding:1.5rem;">
 <h4 style="color:#F97316; margin-top:0; font-size:1.2rem;">02. Sub-Pixel Preprocessing & Mask Generation</h4>
@@ -871,18 +880,18 @@ if selected_page == "Home":
     st.markdown("### Downstream High-Value Impact")
     d1, d2, d3 = st.columns(3)
     with d1:
-        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Precision Agriculture</h4><p style="color:#94A3B8; margin-bottom:0;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#0EA5E9; margin-top:0;">Precision Agriculture</h4><p style="color:#94A3B8; margin-bottom:0;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
     with d2:
-        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Emergency Flood Response</h4><p style="color:#94A3B8; margin-bottom:0;">Active radar penetrates storm clouds to delineate standing water boundaries in real time.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#0EA5E9; margin-top:0;">Emergency Flood Response</h4><p style="color:#94A3B8; margin-bottom:0;">Active radar penetrates storm clouds to delineate standing water boundaries in real time.</p></div>', unsafe_allow_html=True)
     with d3:
-        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#10B981; margin-top:0;">Forestry & Urban Sprawl</h4><p style="color:#94A3B8; margin-bottom:0;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="height: 220px; display: flex; flex-direction: column; justify-content: center;"><h4 style="color:#0EA5E9; margin-top:0;">Forestry & Urban Sprawl</h4><p style="color:#94A3B8; margin-bottom:0;">Track canopy density and urban growth metrics with high spatial confidence.</p></div>', unsafe_allow_html=True)
 
 # PAGE 2: ABOUT (CLEAN BENCHMARKS ONLY - ROADMAP REMOVED)
 # --------------------------------------------------------------------------
 elif selected_page == "About":
     st.markdown('''
 <div class="pitch-card">
-        <h2 style="color:#10B981; margin-top:0;">About CloudClear-LISS Science & Benchmarks</h2>
+        <h2 style="color:#0EA5E9; margin-top:0;">About CloudClear-LISS Science & Benchmarks</h2>
 <p style="font-size:1.1rem; color:#E2E8F0; line-height:1.6;">
             The <strong>Linear Imaging Self-Scanning Sensor (LISS-IV)</strong> operating onboard Resourcesat satellites provides 
             high-resolution multispectral imagery with a spatial resolution of 5.8 meters. 
@@ -913,8 +922,8 @@ elif selected_page == "Features":
     st.markdown("### System Features & Competitive Capabilities")
     f1, f2 = st.columns(2)
     with f1:
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #10B981;"><h4 style="color:#10B981;">LISS-IV 5.8m Resolution Preservation</h4><p style="color:#94A3B8;">Specifically engineered for LISS-IV 5.8m pixel spacing without downscaling.</p></div>', unsafe_allow_html=True)
-        st.markdown('<div class="pitch-card" style="border-left:4px solid #10B981;"><h4 style="color:#10B981;">Multi-Sensor Fusion Engine</h4><p style="color:#94A3B8;">Fuses optical reflection with Sentinel-1 C-band active radar backscatter.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="border-left:4px solid #0EA5E9;"><h4 style="color:#0EA5E9;">LISS-IV 5.8m Resolution Preservation</h4><p style="color:#94A3B8;">Specifically engineered for LISS-IV 5.8m pixel spacing without downscaling.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="pitch-card" style="border-left:4px solid #0EA5E9;"><h4 style="color:#0EA5E9;">Multi-Sensor Fusion Engine</h4><p style="color:#94A3B8;">Fuses optical reflection with Sentinel-1 C-band active radar backscatter.</p></div>', unsafe_allow_html=True)
     with f2:
         st.markdown('<div class="pitch-card" style="border-left:4px solid #F59E0B;"><h4 style="color:#F59E0B;">CycleGAN Generative Core</h4><p style="color:#94A3B8;">Dual generators ensure realistic, spectrally accurate ground texture synthesis.</p></div>', unsafe_allow_html=True)
         st.markdown('<div class="pitch-card" style="border-left:4px solid #8B5CF6;"><h4 style="color:#8B5CF6;">Full Georeferenced GeoTIFF Export</h4><p style="color:#94A3B8;">Exports GIS-ready GeoTIFF rasters with intact CRS metadata.</p></div>', unsafe_allow_html=True)
@@ -925,11 +934,11 @@ elif selected_page == "Features":
 <div class="pitch-card">
         <table style="width:100%; border-collapse:collapse; color:#E2E8F0;">
             <thead>
-                <tr style="border-bottom:2px solid #10B981; text-align:left;">
-                    <th style="padding:0.8rem; color:#10B981;">Feature / Capability</th>
+                <tr style="border-bottom:2px solid #0EA5E9; text-align:left;">
+                    <th style="padding:0.8rem; color:#0EA5E9;">Feature / Capability</th>
                     <th style="padding:0.8rem;">Spatial Interpolation</th>
                     <th style="padding:0.8rem;">Optical-Only Neural Net</th>
-                    <th style="padding:0.8rem; color:#10B981;">CloudClear-LISS (Fusion)</th>
+                    <th style="padding:0.8rem; color:#0EA5E9;">CloudClear-LISS (Fusion)</th>
                 </tr>
             </thead>
             <tbody>
@@ -937,19 +946,19 @@ elif selected_page == "Features":
                     <td style="padding:0.8rem; font-weight:600;">Heavy Cloud (>80%)</td>
                     <td style="padding:0.8rem; color:#EF4444;">Fails (extreme blur)</td>
                     <td style="padding:0.8rem; color:#EF4444;">Fails (lacks structure)</td>
-                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">Reconstructs via Radar</td>
+                    <td style="padding:0.8rem; color:#0EA5E9; font-weight:700;">Reconstructs via Radar</td>
                 </tr>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
                     <td style="padding:0.8rem; font-weight:600;">5.8m Resolution Preservation</td>
                     <td style="padding:0.8rem; color:#EF4444;">Blurs textures (>20m)</td>
-                    <td style="padding:0.8rem; color:#10B981;">Retains resolution</td>
-                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">Retains Native 5.8m</td>
+                    <td style="padding:0.8rem; color:#0EA5E9;">Retains resolution</td>
+                    <td style="padding:0.8rem; color:#0EA5E9; font-weight:700;">Retains Native 5.8m</td>
                 </tr>
                 <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
                     <td style="padding:0.8rem; font-weight:600;">GeoTIFF CRS Transfer</td>
-                    <td style="padding:0.8rem; color:#10B981;">Retained</td>
+                    <td style="padding:0.8rem; color:#0EA5E9;">Retained</td>
                     <td style="padding:0.8rem; color:#EF4444;">Exports JPEG/PNG</td>
-                    <td style="padding:0.8rem; color:#10B981; font-weight:700;">Full GeoTIFF Metadata</td>
+                    <td style="padding:0.8rem; color:#0EA5E9; font-weight:700;">Full GeoTIFF Metadata</td>
                 </tr>
             </tbody>
         </table>
@@ -968,7 +977,7 @@ elif selected_page == "Model":
 <div class="pitch-card" style="margin-bottom:1.5rem;">
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
         <div>
-        <h3 style="color:#10B981; margin:0; font-size:1.4rem; font-weight:800;">SATELLITE ASSET INGESTION & DATA STREAM CONTROL</h3>
+        <h3 style="color:#0EA5E9; margin:0; font-size:1.4rem; font-weight:800;">SATELLITE ASSET INGESTION & DATA STREAM CONTROL</h3>
         <p style="color:#94A3B8; font-size:0.9rem; margin:0.2rem 0 0 0;">Select sample satellite data or upload a custom LISS-IV GeoTIFF/image asset.</p>
 </div>
         <div style="display:flex; gap:0.8rem; align-items:center;">
@@ -983,7 +992,7 @@ elif selected_page == "Model":
 
     col_ing1, col_ing2 = st.columns(2)
     with col_ing1:
-        st.markdown('<h4 style="color:#10B981; font-size:1.05rem; margin-bottom:0.5rem;">1. OPTICAL ASSET INGESTION</h4>', unsafe_allow_html=True)
+        st.markdown('<h4 style="color:#0EA5E9; font-size:1.05rem; margin-bottom:0.5rem;">1. OPTICAL ASSET INGESTION</h4>', unsafe_allow_html=True)
         uploaded_file = st.file_uploader("Upload LISS-IV / Optical Asset (.tif, .png, .jpg up to 5 GB):", type=["tif", "png", "jpg", "jpeg"], key="optical_uploader")
         stream_type = st.radio(
             "Or Select Preset Data Stream:",
@@ -992,7 +1001,7 @@ elif selected_page == "Model":
         )
 
     with col_ing2:
-        st.markdown('<h4 style="color:#10B981; font-size:1.05rem; margin-bottom:0.5rem;">2. SAR ASSET INGESTION (OPTIONAL FOR ENGINE 2)</h4>', unsafe_allow_html=True)
+        st.markdown('<h4 style="color:#0EA5E9; font-size:1.05rem; margin-bottom:0.5rem;">2. SAR ASSET INGESTION (OPTIONAL FOR ENGINE 2)</h4>', unsafe_allow_html=True)
         uploaded_sar = st.file_uploader("Upload Paired Sentinel-1 SAR Asset (.tif, .png, .jpg):", type=["tif", "png", "jpg", "jpeg"], key="sar_uploader")
 
     if uploaded_file:
@@ -1132,7 +1141,7 @@ elif selected_page == "Model":
     st.markdown("---")
 
     # Real-Time Telemetry Grid
-    st.markdown('<h4 style="color:#10B981; margin-bottom:1rem; text-align:center;">REAL-TIME TELEMETRY & EVALUATION METRICS</h4>', unsafe_allow_html=True)
+    st.markdown('<h4 style="color:#0EA5E9; margin-bottom:1rem; text-align:center;">REAL-TIME TELEMETRY & EVALUATION METRICS</h4>', unsafe_allow_html=True)
     
     if 'metrics' in st.session_state and st.session_state['metrics'] is not None:
         psnr, ssim, rmse, sam = st.session_state['metrics']
@@ -1161,7 +1170,7 @@ elif selected_page == "Image Conversion":
 <div class="pitch-card" style="margin-bottom:1.5rem;">
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
         <div>
-                <h2 style="color:#10B981; margin:0 0 0.4rem 0; font-size:1.8rem; font-weight:800;">
+                <h2 style="color:#0EA5E9; margin:0 0 0.4rem 0; font-size:1.8rem; font-weight:800;">
                     LISS-IV Multi-Band Stacking & Conversion Engine
                 </h2>
         <p style="color:#94A3B8; font-size:0.95rem; margin:0;">
@@ -1181,8 +1190,8 @@ elif selected_page == "Image Conversion":
 
     with c_b2:
         st.markdown('''
-    <div class="pitch-card" style="border-top:4px solid #10B981; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
-    <h4 style="color:#10B981; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 2 (B2 - Green)</h4>
+    <div class="pitch-card" style="border-top:4px solid #0EA5E9; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
+    <h4 style="color:#0EA5E9; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 2 (B2 - Green)</h4>
     <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.52 - 0.59 µm Spectral Range</p>
     </div>
         ''', unsafe_allow_html=True)
@@ -1265,14 +1274,14 @@ elif selected_page == "Image Conversion":
     if 'conversion_result' in st.session_state and st.session_state['conversion_result'] is not None:
         res = st.session_state['conversion_result']
         st.markdown("---")
-        st.markdown('<h3 style="color:#10B981; margin-bottom:1.2rem;">CONVERSION & STACKING COMPLETE</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 style="color:#0EA5E9; margin-bottom:1.2rem;">CONVERSION & STACKING COMPLETE</h3>', unsafe_allow_html=True)
 
         r_col1, r_col2 = st.columns(2)
 
         with r_col1:
             st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #10B981;">
-        <h4 style="color:#10B981; margin-top:0;">1. Visual False Color Composite (FCC) Preview (.PNG)</h4>
+        <div class="pitch-card" style="border-left:4px solid #0EA5E9;">
+        <h4 style="color:#0EA5E9; margin-top:0;">1. Visual False Color Composite (FCC) Preview (.PNG)</h4>
         <p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
                     Radiometrically normalized 3-band composite (Red: NIR, Green: Red, Blue: Green).
                 </p>
@@ -1291,7 +1300,7 @@ elif selected_page == "Image Conversion":
         with r_col2:
             st.markdown('''
         <div class="pitch-card" style="border-left:4px solid #00D4FF;">
-        <h4 style="color:#10B981; margin-top:0;">2. GIS-Ready Multi-Band Raster (.TIF)</h4>
+        <h4 style="color:#0EA5E9; margin-top:0;">2. GIS-Ready Multi-Band Raster (.TIF)</h4>
         <p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
                     Stacked 3-band GeoTIFF raster preserving spatial resolution and CRS metadata.
                 </p>
@@ -1329,27 +1338,27 @@ elif selected_page == "Contact":
     t1, t2, t3 = st.columns(3)
     with t1:
         st.markdown('''
-    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
-            <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Sabaresh K</h2>
-            <a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
+    <div class="pitch-card" style="border-left:4px solid #0EA5E9; text-align:center;">
+            <h2 style="color:#0EA5E9; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Sabaresh K</h2>
+            <a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#0EA5E9; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 Email: sabaresh.k2025aids@sece.ac.in
             </a>
     </div>
         ''', unsafe_allow_html=True)
     with t2:
         st.markdown('''
-    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
-            <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Saadhana S</h2>
-            <a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
+    <div class="pitch-card" style="border-left:4px solid #0EA5E9; text-align:center;">
+            <h2 style="color:#0EA5E9; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Saadhana S</h2>
+            <a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#0EA5E9; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 Email: saadhana.s2025aids@sece.ac.in
             </a>
     </div>
         ''', unsafe_allow_html=True)
     with t3:
         st.markdown('''
-    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
-            <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Pranika R</h2>
-            <a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
+    <div class="pitch-card" style="border-left:4px solid #0EA5E9; text-align:center;">
+            <h2 style="color:#0EA5E9; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Pranika R</h2>
+            <a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#0EA5E9; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 Email: pranika.r2025aids@sece.ac.in
             </a>
     </div>
@@ -1359,21 +1368,21 @@ elif selected_page == "Contact":
     with form_col:
         html_code = '''
         <div style="font-family: sans-serif; color: #E2E8F0;">
-            <h4 style="color:#10B981; margin-top:0; font-size:1.1rem; margin-bottom:1rem;">Transmit Message to Team Rise2Gether</h4>
+            <h4 style="color:#0EA5E9; margin-top:0; font-size:1.1rem; margin-bottom:1rem;">Transmit Message to Team Rise2Gether</h4>
             <form id="contactForm" style="display:flex; flex-direction:column; gap:15px;">
                 <div>
                     <label style="font-size:0.9rem; font-weight:600; margin-bottom:5px; display:block;">Your Name:</label>
-                    <input type="text" id="name" required placeholder="Enter your full name..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #10B981; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;">
+                    <input type="text" id="name" required placeholder="Enter your full name..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #0EA5E9; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;">
                 </div>
                 <div>
                     <label style="font-size:0.9rem; font-weight:600; margin-bottom:5px; display:block;">Your Email Address:</label>
-                    <input type="email" id="email" required placeholder="name@domain.com..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #10B981; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;">
+                    <input type="email" id="email" required placeholder="name@domain.com..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #0EA5E9; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;">
                 </div>
                 <div>
                     <label style="font-size:0.9rem; font-weight:600; margin-bottom:5px; display:block;">Message Details:</label>
-                    <textarea id="msg" required placeholder="Type your message here..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #10B981; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;" rows="6"></textarea>
+                    <textarea id="msg" required placeholder="Type your message here..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #0EA5E9; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;" rows="6"></textarea>
                 </div>
-                <button type="submit" style="padding:0.8rem; background:linear-gradient(90deg, #047857 0%, #10B981 100%); color:white; border:1px solid #34D399; border-radius:8px; cursor:pointer; font-weight:800; text-transform:uppercase; transition:0.3s;">TRANSMIT INQUIRY</button>
+                <button type="submit" style="padding:0.8rem; background:linear-gradient(90deg, #047857 0%, #0EA5E9 100%); color:white; border:1px solid #38BDF8; border-radius:8px; cursor:pointer; font-weight:800; text-transform:uppercase; transition:0.3s;">TRANSMIT INQUIRY</button>
             </form>
             <div id="statusMsg" style="margin-top:15px; padding:10px; border-radius:5px; display:none; font-weight:bold; font-size:0.9rem;"></div>
         </div>
@@ -1387,8 +1396,8 @@ elif selected_page == "Contact":
             const status = document.getElementById('statusMsg');
             
             status.style.display = 'block';
-            status.style.background = 'rgba(16, 185, 129, 0.2)';
-            status.style.color = '#10B981';
+            status.style.background = 'rgba(14, 165, 233, 0.2)';
+            status.style.color = '#0EA5E9';
             status.innerText = "Transmitting to Team Rise2Gether via FormSubmit API...";
             
             const payload = {
@@ -1412,8 +1421,8 @@ elif selected_page == "Contact":
             });
             
             Promise.all(promises).then(responses => {
-                status.style.background = 'rgba(16, 185, 129, 0.2)';
-                status.style.color = '#10B981';
+                status.style.background = 'rgba(14, 165, 233, 0.2)';
+                status.style.color = '#0EA5E9';
                 status.innerText = "Thank you! Your message has been safely transmitted to Team Rise2Gether.";
                 document.getElementById('contactForm').reset();
             }).catch(err => {
@@ -1432,7 +1441,7 @@ elif selected_page == "Contact":
     with loc_col:
         st.markdown('''
 <div class="pitch-card">
-<h4 style="color:#10B981; margin-top:0;">Our Institution</h4>
+<h4 style="color:#0EA5E9; margin-top:0;">Our Institution</h4>
 <h3 style="color:#FFFFFF; margin:0.5rem 0 0.2rem 0; font-size:1.3rem;">Sri Eshwar College of Engineering and Technology</h3>
 <p style="color:#94A3B8; font-size:0.95rem;">Coimbatore, Tamil Nadu, India</p>
 
@@ -1441,7 +1450,7 @@ elif selected_page == "Contact":
 </div>
 
 <div style="margin-top:1.2rem; text-align:center;">
-<a href="https://www.google.com/maps/search/?api=1&query=Sri+Eshwar+College+of+Engineering" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:rgba(16,185,129,0.1); border:1px solid #10B981; color:#10B981; text-decoration:none; font-weight:bold; border-radius:5px; transition:0.3s; width:100%; box-sizing:border-box;">
+<a href="https://www.google.com/maps/search/?api=1&query=Sri+Eshwar+College+of+Engineering" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:rgba(16,185,129,0.1); border:1px solid #0EA5E9; color:#0EA5E9; text-decoration:none; font-weight:bold; border-radius:5px; transition:0.3s; width:100%; box-sizing:border-box;">
 📍 Open in Google Maps
 </a>
 </div>
