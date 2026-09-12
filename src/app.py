@@ -1393,8 +1393,8 @@ elif selected_page == "Contact":
                         msg['To'] = ", ".join(receivers)
                         
                         try:
-                            server = smtplib.SMTP('smtp.gmail.com', 587)
-                            server.starttls()
+                            # Try Port 465 (SSL) first as Port 587 is often blocked by college Wi-Fi/ISPs
+                            server = smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=5)
                             server.login(sender, password)
                             server.sendmail(sender, receivers, msg.as_string())
                             server.quit()
