@@ -834,7 +834,7 @@ if selected_page == "Home":
 <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Geo-alignment, co-registration, radiometric normalization, and cloud/shadow mask extraction.</p>
 </div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
-<h4 style="color:#10B981; margin-top:0; font-size:1.1rem;">03. AI Core (CycleGAN & U-Net)</h4>
+<h4 style="color:#10B981; margin-top:0; font-size:1.4rem; font-weight:900;">03. SAR-Guided CycleGAN & U-Net Core</h4>
 <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Dual generators utilizing U-Net skip connections reconstruct hidden optical reflectance from SAR structural features with high fidelity.</p>
 </div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #8B5CF6; padding:1.5rem;">
@@ -960,15 +960,15 @@ elif selected_page == "About":
     # 2. OUR INNOVATION SECTION
     st.markdown('''<div style="margin-bottom: 3rem;">
 <span style="background:rgba(16,185,129,0.15); border:1px solid #10B981; color:#10B981; padding:0.3rem 0.8rem; border-radius:20px; font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px;">Our Innovation</span>
-<h2 style="color:#ffffff; margin-top:0.8rem;">AI-Powered Cloud Reconstruction</h2>
+<h2 style="color:#ffffff; margin-top:0.8rem;">CycleGAN-Powered Cloud Reconstruction</h2>
 <div style="display:flex; flex-direction:column; gap:1rem; margin-top:1.5rem;">
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
 <h4 style="color:#10B981; margin-top:0; font-size:1.1rem;">AI Cloud Detection</h4>
 <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Deep segmentation networks accurately flag clouds, shadows, and clear ground margins.</p>
 </div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #34D399; padding:1.5rem;">
-<h4 style="color:#34D399; margin-top:0; font-size:1.1rem;">SAR-Guided U-Net Reconstruction</h4>
-<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Fuses Sentinel-1 microwave radar backscatter (C-band) to reconstruct structural layouts under dense clouds. A generative U-Net core with dense skip connections directly routes high-frequency spatial details to ensure the native 5.8m resolution is flawlessly preserved.</p>
+<h4 style="color:#34D399; margin-top:0; font-size:1.4rem; font-weight:900;">SAR-Guided CycleGAN Reconstruction</h4>
+<p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;"><strong>Our core innovation relies on a custom CycleGAN architecture.</strong> It fuses Sentinel-1 microwave radar backscatter (C-band) to reconstruct structural layouts under dense clouds. The generative CycleGAN core, built on a U-Net backbone with dense skip connections, directly routes high-frequency spatial details to ensure the native 5.8m resolution is flawlessly preserved through unpaired image-to-image translation.</p>
 </div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #059669; padding:1.5rem;">
 <h4 style="color:#059669; margin-top:0; font-size:1.1rem;">LISS-IV Optimization</h4>
