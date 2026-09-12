@@ -122,16 +122,27 @@ st.markdown('''
     }
     100% { filter: brightness(1.3) contrast(1.5); }
     }
+    @keyframes moveStars {
+        0% { background-position: 0 0, 0 0, center, center; }
+        100% { background-position: 0 0, -1000px 1000px, center, center; }
+    }
+    @keyframes starPulse {
+        0% { filter: brightness(0.8) contrast(1.2); }
+        100% { filter: brightness(1.3) contrast(1.5); }
+    }
 .stApp {
         background-color: #000000 !important;
         background-image: 
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cdefs%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='2' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g)'%3E%3Ccircle cx='50' cy='50' r='2' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='200' cy='150' r='2.5' fill='%2310b981' opacity='1'/%3E%3Ccircle cx='320' cy='80' r='1.5' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='100' cy='300' r='2' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='280' cy='280' r='1' fill='%23ffffff' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cdefs%3E%3Cfilter id='g2'%3E%3CfeGaussianBlur stdDeviation='1.5' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g2)'%3E%3Ccircle cx='30' cy='120' r='2' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='250' cy='200' r='1.5' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='150' cy='50' r='1' fill='%2310b981' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E"),
             linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)),
             url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop') !important;
-        background-size: cover, cover !important;
-        background-position: center, center !important;
-        background-attachment: fixed, fixed !important;
+        background-size: 400px 400px, 300px 300px, cover, cover !important;
+        background-position: center, center, center, center !important;
+        background-attachment: fixed, fixed, fixed, fixed !important;
         color: #FFFFFF !important;
         font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        animation: moveStars 120s linear infinite, starPulse 4s ease-in-out infinite alternate !important;
     }
     
     .block-container {
