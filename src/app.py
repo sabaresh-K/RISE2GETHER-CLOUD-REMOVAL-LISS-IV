@@ -1453,11 +1453,11 @@ elif selected_page == "Contact":
         <p style="color:#94A3B8; font-size:0.95rem;">Coimbatore, Tamil Nadu, India</p>
         
         <div style="margin-top:1rem; border-radius:8px; overflow:hidden; border:1px solid rgba(16,185,129,0.3);">
-            <iframe src="https://maps.google.com/maps?q=Sri+Eshwar+College+of+Engineering+and+Technology&t=&z=14&ie=UTF8&iwloc=&output=embed" width="100%" height="280" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <iframe src="https://maps.google.com/maps?q=Sri+Eshwar+College+of+Engineering,+Coimbatore&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="280" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         </div>
         
         <div style="margin-top:1.2rem; text-align:center;">
-            <a href="https://www.google.com/maps/search/Sri+Eshwar+College+of+Engineering+and+Technology" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:rgba(16,185,129,0.1); border:1px solid #10B981; color:#10B981; text-decoration:none; font-weight:bold; border-radius:5px; transition:0.3s; width:100%; box-sizing:border-box;">
+            <a href="https://www.google.com/maps/place/Sri+Eshwar+College+of+Engineering,+Coimbatore/" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:rgba(16,185,129,0.1); border:1px solid #10B981; color:#10B981; text-decoration:none; font-weight:bold; border-radius:5px; transition:0.3s; width:100%; box-sizing:border-box;">
                 📍 Open in Google Maps
             </a>
         </div>
