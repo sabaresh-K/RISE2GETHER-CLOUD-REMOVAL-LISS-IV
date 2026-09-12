@@ -989,7 +989,6 @@ elif selected_page == "Model":
     with col_ing2:
         st.markdown('<h4 style="color:#10B981; font-size:1.05rem; margin-bottom:0.5rem;">2. SAR ASSET INGESTION (OPTIONAL FOR ENGINE 2)</h4>', unsafe_allow_html=True)
         uploaded_sar = st.file_uploader("Upload Paired Sentinel-1 SAR Asset (.tif, .png, .jpg):", type=["tif", "png", "jpg", "jpeg"], key="sar_uploader")
-        st.info("Engine 1 operates on optical only. Engine 2 fuses Optical + SAR if provided, or generates radar proxies automatically.")
 
     if uploaded_file:
         try:
