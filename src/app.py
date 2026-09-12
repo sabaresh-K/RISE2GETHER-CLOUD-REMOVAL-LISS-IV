@@ -1126,46 +1126,26 @@ elif selected_page == "Model":
 
     st.markdown("---")
 
-    # Feature Capabilities & Real-Time Telemetry Grid
-    col_feat, col_telem = st.columns([1.2, 1.8])
+    # Real-Time Telemetry Grid
+    st.markdown('<h4 style="color:#10B981; margin-bottom:1rem; text-align:center;">REAL-TIME TELEMETRY & EVALUATION METRICS</h4>', unsafe_allow_html=True)
+    
+    if 'metrics' in st.session_state and st.session_state['metrics'] is not None:
+        psnr, ssim, rmse, sam = st.session_state['metrics']
+    else:
+        psnr, ssim, rmse, sam = "READY", "READY", "READY", "READY"
 
-    with col_feat:
-        st.markdown('<h4 style="color:#10B981; margin-bottom:1rem;">SYSTEM CAPABILITIES</h4>', unsafe_allow_html=True)
-        st.markdown('''
-    <div class="model-feature-card">
-    <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">1. CLOUD REMOVAL</h4>
-    <p style="color:#94A3B8; font-size:0.88rem; margin:0;">AI-Powered Restoration, Precise Feature Recovery & Shadow Elimination.</p>
-    </div>
-    <div class="model-feature-card">
-    <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">2. DATA QUALITY</h4>
-    <p style="color:#94A3B8; font-size:0.88rem; margin:0;">High-Fidelity Native 5.8m LISS-IV Pixel Preservation.</p>
-    </div>
-    <div class="model-feature-card">
-    <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">3. ANALYTICS READY</h4>
-    <p style="color:#94A3B8; font-size:0.88rem; margin:0;">Full GeoTIFF Metadata Export Ready for GIS & Classification.</p>
-    </div>
-        ''', unsafe_allow_html=True)
-
-    with col_telem:
-        st.markdown('<h4 style="color:#10B981; margin-bottom:1rem;">REAL-TIME TELEMETRY & METRICS</h4>', unsafe_allow_html=True)
-        
-        if 'metrics' in st.session_state and st.session_state['metrics'] is not None:
-            psnr, ssim, rmse, sam = st.session_state['metrics']
-        else:
-            psnr, ssim, rmse, sam = "READY", "READY", "READY", "READY"
-
-        t_row1_c1, t_row1_c2 = st.columns(2)
-        with t_row1_c1:
-            st.markdown(f'<div class="metric-card-box"><div class="metric-card-val">{psnr}</div><div class="metric-card-lbl">PSNR (Peak Signal)</div></div>', unsafe_allow_html=True)
-        with t_row1_c2:
-            st.markdown(f'<div class="metric-card-box"><div class="metric-card-val">{ssim}</div><div class="metric-card-lbl">SSIM Index</div></div>', unsafe_allow_html=True)
-
-        st.markdown("<div style='margin-top:0.8rem;'></div>", unsafe_allow_html=True)
-        t_row2_c1, t_row2_c2 = st.columns(2)
-        with t_row2_c1:
-            st.markdown(f'<div class="metric-card-box"><div class="metric-card-val">{rmse}</div><div class="metric-card-lbl">RMSE Error</div></div>', unsafe_allow_html=True)
-        with t_row2_c2:
-            st.markdown(f'<div class="metric-card-box"><div class="metric-card-val">{sam}</div><div class="metric-card-lbl">SAM Spectral Angle</div></div>', unsafe_allow_html=True)
+    m1, m2, m3, m4 = st.columns(4)
+    
+    card_style = 'height:100%; min-height:130px; display:flex; flex-direction:column; justify-content:center; align-items:center;'
+    
+    with m1:
+        st.markdown(f'<div class="metric-card-box" style="{card_style}"><div class="metric-card-val">{psnr}</div><div class="metric-card-lbl">PSNR (Peak Signal)</div></div>', unsafe_allow_html=True)
+    with m2:
+        st.markdown(f'<div class="metric-card-box" style="{card_style}"><div class="metric-card-val">{ssim}</div><div class="metric-card-lbl">SSIM Index</div></div>', unsafe_allow_html=True)
+    with m3:
+        st.markdown(f'<div class="metric-card-box" style="{card_style}"><div class="metric-card-val">{rmse}</div><div class="metric-card-lbl">RMSE Error</div></div>', unsafe_allow_html=True)
+    with m4:
+        st.markdown(f'<div class="metric-card-box" style="{card_style}"><div class="metric-card-val">{sam}</div><div class="metric-card-lbl">SAM Spectral Angle</div></div>', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
 # PAGE 5: IMAGE CONVERSION (LISS-IV BAND STACKING & MULTI-BAND CONVERSION ENGINE)
