@@ -793,23 +793,6 @@ def generate_multiband_geotiff_bytes(b2, b3, b4, meta):
 # PAGE 1: HOME
 # --------------------------------------------------------------------------
 if selected_page == "Home":
-    st.markdown('''
-    <div class="pitch-card" style="text-align:center; padding:3.5rem 2rem; border-top: 4px solid #10B981;">
-        <h1 style="color:#10B981; font-size:3.2rem; font-weight:900; margin:0 0 0.5rem 0; line-height:1.2;">
-            🛰️ CloudClear-LISS
-        </h1>
-        <h3 style="color:#FFFFFF; font-size:1.8rem; font-weight:700; margin:0 0 1.5rem 0;">
-            Revealing the Earth Beneath the Clouds
-        </h3>
-        <p style="font-size:1.2rem; color:#E2E8F0; max-width:850px; margin:0 auto 1rem auto; line-height:1.6;">
-            <strong>AI-Powered Multimodal Cloud Removal & Ground Surface Reconstruction for ISRO LISS-IV Satellite Imagery</strong>
-        </p>
-        <p style="font-size:1rem; color:#94A3B8; margin:0;">
-            <em>Developed by Team Rise2Gether | Sri Eshwar College of Engineering and Technology</em>
-        </p>
-    </div>
-    ''', unsafe_allow_html=True)
-    
     st.markdown("### 🌐 System Overview")
     c1, c2 = st.columns([1.5, 1])
     with c1:
@@ -836,27 +819,41 @@ if selected_page == "Home":
 
     st.markdown("### ⚙️ System Architecture Pipeline")
     st.markdown('''
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom:2rem;">
-        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981;">
-            <h4 style="color:#10B981; margin-top:0;">01. Multi-Source Data Ingestion</h4>
-            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;"><strong>Optical Input:</strong> LISS-IV 3-Band GeoTIFF (B2: Green, B3: Red, B4: NIR) at 5.8 m.<br><br><strong>Microwave Input:</strong> Sentinel-1 SAR (Dual Polarization: VV & VH backscatter channels).</p>
+    <div style="display:flex; flex-direction:row; align-items:center; gap: 0.5rem; margin-bottom:2rem; overflow-x:auto; padding-bottom:1rem;">
+        
+        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #10B981; padding:1rem;">
+            <h4 style="color:#10B981; margin-top:0; font-size:1rem;">01. Data Ingestion</h4>
+            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">LISS-IV 3-Band Optical + Sentinel-1 SAR Microwave.</p>
         </div>
-        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #F97316;">
-            <h4 style="color:#F97316; margin-top:0;">02. Sub-Pixel Preprocessing & Mask Generation</h4>
-            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;">Precise geospatial co-registration, radiometric calibration, and dynamic cloud/shadow boundary detection.</p>
+        
+        <div style="color:#10B981; font-size:1.5rem; font-weight:900;">➔</div>
+        
+        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #F97316; padding:1rem;">
+            <h4 style="color:#F97316; margin-top:0; font-size:1rem;">02. Preprocessing</h4>
+            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">Co-registration & dynamic shadow/cloud mask generation.</p>
         </div>
-        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #F59E0B;">
-            <h4 style="color:#F59E0B; margin-top:0;">03. Dual-Branch Feature Extraction & Fusion</h4>
-            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;">Dedicated Optical Encoder captures spectral context. Dedicated SAR Encoder extracts ground geometry and structural edges. Multimodal intermediate fusion bridges radar backscatter with optical reflectance.</p>
+        
+        <div style="color:#F97316; font-size:1.5rem; font-weight:900;">➔</div>
+        
+        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #F59E0B; padding:1rem;">
+            <h4 style="color:#F59E0B; margin-top:0; font-size:1rem;">03. Feature Fusion</h4>
+            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">Optical & SAR encoders bridged by multimodal fusion.</p>
         </div>
-        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #3B82F6;">
-            <h4 style="color:#3B82F6; margin-top:0;">04. Generative Neural Surface Reconstruction</h4>
-            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;">U-Net-based reconstruction core restores occluded surface patches while strictly preserving authentic clear-sky pixels.</p>
+        
+        <div style="color:#F59E0B; font-size:1.5rem; font-weight:900;">➔</div>
+        
+        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #3B82F6; padding:1rem;">
+            <h4 style="color:#3B82F6; margin-top:0; font-size:1rem;">04. Neural Surface</h4>
+            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">U-Net core restores occluded patches preserving clear pixels.</p>
         </div>
-        <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #8B5CF6; grid-column: 1 / -1;">
-            <h4 style="color:#8B5CF6; margin-top:0;">05. GIS-Ready Export & Validation</h4>
-            <p style="font-size:0.95rem; color:#94A3B8; margin-bottom:0;">Produces full-precision, georeferenced .tif GeoTIFF rasters and True/False Color .png previews with computed PSNR, SSIM, SAM, and RMSE evaluation scores.</p>
+        
+        <div style="color:#3B82F6; font-size:1.5rem; font-weight:900;">➔</div>
+        
+        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #8B5CF6; padding:1rem;">
+            <h4 style="color:#8B5CF6; margin-top:0; font-size:1rem;">05. GIS Export</h4>
+            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">Full-precision GeoTIFF rasters with evaluation scores.</p>
         </div>
+        
     </div>
     ''', unsafe_allow_html=True)
 
