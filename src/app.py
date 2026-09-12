@@ -818,7 +818,7 @@ if selected_page == "Home":
         ''', unsafe_allow_html=True)
 
     st.markdown("### ⚙️ System Architecture Pipeline")
-st.markdown('''
+    st.markdown('''
 <div style="display:flex; flex-direction:column; align-items:center; gap: 1rem; margin-bottom:2rem; width:100%;">
 
 <div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
@@ -855,9 +855,9 @@ st.markdown('''
 </div>
 
 </div>
-''', unsafe_allow_html=True)
+    ''', unsafe_allow_html=True)
 
-st.markdown("### Downstream High-Value Impact")
+    st.markdown("### Downstream High-Value Impact")
     d1, d2, d3 = st.columns(3)
     with d1:
         st.markdown('<div class="pitch-card"><h4 style="color:#10B981; margin-top:0;">Precision Agriculture</h4><p style="color:#94A3B8; margin-bottom:0;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
