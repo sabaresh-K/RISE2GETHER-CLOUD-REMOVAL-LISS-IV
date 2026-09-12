@@ -1457,7 +1457,7 @@ elif selected_page == "Contact":
 </div>
 
 <div style="margin-top:1.2rem; text-align:center;">
-<a href="https://www.google.com/maps/place/Sri+Eshwar+College+of+Engineering,+Coimbatore/" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:rgba(16,185,129,0.1); border:1px solid #10B981; color:#10B981; text-decoration:none; font-weight:bold; border-radius:5px; transition:0.3s; width:100%; box-sizing:border-box;">
+<a href="https://www.google.com/maps/search/?api=1&query=Sri+Eshwar+College+of+Engineering" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:rgba(16,185,129,0.1); border:1px solid #10B981; color:#10B981; text-decoration:none; font-weight:bold; border-radius:5px; transition:0.3s; width:100%; box-sizing:border-box;">
 📍 Open in Google Maps
 </a>
 </div>
