@@ -13,6 +13,12 @@ Image.MAX_IMAGE_PIXELS = None
 # 1. Page Configuration
 st.set_page_config(
 
+    page_title="CloudClear-LISS — AI Satellite Imagery Reconstruction",
+    page_icon=None,
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 # ASTRA 6 UNIVERSE CURSOR EFFECT
 import streamlit.components.v1 as components
 components.html('''
@@ -39,11 +45,7 @@ components.html('''
     }
 </script>
 ''', height=0)
-    page_title="CloudClear-LISS — AI Satellite Imagery Reconstruction",
-    page_icon=None,
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+
 
 # 2. Dynamic Path Setup
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
