@@ -135,8 +135,8 @@ st.markdown('''
         background-image: 
             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cdefs%3E%3Cfilter id='g'%3E%3CfeGaussianBlur stdDeviation='2' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g)'%3E%3Ccircle cx='50' cy='50' r='2' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='200' cy='150' r='2.5' fill='%2310b981' opacity='1'/%3E%3Ccircle cx='320' cy='80' r='1.5' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='100' cy='300' r='2' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='280' cy='280' r='1' fill='%23ffffff' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E"),
             url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cdefs%3E%3Cfilter id='g2'%3E%3CfeGaussianBlur stdDeviation='1.5' result='b'/%3E%3CfeMerge%3E%3CfeMergeNode in='b'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23g2)'%3E%3Ccircle cx='30' cy='120' r='2' fill='%2334d399' opacity='0.8'/%3E%3Ccircle cx='250' cy='200' r='1.5' fill='%23ffffff' opacity='0.9'/%3E%3Ccircle cx='150' cy='50' r='1' fill='%2310b981' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E"),
-            linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)),
-            url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop') !important;
+            linear-gradient(to bottom, rgba(20, 5, 45, 0.4), rgba(5, 10, 30, 0.9)),
+            url('https://images.unsplash.com/photo-1436891620584-47fd0e565afb?q=80&w=2560&auto=format&fit=crop') !important;
         background-size: 400px 400px, 300px 300px, cover, cover !important;
         background-position: center, center, center, center !important;
         background-attachment: fixed, fixed, fixed, fixed !important;
@@ -519,6 +519,29 @@ st.markdown('''
 
 
     footer {visibility: hidden;}
+
+    /* COMET ANIMATIONS */
+    .comets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; overflow: hidden; }
+    .comet {
+        position: absolute;
+        width: 150px;
+        height: 3px;
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(52,211,153,0.8) 50%, transparent 100%);
+        box-shadow: 0 0 20px rgba(52,211,153,0.8);
+        border-radius: 50%;
+        transform: rotate(-45deg);
+        opacity: 0;
+    }
+    .c1 { top: 10%; left: 80%; animation: shootingStar 7s linear infinite; animation-delay: 0s; }
+    .c2 { top: 30%; left: 110%; animation: shootingStar 9s linear infinite; animation-delay: 2.5s; }
+    .c3 { top: -10%; left: 60%; animation: shootingStar 8s linear infinite; animation-delay: 5s; }
+    .c4 { top: 50%; left: 120%; animation: shootingStar 12s linear infinite; animation-delay: 7s; }
+
+    @keyframes shootingStar {
+        0% { transform: rotate(-45deg) translateX(0); opacity: 1; }
+        10% { transform: rotate(-45deg) translateX(-150vw); opacity: 0; }
+        100% { transform: rotate(-45deg) translateX(-150vw); opacity: 0; }
+    }
 </style>
 
 <!-- Space Stardust & Interactive Glowing Box Cursor Canvas -->
