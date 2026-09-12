@@ -19,29 +19,89 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ASTRA 6 UNIVERSE CURSOR EFFECT
+# ASTRA 6 UNIVERSE GLOBE.GL + CURSOR EFFECT
 import streamlit.components.v1 as components
 components.html('''
+<style>
+    body { margin: 0; overflow: hidden; background: #000; }
+    #globeViz { width: 100vw; height: 100vh; position: absolute; top:0; left:0; }
+</style>
+<script src="//unpkg.com/three"></script>
+<script src="//unpkg.com/globe.gl"></script>
+<div id="globeViz"></div>
 <script>
-    const parentDoc = window.parent.document;
-    if (!parentDoc.getElementById('astra-cursor')) {
-        const cursor = parentDoc.createElement('div');
-        cursor.id = 'astra-cursor';
-        cursor.style.position = 'fixed';
-        cursor.style.width = '600px';
-        cursor.style.height = '600px';
-        cursor.style.borderRadius = '50%';
-        cursor.style.background = 'radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(139, 92, 246, 0.03) 40%, transparent 70%)';
-        cursor.style.pointerEvents = 'none';
-        cursor.style.transform = 'translate(-50%, -50%)';
-        cursor.style.zIndex = '0';
-        cursor.style.transition = 'top 0.4s ease-out, left 0.4s ease-out';
-        parentDoc.body.appendChild(cursor);
+    // 1. GLOBE.GL WITH COMETS
+    const N = 40;
+    const arcsData = [...Array(N).keys()].map(() => ({
+      startLat: (Math.random() - 0.5) * 180,
+      startLng: (Math.random() - 0.5) * 360,
+      endLat: (Math.random() - 0.5) * 180,
+      endLng: (Math.random() - 0.5) * 360,
+      color: ['#0ea5e9', '#38bdf8', '#8b5cf6', '#ffffff'][Math.floor(Math.random() * 4)]
+    }));
 
-        parentDoc.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+    const globe = Globe()
+        (document.getElementById('globeViz'))
+        .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+        .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
+        .arcsData(arcsData)
+        .arcColor('color')
+        .arcDashLength(0.4)
+        .arcDashGap(4)
+        .arcDashInitialGap(() => Math.random() * 5)
+        .arcDashAnimateTime(2000)
+        .backgroundColor('#020617');
+
+    globe.controls().autoRotate = true;
+    globe.controls().autoRotateSpeed = 1.2;
+    globe.camera().position.z = 280;
+
+    // Push iframe to parent background
+    if (window.frameElement) {
+        window.frameElement.style.position = 'fixed';
+        window.frameElement.style.top = '0';
+        window.frameElement.style.left = '0';
+        window.frameElement.style.width = '100vw';
+        window.frameElement.style.height = '100vh';
+        window.frameElement.style.border = 'none';
+        window.frameElement.style.zIndex = '-9999';
+        
+        const parentDoc = window.parent.document;
+        
+        // Strip out existing Streamlit background so Globe is visible
+        const removeBg = () => {
+            const stApp = parentDoc.querySelector('.stApp');
+            if (stApp) {
+                stApp.style.setProperty('background', 'transparent', 'important');
+                stApp.style.setProperty('background-image', 'none', 'important');
+                stApp.style.setProperty('background-color', 'transparent', 'important');
+            }
+            const header = parentDoc.querySelector('header');
+            if (header) header.style.setProperty('background', 'transparent', 'important');
+        };
+        removeBg();
+        setInterval(removeBg, 1000); // Enforce transparency
+
+        // 2. ASTRA CURSOR EFFECT IN PARENT
+        if (!parentDoc.getElementById('astra-cursor')) {
+            const cursor = parentDoc.createElement('div');
+            cursor.id = 'astra-cursor';
+            cursor.style.position = 'fixed';
+            cursor.style.width = '600px';
+            cursor.style.height = '600px';
+            cursor.style.borderRadius = '50%';
+            cursor.style.background = 'radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(139, 92, 246, 0.05) 40%, transparent 70%)';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.transform = 'translate(-50%, -50%)';
+            cursor.style.zIndex = '0';
+            cursor.style.transition = 'top 0.3s ease-out, left 0.3s ease-out';
+            parentDoc.body.appendChild(cursor);
+
+            parentDoc.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+        }
     }
 </script>
 ''', height=0)
