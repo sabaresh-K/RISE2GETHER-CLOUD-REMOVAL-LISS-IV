@@ -467,7 +467,23 @@ st.markdown('''
     [data-testid="stUploadedFile"] { background-color: #031D15 !important; border: 1px solid #10B981 !important; }
     [data-testid="stUploadedFile"] * { color: #10B981 !important; font-weight: 800 !important; }
     [data-testid="stUploadedFile"] button { background: transparent !important; box-shadow: none !important; border: none !important; color: #EF4444 !important; }
+    
+    /* Make SURE the file uploader pill is dark */
+    [data-testid="stFileUploader"] section, 
+    div[data-testid="stUploadedFile"],
+    .stUploadedFile,
+    ul[data-testid="stUploadedFileList"] > li {
+        background-color: #031D15 !important;
+        background: #031D15 !important;
+    }
+    
+    [data-testid="stFileUploader"] section *,
+    div[data-testid="stUploadedFile"] * {
+        color: #10B981 !important;
+    }
+    
     #MainMenu {visibility: hidden;}
+
 
     footer {visibility: hidden;}
 </style>
