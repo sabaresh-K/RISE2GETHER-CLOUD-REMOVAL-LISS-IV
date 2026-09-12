@@ -495,12 +495,12 @@ st.markdown('''
 # 6. Header Banner
 st.markdown('''
 <div class="pitch-header">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div>
-            <div class="pitch-title">CloudClear-LISS</div>
-            <div class="pitch-sub">AI-Powered Satellite Imagery Cloud Reconstruction Platform</div>
-        </div>
+<div style="display:flex; justify-content:space-between; align-items:center;">
+    <div>
+        <div class="pitch-title">CloudClear-LISS</div>
+        <div class="pitch-sub">AI-Powered Satellite Imagery Cloud Reconstruction Platform</div>
     </div>
+</div>
 </div>
 ''', unsafe_allow_html=True)
 
@@ -797,67 +797,67 @@ if selected_page == "Home":
     c1, c2 = st.columns([1.5, 1])
     with c1:
         st.markdown('''
-        <div class="pitch-card">
-            <h4 style="color:#10B981; margin-top:0;">The Obscuration Challenge</h4>
-            <p style="font-size:1.05rem; color:#E2E8F0; line-height:1.6;">
+    <div class="pitch-card">
+    <h4 style="color:#10B981; margin-top:0;">The Obscuration Challenge</h4>
+    <p style="font-size:1.05rem; color:#E2E8F0; line-height:1.6;">
                 Persistent cloud cover and atmospheric shadows obscure up to <strong>30%–60% of optical satellite scenes</strong> over the Indian subcontinent, rendering high-resolution Earth observation data unusable during critical agricultural and monsoon seasons.
             </p>
-            <p style="font-size:1.05rem; color:#94A3B8; line-height:1.6; margin-bottom:0;">
+    <p style="font-size:1.05rem; color:#94A3B8; line-height:1.6; margin-bottom:0;">
                 <strong>CloudClear-LISS</strong> integrates high-resolution <strong>5.8 m LISS-IV optical data</strong> with all-weather, cloud-penetrating <strong>Sentinel-1 C-Band Synthetic Aperture Radar (SAR)</strong> imagery. Using a dual-encoder generative reconstruction pipeline, our system penetrates cloud obstructions to restore true surface reflectance and spatial details without geographic distortion or spectral loss.
             </p>
-        </div>
+    </div>
         ''', unsafe_allow_html=True)
     with c2:
         st.markdown('''
-        <div class="pitch-card" style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center;">
-            <div style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.8rem 1.2rem; border-radius:8px; font-weight:800; font-size:1.2rem; margin-bottom:1rem;">
+    <div class="pitch-card" style="text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center;">
+        <div style="background:rgba(239,68,68,0.15); border:1px solid #EF4444; color:#EF4444; padding:0.8rem 1.2rem; border-radius:8px; font-weight:800; font-size:1.2rem; margin-bottom:1rem;">
                 Up to 60% Cloud Obscuration
-            </div>
-            <p style="font-size:1rem; color:#94A3B8; margin-bottom:0;">Recovering critical spatial intelligence lost to tropical cloud cover during monsoon seasons.</p>
-        </div>
+</div>
+    <p style="font-size:1rem; color:#94A3B8; margin-bottom:0;">Recovering critical spatial intelligence lost to tropical cloud cover during monsoon seasons.</p>
+    </div>
         ''', unsafe_allow_html=True)
 
     st.markdown("### ⚙️ System Architecture Pipeline")
-    st.markdown('''
-    <div style="display:flex; flex-direction:row; align-items:center; gap: 0.5rem; margin-bottom:2rem; overflow-x:auto; padding-bottom:1rem;">
-        
-        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #10B981; padding:1rem;">
-            <h4 style="color:#10B981; margin-top:0; font-size:1rem;">01. Data Ingestion</h4>
-            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">LISS-IV 3-Band Optical + Sentinel-1 SAR Microwave.</p>
-        </div>
-        
-        <div style="color:#10B981; font-size:1.5rem; font-weight:900;">➔</div>
-        
-        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #F97316; padding:1rem;">
-            <h4 style="color:#F97316; margin-top:0; font-size:1rem;">02. Preprocessing</h4>
-            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">Co-registration & dynamic shadow/cloud mask generation.</p>
-        </div>
-        
-        <div style="color:#F97316; font-size:1.5rem; font-weight:900;">➔</div>
-        
-        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #F59E0B; padding:1rem;">
-            <h4 style="color:#F59E0B; margin-top:0; font-size:1rem;">03. Feature Fusion</h4>
-            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">Optical & SAR encoders bridged by multimodal fusion.</p>
-        </div>
-        
-        <div style="color:#F59E0B; font-size:1.5rem; font-weight:900;">➔</div>
-        
-        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #3B82F6; padding:1rem;">
-            <h4 style="color:#3B82F6; margin-top:0; font-size:1rem;">04. Neural Surface</h4>
-            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">U-Net core restores occluded patches preserving clear pixels.</p>
-        </div>
-        
-        <div style="color:#3B82F6; font-size:1.5rem; font-weight:900;">➔</div>
-        
-        <div class="pitch-card" style="flex:1; min-width:220px; margin-bottom:0; border-left: 4px solid #8B5CF6; padding:1rem;">
-            <h4 style="color:#8B5CF6; margin-top:0; font-size:1rem;">05. GIS Export</h4>
-            <p style="font-size:0.85rem; color:#94A3B8; margin-bottom:0;">Full-precision GeoTIFF rasters with evaluation scores.</p>
-        </div>
-        
-    </div>
-    ''', unsafe_allow_html=True)
+st.markdown('''
+<div style="display:flex; flex-direction:column; align-items:center; gap: 1rem; margin-bottom:2rem; width:100%;">
 
-    st.markdown("### Downstream High-Value Impact")
+<div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
+<h4 style="color:#10B981; margin-top:0; font-size:1.2rem;">01. Data Ingestion</h4>
+<p style="font-size:1rem; color:#94A3B8; margin-bottom:0;"><strong>Optical Input:</strong> LISS-IV 3-Band GeoTIFF (B2: Green, B3: Red, B4: NIR) at 5.8 m.<br><br><strong>Microwave Input:</strong> Sentinel-1 SAR (Dual Polarization: VV & VH backscatter channels).</p>
+</div>
+
+<div style="color:#10B981; font-size:2.5rem; font-weight:900;">⬇</div>
+
+<div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #F97316; padding:1.5rem;">
+<h4 style="color:#F97316; margin-top:0; font-size:1.2rem;">02. Sub-Pixel Preprocessing & Mask Generation</h4>
+<p style="font-size:1rem; color:#94A3B8; margin-bottom:0;">Precise geospatial co-registration, radiometric calibration, and dynamic cloud/shadow boundary detection.</p>
+</div>
+
+<div style="color:#F97316; font-size:2.5rem; font-weight:900;">⬇</div>
+
+<div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #F59E0B; padding:1.5rem;">
+<h4 style="color:#F59E0B; margin-top:0; font-size:1.2rem;">03. Dual-Branch Feature Extraction & Fusion</h4>
+<p style="font-size:1rem; color:#94A3B8; margin-bottom:0;">Dedicated Optical Encoder captures spectral context. Dedicated SAR Encoder extracts ground geometry and structural edges. Multimodal intermediate fusion bridges radar backscatter with optical reflectance.</p>
+</div>
+
+<div style="color:#F59E0B; font-size:2.5rem; font-weight:900;">⬇</div>
+
+<div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #3B82F6; padding:1.5rem;">
+<h4 style="color:#3B82F6; margin-top:0; font-size:1.2rem;">04. Generative Neural Surface Reconstruction</h4>
+<p style="font-size:1rem; color:#94A3B8; margin-bottom:0;">U-Net-based reconstruction core restores occluded surface patches while strictly preserving authentic clear-sky pixels.</p>
+</div>
+
+<div style="color:#3B82F6; font-size:2.5rem; font-weight:900;">⬇</div>
+
+<div class="pitch-card" style="width:100%; max-width:800px; margin-bottom:0; border-left: 4px solid #8B5CF6; padding:1.5rem;">
+<h4 style="color:#8B5CF6; margin-top:0; font-size:1.2rem;">05. GIS-Ready Export & Validation</h4>
+<p style="font-size:1rem; color:#94A3B8; margin-bottom:0;">Produces full-precision, georeferenced .tif GeoTIFF rasters and True/False Color .png previews with computed PSNR, SSIM, SAM, and RMSE evaluation scores.</p>
+</div>
+
+</div>
+''', unsafe_allow_html=True)
+
+st.markdown("### Downstream High-Value Impact")
     d1, d2, d3 = st.columns(3)
     with d1:
         st.markdown('<div class="pitch-card"><h4 style="color:#10B981; margin-top:0;">Precision Agriculture</h4><p style="color:#94A3B8; margin-bottom:0;">Continuous NDVI monitoring throughout monsoon seasons without waiting gaps.</p></div>', unsafe_allow_html=True)
@@ -870,14 +870,14 @@ if selected_page == "Home":
 # --------------------------------------------------------------------------
 elif selected_page == "About":
     st.markdown('''
-    <div class="pitch-card">
+<div class="pitch-card">
         <h2 style="color:#10B981; margin-top:0;">About CloudClear-LISS Science & Benchmarks</h2>
-        <p style="font-size:1.1rem; color:#E2E8F0; line-height:1.6;">
+<p style="font-size:1.1rem; color:#E2E8F0; line-height:1.6;">
             The <strong>Linear Imaging Self-Scanning Sensor (LISS-IV)</strong> operating onboard Resourcesat satellites provides 
             high-resolution multispectral imagery with a spatial resolution of 5.8 meters. 
             Cloud removal is an essential preprocessing step for land cover classification, disaster management, and agricultural monitoring.
         </p>
-    </div>
+</div>
     ''', unsafe_allow_html=True)
 
     st.markdown("### Verified Quantitative Benchmarks")
@@ -911,7 +911,7 @@ elif selected_page == "Features":
     st.markdown("---")
     st.markdown("### Performance Comparison Matrix")
     st.markdown('''
-    <div class="pitch-card">
+<div class="pitch-card">
         <table style="width:100%; border-collapse:collapse; color:#E2E8F0;">
             <thead>
                 <tr style="border-bottom:2px solid #10B981; text-align:left;">
@@ -942,7 +942,7 @@ elif selected_page == "Features":
                 </tr>
             </tbody>
         </table>
-    </div>
+</div>
     ''', unsafe_allow_html=True)
 
 # --------------------------------------------------------------------------
@@ -954,20 +954,20 @@ elif selected_page == "Features":
 elif selected_page == "Model":
     # 1. Ingestion Control Card
     st.markdown(f'''
-    <div class="pitch-card" style="margin-bottom:1.5rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-            <div>
-                <h3 style="color:#10B981; margin:0; font-size:1.4rem; font-weight:800;">SATELLITE ASSET INGESTION & DATA STREAM CONTROL</h3>
-                <p style="color:#94A3B8; font-size:0.9rem; margin:0.2rem 0 0 0;">Select sample satellite data or upload a custom LISS-IV GeoTIFF/image asset.</p>
-            </div>
-            <div style="display:flex; gap:0.8rem; align-items:center;">
+<div class="pitch-card" style="margin-bottom:1.5rem;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div>
+        <h3 style="color:#10B981; margin:0; font-size:1.4rem; font-weight:800;">SATELLITE ASSET INGESTION & DATA STREAM CONTROL</h3>
+        <p style="color:#94A3B8; font-size:0.9rem; margin:0.2rem 0 0 0;">Select sample satellite data or upload a custom LISS-IV GeoTIFF/image asset.</p>
+</div>
+        <div style="display:flex; gap:0.8rem; align-items:center;">
                 <span class="status-badge-online">STATUS: ACTIVE</span>
                 <span style="background:rgba(15,23,42,0.9); border:1px solid rgba(16,185,129,0.3); color:#E2E8F0; padding:0.4rem 0.9rem; border-radius:20px; font-size:0.85rem; font-weight:600;">
                     Device: {DEVICE}
                 </span>
-            </div>
-        </div>
+</div>
     </div>
+</div>
     ''', unsafe_allow_html=True)
 
     col_ing1, col_ing2 = st.columns(2)
@@ -1055,9 +1055,9 @@ elif selected_page == "Model":
 
     with c_stream1:
         st.markdown('''
-        <div class="stream-box">
-            <div class="stream-header">STREAM 01: RAW OPTICAL INGEST</div>
-        </div>
+    <div class="stream-box">
+        <div class="stream-header">STREAM 01: RAW OPTICAL INGEST</div>
+    </div>
         ''', unsafe_allow_html=True)
         st.image(input_img, use_container_width=True)
         st.markdown("<div style='margin-top:0.6rem;'></div>", unsafe_allow_html=True)
@@ -1075,9 +1075,9 @@ elif selected_page == "Model":
     with c_stream2:
         active_engine_hdr = f"STREAM 02: {st.session_state.get('active_engine_label', 'NEURAL RECONSTRUCTION').upper()}"
         st.markdown(f'''
-        <div class="stream-box">
-            <div class="stream-header">{active_engine_hdr}</div>
-        </div>
+    <div class="stream-box">
+        <div class="stream-header">{active_engine_hdr}</div>
+    </div>
         ''', unsafe_allow_html=True)
         if 'reconstructed_img' in st.session_state and st.session_state['reconstructed_img'] is not None:
             rec_pil = Image.fromarray(st.session_state['reconstructed_img'])
@@ -1098,9 +1098,9 @@ elif selected_page == "Model":
 
     with c_stream3:
         st.markdown('''
-        <div class="stream-box">
-            <div class="stream-header">STREAM 03: SPATIAL DEVIATION MAP</div>
-        </div>
+    <div class="stream-box">
+        <div class="stream-header">STREAM 03: SPATIAL DEVIATION MAP</div>
+    </div>
         ''', unsafe_allow_html=True)
         if 'deviation_map' in st.session_state and st.session_state['deviation_map'] is not None:
             dev_pil = Image.fromarray(st.session_state['deviation_map'])
@@ -1127,18 +1127,18 @@ elif selected_page == "Model":
     with col_feat:
         st.markdown('<h4 style="color:#10B981; margin-bottom:1rem;">SYSTEM CAPABILITIES</h4>', unsafe_allow_html=True)
         st.markdown('''
-        <div class="model-feature-card">
-            <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">1. CLOUD REMOVAL</h4>
-            <p style="color:#94A3B8; font-size:0.88rem; margin:0;">AI-Powered Restoration, Precise Feature Recovery & Shadow Elimination.</p>
-        </div>
-        <div class="model-feature-card">
-            <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">2. DATA QUALITY</h4>
-            <p style="color:#94A3B8; font-size:0.88rem; margin:0;">High-Fidelity Native 5.8m LISS-IV Pixel Preservation.</p>
-        </div>
-        <div class="model-feature-card">
-            <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">3. ANALYTICS READY</h4>
-            <p style="color:#94A3B8; font-size:0.88rem; margin:0;">Full GeoTIFF Metadata Export Ready for GIS & Classification.</p>
-        </div>
+    <div class="model-feature-card">
+    <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">1. CLOUD REMOVAL</h4>
+    <p style="color:#94A3B8; font-size:0.88rem; margin:0;">AI-Powered Restoration, Precise Feature Recovery & Shadow Elimination.</p>
+    </div>
+    <div class="model-feature-card">
+    <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">2. DATA QUALITY</h4>
+    <p style="color:#94A3B8; font-size:0.88rem; margin:0;">High-Fidelity Native 5.8m LISS-IV Pixel Preservation.</p>
+    </div>
+    <div class="model-feature-card">
+    <h4 style="color:#10B981; margin:0 0 0.3rem 0; font-size:1.05rem;">3. ANALYTICS READY</h4>
+    <p style="color:#94A3B8; font-size:0.88rem; margin:0;">Full GeoTIFF Metadata Export Ready for GIS & Classification.</p>
+    </div>
         ''', unsafe_allow_html=True)
 
     with col_telem:
@@ -1168,21 +1168,21 @@ elif selected_page == "Model":
 elif selected_page == "Image Conversion":
     # A. Header Section
     st.markdown('''
-    <div class="pitch-card" style="margin-bottom:1.5rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
-            <div>
+<div class="pitch-card" style="margin-bottom:1.5rem;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+        <div>
                 <h2 style="color:#10B981; margin:0 0 0.4rem 0; font-size:1.8rem; font-weight:800;">
                     LISS-IV Multi-Band Stacking & Conversion Engine
                 </h2>
-                <p style="color:#94A3B8; font-size:0.95rem; margin:0;">
+        <p style="color:#94A3B8; font-size:0.95rem; margin:0;">
                     Upload raw single-band LISS-IV GeoTIFF rasters (B2, B3, B4) to synthesize a unified multi-band GeoTIFF and high-contrast False Color Composite (FCC) preview.
                 </p>
-            </div>
-            <div>
+</div>
+        <div>
                 <span class="status-badge-online">Preprocessing Module — CloudClear-LISS</span>
-            </div>
-        </div>
+</div>
     </div>
+</div>
     ''', unsafe_allow_html=True)
 
     # B. Upload Section (3 Discrete Input Dropzones Grid)
@@ -1191,10 +1191,10 @@ elif selected_page == "Image Conversion":
 
     with c_b2:
         st.markdown('''
-        <div class="pitch-card" style="border-top:4px solid #10B981; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
-            <h4 style="color:#10B981; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 2 (B2 - Green)</h4>
-            <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.52 - 0.59 µm Spectral Range</p>
-        </div>
+    <div class="pitch-card" style="border-top:4px solid #10B981; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
+    <h4 style="color:#10B981; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 2 (B2 - Green)</h4>
+    <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.52 - 0.59 µm Spectral Range</p>
+    </div>
         ''', unsafe_allow_html=True)
         up_b2 = st.file_uploader("Upload Band 2 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b2_uploader")
         if up_b2:
@@ -1203,10 +1203,10 @@ elif selected_page == "Image Conversion":
 
     with c_b3:
         st.markdown('''
-        <div class="pitch-card" style="border-top:4px solid #F59E0B; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
-            <h4 style="color:#F59E0B; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 3 (B3 - Red)</h4>
-            <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.62 - 0.68 µm Spectral Range</p>
-        </div>
+    <div class="pitch-card" style="border-top:4px solid #F59E0B; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
+    <h4 style="color:#F59E0B; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 3 (B3 - Red)</h4>
+    <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.62 - 0.68 µm Spectral Range</p>
+    </div>
         ''', unsafe_allow_html=True)
         up_b3 = st.file_uploader("Upload Band 3 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b3_uploader")
         if up_b3:
@@ -1215,10 +1215,10 @@ elif selected_page == "Image Conversion":
 
     with c_b4:
         st.markdown('''
-        <div class="pitch-card" style="border-top:4px solid #8B5CF6; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
-            <h4 style="color:#8B5CF6; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 4 (B4 - Near-Infrared)</h4>
-            <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.77 - 0.86 µm Spectral Range</p>
-        </div>
+    <div class="pitch-card" style="border-top:4px solid #8B5CF6; padding:1.2rem; text-align:center; margin-bottom:0.8rem;">
+    <h4 style="color:#8B5CF6; margin:0 0 0.2rem 0; font-size:1.1rem; font-weight:800;">Band 4 (B4 - Near-Infrared)</h4>
+    <p style="color:#94A3B8; font-size:0.85rem; margin:0;">0.77 - 0.86 µm Spectral Range</p>
+    </div>
         ''', unsafe_allow_html=True)
         up_b4 = st.file_uploader("Upload Band 4 (.tif, .geotiff up to 3 GB):", type=["tif", "tiff", "geotiff", "png", "jpg"], key="b4_uploader")
         if up_b4:
@@ -1281,12 +1281,12 @@ elif selected_page == "Image Conversion":
 
         with r_col1:
             st.markdown('''
-            <div class="pitch-card" style="border-left:4px solid #10B981;">
-                <h4 style="color:#10B981; margin-top:0;">1. Visual False Color Composite (FCC) Preview (.PNG)</h4>
-                <p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
+        <div class="pitch-card" style="border-left:4px solid #10B981;">
+        <h4 style="color:#10B981; margin-top:0;">1. Visual False Color Composite (FCC) Preview (.PNG)</h4>
+        <p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
                     Radiometrically normalized 3-band composite (Red: NIR, Green: Red, Blue: Green).
                 </p>
-            </div>
+</div>
             ''', unsafe_allow_html=True)
             st.image(res['png_bytes'], use_container_width=True)
             st.markdown("<div style='margin-top:0.8rem;'></div>", unsafe_allow_html=True)
@@ -1300,23 +1300,23 @@ elif selected_page == "Image Conversion":
 
         with r_col2:
             st.markdown('''
-            <div class="pitch-card" style="border-left:4px solid #00D4FF;">
-                <h4 style="color:#10B981; margin-top:0;">2. GIS-Ready Multi-Band Raster (.TIF)</h4>
-                <p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
+        <div class="pitch-card" style="border-left:4px solid #00D4FF;">
+        <h4 style="color:#10B981; margin-top:0;">2. GIS-Ready Multi-Band Raster (.TIF)</h4>
+        <p style="color:#94A3B8; font-size:0.88rem; margin:0.2rem 0 0.8rem 0;">
                     Stacked 3-band GeoTIFF raster preserving spatial resolution and CRS metadata.
                 </p>
-            </div>
+</div>
             ''', unsafe_allow_html=True)
 
             st.markdown(f'''
-            <div class="model-feature-card">
-                <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Spatial Resolution:</strong> 5.8m Native LISS-IV</p>
-                <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Band Count:</strong> 3 Layers</p>
-                <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Band Order:</strong> Layer 1: B4 (NIR), Layer 2: B3 (Red), Layer 3: B2 (Green)</p>
-                <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Dimensions:</strong> {res['width']} x {res['height']} px</p>
-                <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>CRS Projection:</strong> {res['crs']}</p>
-                <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Format:</strong> Multi-Band GeoTIFF (.TIF)</p>
-            </div>
+        <div class="model-feature-card">
+        <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Spatial Resolution:</strong> 5.8m Native LISS-IV</p>
+        <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Band Count:</strong> 3 Layers</p>
+        <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Band Order:</strong> Layer 1: B4 (NIR), Layer 2: B3 (Red), Layer 3: B2 (Green)</p>
+        <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Dimensions:</strong> {res['width']} x {res['height']} px</p>
+        <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>CRS Projection:</strong> {res['crs']}</p>
+        <p style="margin:0.3rem 0; color:#E2E8F0;"><strong>Format:</strong> Multi-Band GeoTIFF (.TIF)</p>
+</div>
             ''', unsafe_allow_html=True)
 
             st.download_button(
@@ -1336,30 +1336,30 @@ elif selected_page == "Contact":
     t1, t2, t3 = st.columns(3)
     with t1:
         st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
+    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
             <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Sabaresh K</h2>
             <a href="mailto:sabaresh.k2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 Email: sabaresh.k2025aids@sece.ac.in
             </a>
-        </div>
+    </div>
         ''', unsafe_allow_html=True)
     with t2:
         st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
+    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
             <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Saadhana S</h2>
             <a href="mailto:saadhana.s2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 Email: saadhana.s2025aids@sece.ac.in
             </a>
-        </div>
+    </div>
         ''', unsafe_allow_html=True)
     with t3:
         st.markdown('''
-        <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
+    <div class="pitch-card" style="border-left:4px solid #10B981; text-align:center;">
             <h2 style="color:#10B981; margin:0 0 0.5rem 0; font-size:1.8rem; font-weight:800;">Pranika R</h2>
             <a href="mailto:pranika.r2025aids@sece.ac.in" style="color:#10B981; text-decoration:none; font-weight:600; font-size:0.95rem;">
                 Email: pranika.r2025aids@sece.ac.in
             </a>
-        </div>
+    </div>
         ''', unsafe_allow_html=True)
 
     form_col, loc_col = st.columns([1.5, 1])
@@ -1380,13 +1380,13 @@ elif selected_page == "Contact":
 
     with loc_col:
         st.markdown('''
-        <div class="pitch-card">
-            <h4 style="color:#10B981; margin-top:0;">Our Institution</h4>
-            <h3 style="color:#FFFFFF; margin:0.5rem 0 0.2rem 0; font-size:1.3rem;">Sri Eshwar College of Engineering and Technology</h3>
-            <p style="color:#94A3B8; font-size:0.95rem;">Coimbatore, Tamil Nadu, India</p>
+    <div class="pitch-card">
+    <h4 style="color:#10B981; margin-top:0;">Our Institution</h4>
+    <h3 style="color:#FFFFFF; margin:0.5rem 0 0.2rem 0; font-size:1.3rem;">Sri Eshwar College of Engineering and Technology</h3>
+    <p style="color:#94A3B8; font-size:0.95rem;">Coimbatore, Tamil Nadu, India</p>
             <hr style="border-color:rgba(0,212,255,0.2); margin:1rem 0;">
-            <p style="font-size:0.9rem; color:#CBD5E1;"><strong>Coordinates:</strong> 10.871° N, 77.019° E</p>
-        </div>
+    <p style="font-size:0.9rem; color:#CBD5E1;"><strong>Coordinates:</strong> 10.871° N, 77.019° E</p>
+    </div>
         ''', unsafe_allow_html=True)
 
 # Shared Global Footer
