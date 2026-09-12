@@ -829,14 +829,17 @@ if selected_page == "Home":
 <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;"><strong>LISS-IV Input:</strong> 5.8m spatial resolution optical bands (G, R, NIR). Crucial for land analysis but obscured by clouds.<br>
 <strong>Sentinel-1 SAR Input:</strong> C-band microwave radar (VV/VH dual-pol) data penetrating clouds to record surface roughness and physical layouts.</p>
 </div>
+<div style="color:#06B6D4; font-size:2rem; font-weight:900; text-align:center;">⬇</div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #06B6D4; padding:1.5rem;">
 <h4 style="color:#06B6D4; margin-top:0; font-size:1.1rem;">02. Preprocessing</h4>
 <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Geo-alignment, co-registration, radiometric normalization, and cloud/shadow mask extraction.</p>
 </div>
+<div style="color:#10B981; font-size:2rem; font-weight:900; text-align:center;">⬇</div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #10B981; padding:1.5rem;">
 <h4 style="color:#10B981; margin-top:0; font-size:1.4rem; font-weight:900;">03. SAR-Guided CycleGAN & U-Net Core</h4>
 <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Dual generators utilizing U-Net skip connections reconstruct hidden optical reflectance from SAR structural features with high fidelity.</p>
 </div>
+<div style="color:#8B5CF6; font-size:2rem; font-weight:900; text-align:center;">⬇</div>
 <div class="pitch-card" style="margin-bottom:0; border-left: 4px solid #8B5CF6; padding:1.5rem;">
 <h4 style="color:#8B5CF6; margin-top:0; font-size:1.1rem;">04. Output Layer</h4>
 <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;">Assembles clean patches back into WGS84 coordinates. Runs validation metrics (PSNR, SSIM, SAM, RMSE) for GIS mapping.</p>
