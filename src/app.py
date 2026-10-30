@@ -1444,6 +1444,12 @@ Email: pranika.r2025aids@sece.ac.in
 </a>
 </div>''', unsafe_allow_html=True)
 
+        st.markdown("""
+    <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10B981; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <span style="color: #E2E8F0; font-size: 0.95rem;"><strong>👥 Direct Team Broadcast:</strong> Send an inquiry directly to all 3 members (Sabaresh, Saadhana, Pranika) in one click:</span>
+        <a href="mailto:sabaresh.k2025aids@sece.ac.in,saadhana.s2025aids@sece.ac.in,pranika.r2025aids@sece.ac.in?subject=Inquiry%20to%20Team%20Rise2Gether" target="_blank" style="background: #10B981; color: white; padding: 6px 14px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.85rem;">✉️ Email All 3 Members</a>
+    </div>
+    """, unsafe_allow_html=True)
     form_col, loc_col = st.columns([1.5, 1])
     with form_col:
         with st.form("contact_form", clear_on_submit=True):
@@ -1505,9 +1511,9 @@ Email: pranika.r2025aids@sece.ac.in
                         
                     subj_enc = urllib.parse.quote(f"CloudClear-LISS Inquiry from {sender_name}")
                     body_enc = urllib.parse.quote(f"Name: {sender_name}\nEmail: {sender_email}\n\nMessage:\n{sender_msg}")
-                    mailto_url = f"mailto:sabareshk12c@gmail.com?cc=sabaresh.k2025aids@sece.ac.in,saadhana.s2025aids@sece.ac.in,pranika.r2025aids@sece.ac.in&subject={subj_enc}&body={body_enc}"
+                    mailto_url = f"mailto:sabaresh.k2025aids@sece.ac.in,saadhana.s2025aids@sece.ac.in,pranika.r2025aids@sece.ac.in?cc=sabareshk12c@gmail.com&subject={subj_enc}&body={body_enc}"
                     st.markdown(
-                        f'<div style="margin-top:12px;"><a href="{mailto_url}" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:linear-gradient(90deg, #047857 0%, #10B981 100%); color:white; text-decoration:none; font-weight:bold; border-radius:6px; border:1px solid #34D399; font-size:0.9rem;">📬 Click to also copy to your Email Client</a></div>',
+                        f'<div style="margin-top:12px;"><a href="{mailto_url}" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:linear-gradient(90deg, #047857 0%, #10B981 100%); color:white; text-decoration:none; font-weight:bold; border-radius:6px; border:1px solid #34D399; font-size:0.9rem;">📬 ✉️ Click to Dispatch to ALL 3 Team Members directly via Email</a></div>',
                         unsafe_allow_html=True
                     )
 
