@@ -1415,6 +1415,9 @@ Stacked 3-band GeoTIFF raster preserving spatial resolution and CRS metadata.
 elif selected_page == "Contact":
     import smtplib
     from email.mime.text import MIMEText
+    import json
+    import urllib.request
+    import urllib.parse
     
     st.markdown("### Team Rise2Gether Leadership & Contact")
     
