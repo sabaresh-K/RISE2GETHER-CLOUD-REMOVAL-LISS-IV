@@ -1474,7 +1474,7 @@ Email: pranika.r2025aids@sece.ac.in
                     """
                     
                     payload = {
-                        "from": "CloudClear Support <onboarding@resend.dev>",
+                        "from": "onboarding@resend.dev",
                         "to": ["sabareshk12c@gmail.com"],
                         "reply_to": sender_email,
                         "subject": f"CloudClear-LISS Inquiry from {sender_name}",
