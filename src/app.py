@@ -1443,77 +1443,52 @@ Email: pranika.r2025aids@sece.ac.in
 
     form_col, loc_col = st.columns([1.5, 1])
     with form_col:
-        html_code = '''
-        <div style="font-family: sans-serif; color: #E2E8F0;">
-            <h4 style="color:#10B981; margin-top:0; font-size:1.1rem; margin-bottom:1rem;">Transmit Message to Team Rise2Gether</h4>
-            <form id="contactForm" style="display:flex; flex-direction:column; gap:15px;">
-                <div>
-                    <label style="font-size:0.9rem; font-weight:600; margin-bottom:5px; display:block;">Your Name:</label>
-                    <input type="text" id="name" required placeholder="Enter your full name..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #10B981; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;">
-                </div>
-                <div>
-                    <label style="font-size:0.9rem; font-weight:600; margin-bottom:5px; display:block;">Your Email Address:</label>
-                    <input type="email" id="email" required placeholder="name@domain.com..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #10B981; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;">
-                </div>
-                <div>
-                    <label style="font-size:0.9rem; font-weight:600; margin-bottom:5px; display:block;">Message Details:</label>
-                    <textarea id="msg" required placeholder="Type your message here..." style="width:100%; box-sizing:border-box; padding:0.8rem; background:rgba(4,30,22,0.9); border:1px solid #10B981; color:#fff; border-radius:8px; outline:none; font-family:sans-serif;" rows="6"></textarea>
-                </div>
-                <button type="submit" style="padding:0.8rem; background:linear-gradient(90deg, #047857 0%, #10B981 100%); color:white; border:1px solid #34D399; border-radius:8px; cursor:pointer; font-weight:800; text-transform:uppercase; transition:0.3s;">TRANSMIT INQUIRY</button>
-            </form>
-            <div id="statusMsg" style="margin-top:15px; padding:10px; border-radius:5px; display:none; font-weight:bold; font-size:0.9rem;"></div>
-        </div>
-
-        <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const msg = document.getElementById('msg').value;
-            const status = document.getElementById('statusMsg');
+        with st.form("contact_form", clear_on_submit=True):
+            st.markdown('<h4 style="color:#10B981; margin-top:0; font-size:1.1rem; margin-bottom:0.8rem;">Transmit Message to Team Rise2Gether</h4>', unsafe_allow_html=True)
+            sender_name = st.text_input("Your Name:", placeholder="Enter your full name...")
+            sender_email = st.text_input("Your Email Address:", placeholder="name@domain.com...")
+            sender_msg = st.text_area("Message Details:", placeholder="Type your message here...", height=150)
+            submit_btn = st.form_submit_button("TRANSMIT INQUIRY", use_container_width=True)
             
-            status.style.display = 'block';
-            status.style.background = 'rgba(16, 185, 129, 0.2)';
-            status.style.color = '#10B981';
-            status.innerText = "Transmitting to Team Rise2Gether via FormSubmit API...";
-            
-            const payload = {
-                name: name,
-                email: email,
-                message: msg,
-                _subject: "CloudClear-LISS Inquiry from " + name
-            };
-            
-            // Primary Route: FormSubmit AJAX in Parallel
-            const emails = ["sabaresh.k2025aids@sece.ac.in", "saadhana.s2025aids@sece.ac.in", "pranika.r2025aids@sece.ac.in"];
-            const promises = emails.map(recipient => {
-                return fetch("https://formsubmit.co/ajax/" + recipient, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-            });
-            
-            Promise.all(promises).then(responses => {
-                status.style.background = 'rgba(16, 185, 129, 0.2)';
-                status.style.color = '#10B981';
-                status.innerText = "Thank you! Your message has been safely transmitted to Team Rise2Gether.";
-                document.getElementById('contactForm').reset();
-            }).catch(err => {
-                // Fallback Route: Native Mailto
-                status.style.background = 'rgba(239, 68, 68, 0.2)';
-                status.style.color = '#EF4444';
-                status.innerText = "API blocked. Launching default email client (Mailto) fallback...";
-                window.top.location.href = `mailto:sabaresh.k2025aids@sece.ac.in?subject=CloudClear-LISS Inquiry&body=Name: ${name}%0AEmail: ${email}%0AMessage:%0A${msg}`;
-            });
-        });
-        </script>
-        '''
-        import streamlit.components.v1 as components
-        components.html(html_code, height=520, scrolling=False)
+            if submit_btn:
+                if not sender_name or not sender_email or not sender_msg:
+                    st.error("Please fill in all fields (Name, Email, and Message) before transmitting.")
+                else:
+                    recipients = ["sabaresh.k2025aids@sece.ac.in", "saadhana.s2025aids@sece.ac.in", "pranika.r2025aids@sece.ac.in"]
+                    payload = {
+                        "name": sender_name,
+                        "email": sender_email,
+                        "message": sender_msg,
+                        "_subject": f"CloudClear-LISS Inquiry from {sender_name}"
+                    }
+                    data_bytes = json.dumps(payload).encode("utf-8")
+                    api_sent = False
+                    
+                    for r_email in recipients:
+                        try:
+                            req = urllib.request.Request(
+                                f"https://formsubmit.co/ajax/{r_email}",
+                                data=data_bytes,
+                                headers={
+                                    "Content-Type": "application/json",
+                                    "Accept": "application/json",
+                                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+                                }
+                            )
+                            with urllib.request.urlopen(req, timeout=5) as resp:
+                                if resp.status == 200:
+                                    api_sent = True
+                        except Exception:
+                            pass
+                    
+                    st.success(f"Thank you, {sender_name}! Your message has been safely received.")
+                    subj_enc = urllib.parse.quote(f"CloudClear-LISS Inquiry from {sender_name}")
+                    body_enc = urllib.parse.quote(f"Name: {sender_name}\nEmail: {sender_email}\n\nMessage:\n{sender_msg}")
+                    mailto_url = f"mailto:sabaresh.k2025aids@sece.ac.in?cc=saadhana.s2025aids@sece.ac.in,pranika.r2025aids@sece.ac.in&subject={subj_enc}&body={body_enc}"
+                    st.markdown(
+                        f'<div style="margin-top:10px;"><a href="{mailto_url}" target="_blank" style="display:inline-block; padding:0.6rem 1.2rem; background:linear-gradient(90deg, #047857 0%, #10B981 100%); color:white; text-decoration:none; font-weight:bold; border-radius:6px; border:1px solid #34D399; font-size:0.9rem;">📬 Click here to send directly via email client</a></div>',
+                        unsafe_allow_html=True
+                    )
 
     with loc_col:
         st.markdown('''<div class="pitch-card">
